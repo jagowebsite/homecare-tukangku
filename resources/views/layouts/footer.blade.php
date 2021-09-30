@@ -11,11 +11,13 @@
     <script src="{{url('/')}}/assets/lib/jquery.sparkline.bower/jquery.sparkline.min.js"></script>
     <script src="{{url('/')}}/assets/lib/d3/d3.js"></script>
     <script src="{{url('/')}}/assets/lib/rickshaw/rickshaw.min.js"></script>
+    <script src="{{url('/')}}/assets/lib/datatables/jquery.dataTables.js"></script>
+    <script src="{{url('/')}}/assets/lib/datatables-responsive/dataTables.responsive.js"></script>
+    <script src="{{url('/')}}/assets/lib/select2/js/select2.min.js"></script>
 
 
     <script src="{{url('/')}}/assets/js/bracket.js"></script>
-    <script src="{{url('/')}}/assets/js/ResizeSensor.js"></script>
-    <script src="{{url('/')}}/assets/js/dashboard.js"></script>
+    
     <script>
       $(function(){
         'use strict'

@@ -317,3 +317,8 @@
 
  </div><!-- br-pagebody -->
 @endsection
+
+@section('scripts')
+    <script src="{{url('/')}}/assets/js/ResizeSensor.js"></script>
+    <script src="{{url('/')}}/assets/js/dashboard.js"></script>
+@endsection

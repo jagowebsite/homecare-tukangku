@@ -19,5 +19,7 @@ Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+    Route::get('/roles', function(){return view('pages.user_management.roles');})->name('roles');
 });
 

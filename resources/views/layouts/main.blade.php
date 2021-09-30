@@ -1,6 +1,10 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-@include('layouts.header')
+<head>
+  @include('layouts.header')
+
+  @yield('style')
+</head>
 <body>
     @include('layouts.sidebar')
 
@@ -26,5 +30,7 @@
     <!-- ########## END: MAIN PANEL ########## -->
 
     @include('layouts.footer')
+
+    @yield('scripts')
 </body>
 </html>

@@ -1,4 +1,4 @@
-<head>
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -38,7 +38,8 @@
     <link href="{{url('/')}}/assets/lib/jquery-switchbutton/jquery.switchButton.css" rel="stylesheet">
     <link href="{{url('/')}}/assets/lib/rickshaw/rickshaw.min.css" rel="stylesheet">
     <link href="{{url('/')}}/assets/lib/chartist/chartist.css" rel="stylesheet">
+    <link href="{{url('/')}}/assets/lib/datatables/jquery.dataTables.css" rel="stylesheet">
+    <link href="{{url('/')}}/assets/lib/select2/css/select2.min.css" rel="stylesheet">
 
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{{url('/')}}/assets/css/bracket.css">
-</head>
