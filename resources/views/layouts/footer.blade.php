@@ -7,12 +7,16 @@
     <script src="{{url('/')}}/assets/lib/jquery-ui/jquery-ui.js"></script>
     <script src="{{url('/')}}/assets/lib/jquery-switchbutton/jquery.switchButton.js"></script>
     <script src="{{url('/')}}/assets/lib/peity/jquery.peity.js"></script>
+    <script src="{{url('/')}}/assets/lib/highlightjs/highlight.pack.js"></script>
     <script src="{{url('/')}}/assets/lib/chartist/chartist.js"></script>
+    <script src="{{url('/')}}/assets/lib/spectrum/spectrum.js"></script>
+    <script src="{{url('/')}}/assets/lib/jquery-toggles/toggles.min.js"></script>
     <script src="{{url('/')}}/assets/lib/jquery.sparkline.bower/jquery.sparkline.min.js"></script>
     <script src="{{url('/')}}/assets/lib/d3/d3.js"></script>
     <script src="{{url('/')}}/assets/lib/rickshaw/rickshaw.min.js"></script>
     <script src="{{url('/')}}/assets/lib/datatables/jquery.dataTables.js"></script>
     <script src="{{url('/')}}/assets/lib/datatables-responsive/dataTables.responsive.js"></script>
+    <script src="{{url('/')}}/assets/lib/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
     <script src="{{url('/')}}/assets/lib/select2/js/select2.min.js"></script>
 
 

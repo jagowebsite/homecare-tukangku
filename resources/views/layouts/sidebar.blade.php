@@ -51,7 +51,7 @@
       </div><!-- menu-item -->
     </a><!-- br-menu-link -->
     <ul class="br-menu-sub nav flex-column">
-      <li class="nav-item"><a href="navigation.html" class="nav-link">Data User</a></li>
+      <li class="nav-item"><a href="{{route('users')}}" class="nav-link">Data User</a></li>
       <li class="nav-item"><a href="" class="nav-link">Log User</a></li>
       <li class="nav-item"><a href="{{route('roles')}}" class="nav-link">Role Akses</a></li>
     </ul>
