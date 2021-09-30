@@ -16,6 +16,7 @@ class Employee extends Model
      * @var string[]
      */
     protected $fillable = [
+        'service_category_id',
         'name',
         'address',
         'number',
@@ -23,4 +24,12 @@ class Employee extends Model
         'status',
         'images',
     ];
+    public function servicecategory()
+    {
+        return $this->belongsTo(ServiceCategory::class, 'service_category_id');
+    }
+    public function orderconfirmations()
+    {
+        return $this->hasMany(OrderConfirmation::class, 'employee_id');
+    }
 }

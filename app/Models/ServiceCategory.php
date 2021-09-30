@@ -18,4 +18,12 @@ class ServiceCategory extends Model
     protected $fillable = [
         'name',
     ];
+    public function employees()
+    {
+        return $this->hasMany(Employee::class, 'service_category_id');
+    }
+    public function services()
+    {
+        return $this->hasMany(Service::class, 'service_category_id');
+    }
 }

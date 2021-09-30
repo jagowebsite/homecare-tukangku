@@ -22,6 +22,20 @@ class OrderConfirmation extends Model
         'work_duration',
         'type_work_duration',
         'description',
+        'salary_employee',
         'verified_at',
     ];
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'order_id');
+    }
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'employee_id');
+    }
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'service_id');
+    }
+
 }

@@ -21,4 +21,25 @@ class Order extends Model
         'status',
         'verified_at',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function orderdetails()
+    {
+        return $this->hasMany(OrderDetail::class, 'order_id');
+    }
+    public function orderconfirmations()
+    {
+        return $this->hasMany(OrderConfirmation::class, 'order_id');
+    }
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'order_id');
+    }
+    public function complains()
+    {
+        return $this->hasMany(Complain::class, 'order_id');
+    }
 }
