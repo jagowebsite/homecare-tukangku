@@ -21,10 +21,10 @@
       </div><!-- menu-item -->
     </a><!-- br-menu-link -->
     <ul class="br-menu-sub nav flex-column">
-      <li class="nav-item"><a href="navigation.html" class="nav-link">Data Jasa</a></li>
+      <li class="nav-item"><a href="{{route('services')}}" class="nav-link">Data Jasa</a></li>
       <li class="nav-item"><a href="{{route('employees')}}" class="nav-link">Data Tukang</a></li>
       <li class="nav-item"><a href="{{route('services_categories')}}" class="nav-link">Data Kategori</a></li>
-      <li class="nav-item"><a href="navigation.html" class="nav-link">Data Banner</a></li>
+      <li class="nav-item"><a href="{{route('banners')}}" class="nav-link">Data Banner</a></li>
     </ul>
     {{-- <a href="card-dashboard.html" class="br-menu-link">
       <div class="br-menu-item">

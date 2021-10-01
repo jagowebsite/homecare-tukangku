@@ -23,26 +23,26 @@
         <div class="row">
             <div class="form-group col-xs-12 col-md-6">
               <label for="">Name</label>
-              <input type="text" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+              <input type="text" name="" id="" class="form-control" placeholder="">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-xs-12 col-md-6">
               <label for="">No Telp</label>
-              <input type="text" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+              <input type="text" name="" id="" class="form-control" placeholder="">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-xs-12 col-md-6">
               <label for="">Image</label>
-              <input type="file" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+              <input type="file" name="" id="" class="form-control" placeholder="">
             </div>
         </div>
         
         <div class="row">
             <div class="form-group col-xs-12 col-md-6">
               <label for="">Alamat</label>
-              <input type="date" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+              <input type="date" name="" id="" class="form-control" placeholder="">
             </div>
         </div>
 

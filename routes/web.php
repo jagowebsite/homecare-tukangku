@@ -42,10 +42,33 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/create', function(){return view('pages.master.employees.create');})->name('employees_create');
             Route::get('/edit', function(){return view('pages.master.employees.edit');})->name('employees_edit');
         });
+        
+        // Route for Banners
+        Route::group(['prefix' => 'banners'], function(){
+            Route::get('/', function(){return view('pages.master.banners.index');})->name('banners');
+            Route::get('/create', function(){return view('pages.master.banners.create');})->name('banners_create');
+            Route::get('/edit', function(){return view('pages.master.banners.edit');})->name('banners_edit');
+        });
+        
+        // Route for Banners
+        Route::group(['prefix' => 'banners'], function(){
+            Route::get('/', function(){return view('pages.master.banners.index');})->name('banners');
+            Route::get('/create', function(){return view('pages.master.banners.create');})->name('banners_create');
+            Route::get('/edit', function(){return view('pages.master.banners.edit');})->name('banners_edit');
+        });
+
+        // Route for Services
+        Route::group(['prefix' => 'services'], function(){
+            Route::get('/', function(){return view('pages.master.services.index');})->name('services');
+            Route::get('/create', function(){return view('pages.master.services.create');})->name('services_create');
+            Route::get('/edit', function(){return view('pages.master.services.edit');})->name('services_edit');
+            
+            // Service Categories
+            Route::get('/categories', function(){return view('pages.master.service_categories.index');})->name('services_categories');
+        });
+
     });
 
-    // Route for Categories of Service
-    Route::get('/services/categories', function(){return view('pages.master.service_categories.index');})->name('services_categories');
     
     // Route User Logs
     Route::get('/user_logs', function(){return view('pages.user_management.user_logs.index');})->name('user_logs');

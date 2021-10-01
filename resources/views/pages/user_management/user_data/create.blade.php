@@ -23,64 +23,71 @@
         <div class="br-section-wrapper">
             <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Tambah User</h6>
             <p class="mg-b-25 mg-lg-b-50">Tambah users homecare - Tukangku.</p>
-            <div class="row">
-                <div class="form-group col-xs-12 col-md-6">
-                    <label for="">Email</label>
-                    <input type="text" name="email" id="email" class="form-control" placeholder=""
-                        aria-describedby="helpId" value="{{ old('email') }}">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-12 col-md-6">
-                    <label for="">Name</label>
-                    <input type="text" name="user_name" id="user_name" class="form-control" placeholder=""
-                        aria-describedby="helpId" value="{{ old('user_name') }}">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-12 col-md-6">
-                    <label for="">Password</label>
-                    <input type="password" name="password" id="password" class="form-control" placeholder=""
-                        aria-describedby="helpId">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-12 col-md-6">
-                    <label for="">Confirm Password</label>
-                    <input type="password" name="password_confirmation" id="password-confirm" class="form-control"
-                        placeholder="" aria-describedby="helpId">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-12 col-md-6">
-                    <label for="">Tanggal Lahir</label>
-                    <input type="date" name="date_of_birth" id="date_of_birth" class="form-control" placeholder=""
-                        aria-describedby="helpId" value="{{ old('date_of_birth') }}">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-12 col-md-6">
-                    <label for="">No Telp</label>
-                    <input type="text" name="user_number" id="user_number" class="form-control" placeholder=""
-                        aria-describedby="helpId" value="{{ old('user_number') }}">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-12 col-md-6">
-                    <label for="">Images</label>
-                    <input type="file" name="user_image" id="user_image" class="form-control" placeholder=""
-                        aria-describedby="helpId">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-12 col-md-6">
-                    <label for="">KTP</label>
-                    <input type="file" name="user_ktp" id="user_ktp" class="form-control" placeholder=""
-                        aria-describedby="helpId">
-                </div>
-            </div>
 
-            <button class="btn btn-primary mt-4">Submit</button>
+            <form action="" enctype="multipart/form-data" method="POST">
+                @csrf
+                <div class="row">
+                    <div class="form-group col-xs-12 col-md-6">
+                        <label for="">Email</label>
+                        <input type="text" name="email" id="email" class="form-control" placeholder="" value="{{ old('email') }}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-md-6">
+                        <label for="">Name</label>
+                        <input type="text" name="user_name" id="user_name" class="form-control" placeholder="" value="{{ old('user_name') }}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-md-6">
+                        <label for="">Password</label>
+                        <input type="password" name="password" id="password" class="form-control" placeholder="">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-md-6">
+                        <label for="">Confirm Password</label>
+                        <input type="password" name="password_confirmation" id="password-confirm" class="form-control"
+                            placeho>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-md-6">
+                        <label for="">Tanggal Lahir</label>
+                        <input type="date" name="date_of_birth" id="date_of_birth" class="form-control" placeholder="" value="{{ old('date_of_birth') }}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-md-6">
+                        <label for="">No Telp</label>
+                        <input type="text" name="user_number" id="user_number" class="form-control" placeholder="" value="{{ old('user_number') }}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-md-6">
+                        <label for="">Images</label>
+                        <input type="file" name="user_image" id="user_image" class="form-control" placeholder="">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-md-6">
+                        <label for="">KTP</label>
+                        <input type="file" name="user_ktp" id="user_ktp" class="form-control" placeholder="">
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <div class="form-group  col-xs-12 col-md-6">
+                      <label for="">Role</label>
+                      <select class="form-control" name="" id="">
+                        <option>Superadmin</option>
+                        <option>Admin</option>
+                      </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mt-4">Submit</button>
+            </form>
+
         </div><!-- br-section-wrapper -->
 
     </div><!-- br-pagebody -->
@@ -89,20 +96,4 @@
 
 @section('scripts')
 
-    <script>
-        $(function() {
-
-            $('#datatable2').DataTable({
-                bLengthChange: false,
-                searching: false,
-                responsive: true
-            });
-
-            // Select2
-            $('.dataTables_length select').select2({
-                minimumResultsForSearch: Infinity
-            });
-
-        });
-    </script>
 @endsection
