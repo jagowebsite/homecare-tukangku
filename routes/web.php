@@ -66,9 +66,22 @@ Route::middleware(['auth'])->group(function () {
             // Service Categories
             Route::get('/categories', function(){return view('pages.master.service_categories.index');})->name('services_categories');
         });
-
+        
+        
     });
-
+    
+    // Route for Consumen
+    Route::group(['prefix' => 'consumen'], function(){
+        Route::group(['prefix' => 'transactions'], function(){
+            Route::get('/', function(){return view('pages.consumen.transactions.index');})->name('transactions');
+            // Route::get('/create', function(){return view('pages.master.services.create');})->name('services_create');
+            // Route::get('/edit', function(){return view('pages.master.services.edit');})->name('services_edit');
+        });
+        
+        Route::group(['prefix' => 'gps-logs'], function(){
+            Route::get('/', function(){return view('pages.consumen.gps_logs.index');})->name('gps_logs');
+        });
+    });
     
     // Route User Logs
     Route::get('/user_logs', function(){return view('pages.user_management.user_logs.index');})->name('user_logs');

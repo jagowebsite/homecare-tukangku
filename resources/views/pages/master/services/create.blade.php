@@ -63,7 +63,14 @@
             </div>
 
             <div class="row">
-                <div class="form-check  col-xs-12 col-md-6">
+                <div class="form-group col-xs-12 col-md-6">
+                  <label for="">Keterangan</label>
+                  <textarea class="form-control" name="" id="" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-check col-xs-12 col-md-6">
                 <label class="form-check-label">
                     <input type="checkbox" class="form-check-input" name="" id="" value="checkedValue" checked>
                     Is Active

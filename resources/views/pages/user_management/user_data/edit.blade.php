@@ -73,7 +73,7 @@
             <div class="row">
                 <div class="form-group col-xs-12 col-md-6">
                     <label for="">Password</label>
-                    <input type="password" name="password" id="password" class="form-control" placeholder=">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="">
                 </div>
             </div>
             <div class="row">
