@@ -22,8 +22,8 @@
     </a><!-- br-menu-link -->
     <ul class="br-menu-sub nav flex-column">
       <li class="nav-item"><a href="navigation.html" class="nav-link">Data Jasa</a></li>
-      <li class="nav-item"><a href="navigation.html" class="nav-link">Data Tukang</a></li>
-      <li class="nav-item"><a href="navigation.html" class="nav-link">Data Kategori</a></li>
+      <li class="nav-item"><a href="{{route('employees')}}" class="nav-link">Data Tukang</a></li>
+      <li class="nav-item"><a href="{{route('services_categories')}}" class="nav-link">Data Kategori</a></li>
       <li class="nav-item"><a href="navigation.html" class="nav-link">Data Banner</a></li>
     </ul>
     {{-- <a href="card-dashboard.html" class="br-menu-link">
@@ -52,7 +52,7 @@
     </a><!-- br-menu-link -->
     <ul class="br-menu-sub nav flex-column">
       <li class="nav-item"><a href="{{route('users')}}" class="nav-link">Data User</a></li>
-      <li class="nav-item"><a href="" class="nav-link">Log User</a></li>
+      <li class="nav-item"><a href="{{route('user_logs')}}" class="nav-link">Log User</a></li>
       <li class="nav-item"><a href="{{route('roles')}}" class="nav-link">Role Akses</a></li>
     </ul>
     <a href="#" class="br-menu-link">
