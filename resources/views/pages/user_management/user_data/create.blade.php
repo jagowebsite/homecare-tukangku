@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @include('layouts.alert')
     <div class="br-pageheader pd-y-15 pd-l-20">
         <nav class="breadcrumb pd-0 mg-0 tx-12">
             <a class="breadcrumb-item" href="">Homecare</a>
@@ -90,19 +90,6 @@
 @section('scripts')
 
     <script>
-        $(function() {
 
-            $('#datatable2').DataTable({
-                bLengthChange: false,
-                searching: false,
-                responsive: true
-            });
-
-            // Select2
-            $('.dataTables_length select').select2({
-                minimumResultsForSearch: Infinity
-            });
-
-        });
     </script>
 @endsection

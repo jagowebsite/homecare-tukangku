@@ -17,12 +17,12 @@ class RoleSeeder extends Seeder
     {
         $role1 = Role::create([
             'name' => 'superadmin',
-            'guard_name' => 'web'
+            'guard_name' => 'web',
         ]);
 
         $role2 = Role::create([
             'name' => 'user',
-            'guard_name' => 'web'
+            'guard_name' => 'web',
         ]);
         $permissions = [
             'admin_dashboard',
@@ -57,13 +57,14 @@ class RoleSeeder extends Seeder
             'user_payment_update',
             'user_payment_delete',
             'log_order_location',
-            'chating_view', 
+            'chating_view',
             'service_record',
             'order_record',
+            'superadmin',
         ];
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);
-            $role1->givePermissionTo($permission);
         }
+        $role1->givePermissionTo('superadmin');
     }
 }

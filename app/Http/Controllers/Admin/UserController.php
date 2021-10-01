@@ -72,7 +72,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $admin = Auth::user();
-        if ($admin->can('user_management_access')) {
+        if ($admin->can('user_management_access')||$admin->can('superadmin') {
             $validator = Validator::make(
                 $request->all(),
                 [
@@ -100,6 +100,14 @@ class UserController extends Controller
                 session()->flash('danger', $error);
                 return back()->withInput();
             }
+            if ($request->file('user_image')) {
+                $user_image = @$request
+                    ->file('user_image')
+                    ->store('user_image');
+            }
+            if ($request->file('user_ktp')) {
+                $user_ktp = @$request->file('user_ktp')->store('user_image');
+            }
         }
     }
 
@@ -126,7 +134,7 @@ class UserController extends Controller
     {
         // dd($request);
         $admin = Auth::user();
-        if ($admin->can('user_management_access')) {
+        if ($admin->can('user_management_access'||$admin->can('superadmin')) {
             $validator = Validator::make(
                 $request->all(),
                 [

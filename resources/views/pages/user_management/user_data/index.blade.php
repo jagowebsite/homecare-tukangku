@@ -2,6 +2,7 @@
 
 @section('style')
     <link href="{{ url('/') }}/assets/lib/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
+
 @endsection
 
 @section('content')
