@@ -19,8 +19,11 @@
     <script src="{{url('/')}}/assets/lib/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
     <script src="{{url('/')}}/assets/lib/select2/js/select2.min.js"></script>
 
+    <script src="{{url('/')}}/vendor/jquery-number/jquery.number.min.js"></script>
+
 
     <script src="{{url('/')}}/assets/js/bracket.js"></script>
+    <script src="{{url('/')}}/js/main.js"></script>
     
     <script>
       $(function(){

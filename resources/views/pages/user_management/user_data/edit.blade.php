@@ -29,42 +29,40 @@
                     <div class="form-group col-xs-12 col-md-6">
                         <label for="">Email</label>
                         <input type="text" name="email" id="email" class="form-control" placeholder=""
-                            aria-describedby="helpId" value="{{ old('email') ?? $user->email }}">
+                            value="{{ old('email') ?? $user->email }}">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-xs-12 col-md-6">
                         <label for="">Name</label>
                         <input type="text" name="user_name" id="user_name" class="form-control" placeholder=""
-                            aria-describedby="helpId" value="{{ old('user_name') ?? $user->name }}">
+                            value="{{ old('user_name') ?? $user->name }}">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-xs-12 col-md-6">
                         <label for="">Tanggal Lahir</label>
                         <input type="date" name="date_of_birth" id="date_of_birth" class="form-control" placeholder=""
-                            aria-describedby="helpId" value="{{ old('date_of_birth') ?? $user->date_of_birth }}">
+                            value="{{ old('date_of_birth') ?? $user->date_of_birth }}">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-xs-12 col-md-6">
                         <label for="">No Telp</label>
                         <input type="text" name="user_number" id="user_number" class="form-control" placeholder=""
-                            aria-describedby="helpId" value="{{ old('user_number') ?? $user->number }}">
+                            value="{{ old('user_number') ?? $user->number }}">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-xs-12 col-md-6">
                         <label for="">Images</label>
-                        <input type="file" name="user_image" id="user_image" class="form-control" placeholder=""
-                            aria-describedby="helpId">
+                        <input type="file" name="user_image" id="user_image" class="form-control" placeholder="">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-xs-12 col-md-6">
                         <label for="">KTP</label>
-                        <input type="file" name="user_ktp" id="user_ktp" class="form-control" placeholder=""
-                            aria-describedby="helpId">
+                        <input type="file" name="user_ktp" id="user_ktp" class="form-control" placeholder="">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary mt-4">Simpan</button>
@@ -79,15 +77,24 @@
             <div class="row">
                 <div class="form-group col-xs-12 col-md-6">
                     <label for="">Password</label>
-                    <input type="password" name="password" id="password" class="form-control" placeholder=""
-                        aria-describedby="helpId">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="">
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-xs-12 col-md-6">
                     <label for="">New Password</label>
                     <input type="password" name="password_confirmation" id="password-confirm" class="form-control"
-                        placeholder="" aria-describedby="helpId">
+                        placeho>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group  col-xs-12 col-md-6">
+                    <label for="">Role</label>
+                    <select class="form-control" name="" id="">
+                        <option>Superadmin</option>
+                        <option>Admin</option>
+                    </select>
                 </div>
             </div>
 
@@ -99,7 +106,4 @@
 
 @section('scripts')
 
-    <script>
-
-    </script>
 @endsection

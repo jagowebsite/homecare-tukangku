@@ -21,10 +21,10 @@
       </div><!-- menu-item -->
     </a><!-- br-menu-link -->
     <ul class="br-menu-sub nav flex-column">
-      <li class="nav-item"><a href="navigation.html" class="nav-link">Data Jasa</a></li>
+      <li class="nav-item"><a href="{{route('services')}}" class="nav-link">Data Jasa</a></li>
       <li class="nav-item"><a href="{{route('employees')}}" class="nav-link">Data Tukang</a></li>
       <li class="nav-item"><a href="{{route('services_categories')}}" class="nav-link">Data Kategori</a></li>
-      <li class="nav-item"><a href="navigation.html" class="nav-link">Data Banner</a></li>
+      <li class="nav-item"><a href="{{route('banners')}}" class="nav-link">Data Banner</a></li>
     </ul>
     {{-- <a href="card-dashboard.html" class="br-menu-link">
       <div class="br-menu-item">
@@ -63,19 +63,19 @@
       </div><!-- menu-item -->
     </a><!-- br-menu-link -->
     <ul class="br-menu-sub nav flex-column">
-      <li class="nav-item"><a href="chart-morris.html" class="nav-link">Data Pendaftaran Consumen</a></li>
+      <li class="nav-item"><a href="chart-morris.html" class="nav-link">Data Pendaftaran Konsumen</a></li>
     </ul>
     <a href="#" class="br-menu-link">
       <div class="br-menu-item">
         <i class="menu-item-icon icon ion-bag tx-24"></i>
-        <span class="menu-item-label">Pembeli / Consumen</span>
+        <span class="menu-item-label">Pembeli / Konsumen</span>
         <i class="menu-item-arrow fa fa-angle-down"></i>
       </div><!-- menu-item -->
     </a><!-- br-menu-link -->
     <ul class="br-menu-sub nav flex-column">
       <li class="nav-item"><a href="form-elements.html" class="nav-link">View User Pembeli</a></li>
-      <li class="nav-item"><a href="form-layouts.html" class="nav-link">Transaksi Pembeli</a></li>
-      <li class="nav-item"><a href="form-validation.html" class="nav-link">Log GPS Pembeli</a></li>
+      <li class="nav-item"><a href="{{route('transactions')}}" class="nav-link">Transaksi Pembeli</a></li>
+      <li class="nav-item"><a href="{{route('gps_logs')}}" class="nav-link">Log GPS Pembeli</a></li>
     </ul>
     <a href="#" class="br-menu-link">
       <div class="br-menu-item">

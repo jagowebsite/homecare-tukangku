@@ -1,0 +1,1 @@
+$('.number-format').number(true)

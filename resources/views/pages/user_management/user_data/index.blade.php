@@ -40,40 +40,6 @@
                             <th class="wd-5p">Action</th>
                         </tr>
                     </thead>
-                    {{-- <tbody>
-            <tr>
-              <td>1</td>
-              <td>
-                  <img src="https://picsum.photos/64" class="wd-40 rounded-circle" alt="">
-              </td>
-              <td>Akmal Roziq</td>
-              <td>Websitejago@gmail.com</td>
-              <td>17-08-2000</td>
-              <td>08560454545</td>
-              <td>
-                <div class="btn-group" role="group" aria-label="Basic example">
-                  <a href="{{route('users_edit', ['id' => 1])}}"  class="btn btn-secondary active"><i class="fa fa-edit"></i></a>
-                  <a href=""  type="button" class="btn btn-secondary"><i class="fa fa-trash"></i></a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>
-                  <img src="https://picsum.photos/64" class="wd-40 rounded-circle" alt="">
-              </td>
-              <td>Akmal Roziq</td>
-              <td>Websitejago@gmail.com</td>
-              <td>17-08-2000</td>
-              <td>08560454545</td>
-              <td>
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <a href="{{route('users_edit', ['id' => 2])}}"  class="btn btn-secondary active"><i class="fa fa-edit"></i></a>
-                    <a href=""  type="button" class="btn btn-secondary"><i class="fa fa-trash"></i></a>
-                </div>
-              </td>
-            </tr>
-          </tbody> --}}
                 </table>
             </div><!-- table-wrapper -->
         </div><!-- br-section-wrapper -->

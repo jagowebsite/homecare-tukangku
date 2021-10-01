@@ -43,3 +43,6 @@
 
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{{url('/')}}/assets/css/bracket.css">
+
+    {{-- Main CSS --}}
+    <link rel="stylesheet" href="{{url('/')}}/css/main.css">
