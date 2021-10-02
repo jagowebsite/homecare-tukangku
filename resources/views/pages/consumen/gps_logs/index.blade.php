@@ -34,7 +34,9 @@
           </thead>
           <tbody>
             <tr>
-              <td>F7FD9879</td>
+              <td>
+                <a href="">F7FD9879</a>
+              </td>
               <td>Akmal Roziq</td>
               <td>
                     Bebersih Rumah Mewah
@@ -44,7 +46,10 @@
                         <i class="fa fa-long-arrow-right"></i> 
                     </a>
                 </td>
-              <td></td>
+              <td>
+                <div>-3487384, 58495794</div>
+                <a href="">Lihat lokasi <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+              </td>
               <td>
                 <div class="btn-group" role="group" aria-label="Basic example">
                   <button data-toggle="modal" data-target="#editCategory"  class="btn btn-secondary active"><i class="fa fa-edit"></i></button>

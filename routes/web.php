@@ -183,6 +183,24 @@ Route::middleware(['auth'])->group(function () {
                 return view('pages.consumen.gps_logs.index');
             })->name('gps_logs');
         });
+
+        Route::group(['prefix' => 'payments'], function () {
+            Route::get('/', function () {
+                return view('pages.consumen.payments.index');
+            })->name('payments');
+            Route::get('/detail', function () {
+                return view('pages.consumen.payments.detail');
+            })->name('payments_detail');
+        });
+
+        Route::group(['prefix' => 'users'], function () {
+            Route::get('/', function () {
+                return view('pages.consumen.users.index');
+            })->name('consumen_users');
+            Route::get('/edit', function () {
+                return view('pages.consumen.users.edit');
+            })->name('consumen_users_edit');
+        });
     });
 
     // Route User Logs

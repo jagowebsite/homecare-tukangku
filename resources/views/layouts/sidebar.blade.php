@@ -55,16 +55,12 @@
       <li class="nav-item"><a href="{{route('user_logs')}}" class="nav-link">Log User</a></li>
       <li class="nav-item"><a href="{{route('roles')}}" class="nav-link">Role Akses</a></li>
     </ul>
-    <a href="#" class="br-menu-link">
+    <a href="{{route('consumen_users')}}" class="br-menu-link">
       <div class="br-menu-item">
         <i class="menu-item-icon ion-person-stalker tx-20"></i>
         <span class="menu-item-label">Pendaftaran Konsumen</span>
-        <i class="menu-item-arrow fa fa-angle-down"></i>
       </div><!-- menu-item -->
     </a><!-- br-menu-link -->
-    <ul class="br-menu-sub nav flex-column">
-      <li class="nav-item"><a href="chart-morris.html" class="nav-link">Data Pendaftaran Konsumen</a></li>
-    </ul>
     <a href="#" class="br-menu-link">
       <div class="br-menu-item">
         <i class="menu-item-icon icon ion-bag tx-24"></i>
@@ -73,8 +69,8 @@
       </div><!-- menu-item -->
     </a><!-- br-menu-link -->
     <ul class="br-menu-sub nav flex-column">
-      <li class="nav-item"><a href="form-elements.html" class="nav-link">View User Pembeli</a></li>
-      <li class="nav-item"><a href="{{route('transactions')}}" class="nav-link">Transaksi Pembeli</a></li>
+      <li class="nav-item"><a href="{{route('transactions')}}" class="nav-link">View User Pembeli</a></li>
+      <li class="nav-item"><a href="{{route('payments')}}" class="nav-link">Transaksi Pembeli</a></li>
       <li class="nav-item"><a href="{{route('gps_logs')}}" class="nav-link">Log GPS Pembeli</a></li>
     </ul>
     <a href="#" class="br-menu-link">
