@@ -44,12 +44,25 @@
             </div><!-- table-wrapper -->
         </div><!-- br-section-wrapper -->
     </div><!-- br-pagebody -->
-
+    <form id="form_delete" action="{{ route('users_destroy') }}" method="POST" hidden>
+        @method('delete')
+        @csrf
+        <input type="text" name="user_id" id="user_id" placeholder="" value="">
+    </form>
 @endsection
 
 @section('scripts')
 
     <script>
+        // how to delete role
+        $(document).on("click", ".btn-delete", function(e) {
+            e.preventDefault()
+            let user_id = $(this).data('user_id');
+            $("#form_delete #user_id").val(user_id);
+            if (user_id) {
+                document.getElementById('form_delete').submit();
+            }
+        });
         $(function() {
 
             let table_user = $('#datatable2').DataTable({

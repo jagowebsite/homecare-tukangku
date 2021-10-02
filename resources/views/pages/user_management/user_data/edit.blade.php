@@ -23,7 +23,7 @@
         <div class="br-section-wrapper">
             <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Edit User</h6>
             <p class="mg-b-25 mg-lg-b-50">Edit users homecare - Tukangku.</p>
-            <form enctype="multipart/form-data" method="POST" action="{{ route('users_update', ['id' => $user->id]) }}">
+            <form enctype="multipart/form-data" method="POST" action="{{ route('users_update', ['id' => @$user->id]) }}">
                 @csrf
                 <div class="row">
                     <div class="form-group col-xs-12 col-md-6">
@@ -65,6 +65,21 @@
                         <input type="file" name="user_ktp" id="user_ktp" class="form-control" placeholder="">
                     </div>
                 </div>
+                <div class="row">
+                    <div class="form-group  col-xs-12 col-md-6">
+                        <label for="">Role</label>
+                        <select class="form-control" name="role" id="role">
+                            <option value="">Choose...</option>
+                            @isset($roles)
+                                @foreach (@$roles as $item)
+                                    <option value="{{ @$item->id }}"
+                                        {{ @$user->roles[0]->id == $item->id ? 'selected' : '' }}>
+                                        {{ @$item->name }}</option>
+                                @endforeach
+                            @endisset
+                        </select>
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-primary mt-4">Simpan</button>
             </form>
 
@@ -85,16 +100,6 @@
                     <label for="">New Password</label>
                     <input type="password" name="password_confirmation" id="password-confirm" class="form-control"
                         placeho>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group  col-xs-12 col-md-6">
-                    <label for="">Role</label>
-                    <select class="form-control" name="" id="">
-                        <option>Superadmin</option>
-                        <option>Admin</option>
-                    </select>
                 </div>
             </div>
 

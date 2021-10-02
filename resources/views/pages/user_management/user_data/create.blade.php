@@ -24,7 +24,7 @@
             <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Tambah User</h6>
             <p class="mg-b-25 mg-lg-b-50">Tambah users homecare - Tukangku.</p>
 
-            <form action="" enctype="multipart/form-data" method="POST">
+            <form action="{{ route('users_store') }}" enctype="multipart/form-data" method="POST">
                 @csrf
                 <div class="row">
                     <div class="form-group col-xs-12 col-md-6">
@@ -36,8 +36,8 @@
                 <div class="row">
                     <div class="form-group col-xs-12 col-md-6">
                         <label for="">Name</label>
-                        <input type="text" name="user_name" id="user_name" class="form-control" placeholder=""
-                            value="{{ old('user_name') }}">
+                        <input type="text" name="name" id="user_name" class="form-control" placeholder=""
+                            value="{{ old('name') }}">
                     </div>
                 </div>
                 <div class="row">
@@ -63,8 +63,8 @@
                 <div class="row">
                     <div class="form-group col-xs-12 col-md-6">
                         <label for="">No Telp</label>
-                        <input type="text" name="user_number" id="user_number" class="form-control" placeholder=""
-                            value="{{ old('user_number') }}">
+                        <input type="text" name="number" id="user_number" class="form-control" placeholder=""
+                            value="{{ old('number') }}">
                     </div>
                 </div>
                 <div class="row">
@@ -83,9 +83,12 @@
                 <div class="row">
                     <div class="form-group  col-xs-12 col-md-6">
                         <label for="">Role</label>
-                        <select class="form-control" name="" id="">
-                            <option>Superadmin</option>
-                            <option>Admin</option>
+                        <select class="form-control" name="role" id="role">
+                            @isset($roles)
+                                @foreach (@$roles as $item)
+                                    <option value="{{ @$item->name }}">{{ @$item->name }}</option>
+                                @endforeach
+                            @endisset
                         </select>
                     </div>
                 </div>

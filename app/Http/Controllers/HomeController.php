@@ -15,13 +15,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        // dd($this->authorize());
-        // dd($permissions);
-        if ($user->can('admin_dashboard') || $user->can('superadmin')) {
-            return view('pages.index');
-        }
-        // return view('pages.index');
-        abort(403);
+        return view('pages.index');
     }
 }

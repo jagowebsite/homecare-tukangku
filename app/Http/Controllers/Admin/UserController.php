@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
@@ -20,7 +21,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::query();
+        $users = User::with(['roles'])->whereHas('roles', function ($query) {
+            $query->where('name', '<>', 'user');
+        });
         if ($request->ajax()) {
             return DataTables::eloquent($users)
                 ->addIndexColumn()
@@ -40,7 +43,7 @@ class UserController extends Controller
                 <a href="' .
                         route('users_edit', ['id' => $user->id]) .
                         '"  class="btn btn-secondary active"><i class="fa fa-edit"></i></a>
-                <a href=""  type="button" class="btn btn-secondary" data-id="' .
+                <a href=""  type="button" class="btn btn-secondary btn-delete" data-user_id="' .
                         $user->id .
                         '"><i class="fa fa-trash"></i></a>
               </div>';
@@ -60,7 +63,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('pages.user_management.user_data.create');
+        $roles = Role::whereNotIn('name', ['user'])->get();
+        return view('pages.user_management.user_data.create', compact('roles'));
     }
 
     /**
@@ -71,44 +75,52 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $admin = Auth::user();
-        if ($admin->can('user_management_access')||$admin->can('superadmin') {
-            $validator = Validator::make(
-                $request->all(),
-                [
-                    'email' => 'required|email',
-                    'user_name' => 'required',
-                    'user_image' => 'image|file|max:8192',
-                    'user_ktp' => 'image|file|max:8192',
-                    'date_of_birth' => 'required',
-                    'user_number' => 'required',
-                    'password' => 'required|confirmed',
-                ],
-                $messages = [
-                    'required' => 'The :attribute field is required.',
-                    'email' => 'Email is not valid.',
-                    'unique' => 'Email has been registered.',
-                    'image' =>
-                        'File upload must be an image (jpg, jpeg, png, bmp, gif, svg, or webp).',
-                    'max' =>
-                        'Maximum file size to upload is 8MB (8192 KB). If you are uploading a photo, try to reduce its resolution to make it under 8MB',
-                    'confirmed' => 'The password confirmation does not match',
-                ]
-            );
-            if ($validator->fails()) {
-                $error = $validator->errors()->first();
-                session()->flash('danger', $error);
-                return back()->withInput();
-            }
-            if ($request->file('user_image')) {
-                $user_image = @$request
-                    ->file('user_image')
-                    ->store('user_image');
-            }
-            if ($request->file('user_ktp')) {
-                $user_ktp = @$request->file('user_ktp')->store('user_image');
-            }
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'email' => 'required|email|unique:users',
+                'name' => 'required',
+                'user_image' => 'image|file|max:8192',
+                'user_ktp' => 'image|file|max:8192',
+                'date_of_birth' => 'required',
+                'number' => 'required',
+                'password' => 'required|confirmed',
+            ],
+            $messages = [
+                'required' => 'The :attribute field is required.',
+                'email' => 'Email is not valid.',
+                'unique' => 'Email has been registered.',
+                'image' =>
+                    'File upload must be an image (jpg, jpeg, png, bmp, gif, svg, or webp).',
+                'max' =>
+                    'Maximum file size to upload is 8MB (8192 KB). If you are uploading a photo, try to reduce its resolution to make it under 8MB',
+                'confirmed' => 'The password confirmation does not match',
+            ]
+        );
+        if ($validator->fails()) {
+            $error = $validator->errors()->first();
+            session()->flash('danger', $error);
+            return back()->withInput();
         }
+        if ($request->file('user_image')) {
+            $user_image = @$request->file('user_image')->store('user_image');
+        }
+        if ($request->file('user_ktp')) {
+            $user_ktp = @$request->file('user_ktp')->store('user_image');
+        }
+        $user = User::create([
+            'email' => $request->email,
+            'name' => $request->name,
+            'password' => bcrypt($request->password),
+            'date_of_birth' => $request->date_of_birth,
+            // 'address' => $request->address,
+            'number' => $request->number,
+            'images' => @$user_image,
+            'ktp_image' => @$user_ktp,
+        ]);
+        $user->assignRole($request->role);
+        session()->flash('success', 'User has been added');
+        return redirect()->route('users');
     }
 
     /**
@@ -119,8 +131,13 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
-        return view('pages.user_management.user_data.edit', compact('user'));
+        $user = User::with(['roles'])->find($id);
+
+        $roles = Role::whereNotIn('name', ['user'])->get();
+        return view(
+            'pages.user_management.user_data.edit',
+            compact('user', 'roles')
+        );
     }
 
     /**
@@ -132,69 +149,67 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request);
-        $admin = Auth::user();
-        if ($admin->can('user_management_access'||$admin->can('superadmin')) {
-            $validator = Validator::make(
-                $request->all(),
-                [
-                    'email' => 'required|email',
-                    'user_name' => 'required',
-                    'user_image' => 'image|file|max:8192',
-                    'user_ktp' => 'image|file|max:8192',
-                    'date_of_birth' => 'required',
-                    'user_number' => 'required',
-                ],
-                $messages = [
-                    'required' => 'The :attribute field is required.',
-                    'email' => 'Email is not valid.',
-                    'unique' => 'Email has been registered.',
-                    'image' =>
-                        'File upload must be an image (jpg, jpeg, png, bmp, gif, svg, or webp).',
-                    'max' =>
-                        'Maximum file size to upload is 8MB (8192 KB). If you are uploading a photo, try to reduce its resolution to make it under 8MB',
-                ]
-            );
-            if ($validator->fails()) {
-                $error = $validator->errors()->first();
-                session()->flash('danger', $error);
-                return back()->withInput();
-            }
-
-            $user = User::find($id);
-            if ($request->file('user_image')) {
-                Storage::delete(@$user->images);
-                $user_image = @$request
-                    ->file('user_image')
-                    ->store('user_image');
-                $user->images = $user_image;
-            }
-            if ($request->file('user_ktp')) {
-                Storage::delete(@$user->ktp_image);
-                $user_ktp = @$request->file('user_ktp')->store('user_image');
-                $user->ktp_image = $user_ktp;
-            }
-            $user->email = $request->email;
-            $user->name = $request->user_name;
-            $user->date_of_birth = $request->date_of_birth;
-            $user->number = $request->user_number;
-            $user->save();
-
-            session()->flash('success', 'Data berhasil diupdate');
-            return redirect()->route('users');
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'email' => 'required|email',
+                'user_name' => 'required',
+                'user_image' => 'image|file|max:8192',
+                'user_ktp' => 'image|file|max:8192',
+                'date_of_birth' => 'required',
+                'user_number' => 'required',
+            ],
+            $messages = [
+                'required' => 'The :attribute field is required.',
+                'email' => 'Email is not valid.',
+                'unique' => 'Email has been registered.',
+                'image' =>
+                    'File upload must be an image (jpg, jpeg, png, bmp, gif, svg, or webp).',
+                'max' =>
+                    'Maximum file size to upload is 8MB (8192 KB). If you are uploading a photo, try to reduce its resolution to make it under 8MB',
+            ]
+        );
+        if ($validator->fails()) {
+            $error = $validator->errors()->first();
+            session()->flash('danger', $error);
+            return back()->withInput();
         }
-        // return view('pages.index');
-        abort(403);
+
+        $user = User::find($id);
+        if ($request->file('user_image')) {
+            Storage::delete(@$user->images);
+            $user_image = @$request->file('user_image')->store('user_image');
+            $user->images = $user_image;
+        }
+        if ($request->file('user_ktp')) {
+            Storage::delete(@$user->ktp_image);
+            $user_ktp = @$request->file('user_ktp')->store('user_image');
+            $user->ktp_image = $user_ktp;
+        }
+        $user->email = $request->email;
+        $user->name = $request->user_name;
+        $user->date_of_birth = $request->date_of_birth;
+        $user->number = $request->user_number;
+        $user->save();
+
+        $role = Role::find($request->role);
+        if ($user && $role) {
+            $user->syncRoles($role);
+        }
+        session()->flash('success', 'Data berhasil diupdate');
+        return redirect()->route('users');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        User::destroy($request->user_id);
+        session()->flash('danger', 'User has been deleted');
+        return back();
     }
 }
