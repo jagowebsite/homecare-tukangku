@@ -24,11 +24,11 @@ class Employee extends Model
         'status',
         'images',
     ];
-    public function servicecategory()
+    public function serviceCategory()
     {
         return $this->belongsTo(ServiceCategory::class, 'service_category_id');
     }
-    public function orderconfirmations()
+    public function orderConfirmations()
     {
         return $this->hasMany(OrderConfirmation::class, 'employee_id');
     }

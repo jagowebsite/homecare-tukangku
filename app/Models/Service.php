@@ -24,15 +24,15 @@ class Service extends Model
         'description',
         'status',
     ];
-    public function servicecategory()
+    public function serviceCategory()
     {
         return $this->belongsTo(ServiceCategory::class, 'service_category_id');
     }
-    public function orderdetails()
+    public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class, 'service_id');
     }
-    public function orderconfirmations()
+    public function orderConfirmations()
     {
         return $this->hasMany(OrderConfirmation::class, 'service_id');
     }

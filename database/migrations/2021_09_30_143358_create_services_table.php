@@ -18,7 +18,7 @@ class CreateServicesTable extends Migration
             $table->unsignedBigInteger('service_category_id')->index();
             $table->string('name');
             $table->string('type_quantity')->nullable();
-            $table->unsignedBigInteger('Price')->nullable();
+            $table->unsignedBigInteger('price')->nullable();
             $table->text('images')->nullable();
             $table->text('description')->nullable();
             $table->string('status')->nullable();

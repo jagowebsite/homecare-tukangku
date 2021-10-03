@@ -15,22 +15,17 @@ class Order extends Model
      *
      * @var string[]
      */
-    protected $fillable = [
-        'user_id',
-        'incoice_code',
-        'status',
-        'verified_at',
-    ];
+    protected $fillable = ['user_id', 'incoice_code', 'status', 'verified_at'];
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function orderdetails()
+    public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class, 'order_id');
     }
-    public function orderconfirmations()
+    public function orderConfirmations()
     {
         return $this->hasMany(OrderConfirmation::class, 'order_id');
     }
