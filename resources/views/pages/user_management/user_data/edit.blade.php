@@ -1,8 +1,8 @@
 @extends('layouts.main', [
-    'title' => 'Edit User Data - Tukangku',
-    'menu' => 'users',
-    'submenu' => 'user_datas'
-  ])
+'title' => 'Edit User Data - Tukangku',
+'menu' => 'users',
+'submenu' => 'user_datas'
+])
 
 @section('content')
     @include('layouts.alert')
@@ -84,27 +84,30 @@
             </form>
 
         </div><!-- br-section-wrapper -->
+        <form enctype="multipart/form-data" method="POST"
+            action="{{ route('users_change_password', ['id' => @$user->id]) }}">
+            @csrf
+            <div class="br-section-wrapper mt-3">
+                <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Change Password</h6>
+                <p class="mg-b-25 mg-lg-b-50">Change password user.</p>
 
-        <div class="br-section-wrapper mt-3">
-            <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Change Password</h6>
-            <p class="mg-b-25 mg-lg-b-50">Change password user.</p>
-
-            <div class="row">
-                <div class="form-group col-xs-12 col-md-6">
-                    <label for="">Password</label>
-                    <input type="password" name="password" id="password" class="form-control" placeholder="">
+                <div class="row">
+                    <div class="form-group col-xs-12 col-md-6">
+                        <label for="">Password</label>
+                        <input type="password" name="password" id="password" class="form-control" placeholder="">
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-12 col-md-6">
-                    <label for="">New Password</label>
-                    <input type="password" name="password_confirmation" id="password-confirm" class="form-control"
-                        placeho>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-md-6">
+                        <label for="">New Password</label>
+                        <input type="password" name="password_confirmation" id="password-confirm" class="form-control"
+                            placeho>
+                    </div>
                 </div>
-            </div>
 
-            <button class="btn btn-primary mt-4">Change Password</button>
-        </div><!-- br-section-wrapper -->
+                <button class="btn btn-primary mt-4">Change Password</button>
+            </div><!-- br-section-wrapper -->
+        </form>
     </div><!-- br-pagebody -->
 
 @endsection

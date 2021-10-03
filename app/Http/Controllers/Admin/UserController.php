@@ -206,6 +206,43 @@ class UserController extends Controller
      * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function changePassword(Request $request, $id)
+    {
+        $user = User::find($id);
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'password' => 'required|string|confirmed',
+                'password_confirmation' => 'required',
+            ],
+            $messages = [
+                'required' => 'The :attribute field is required.',
+                'confirmed' => 'The password confirmation does not match',
+                'email' => 'Email is not valid.',
+                'unique' => 'Email has been registered.',
+                'image' =>
+                    'File upload must be an image (jpg, jpeg, png, bmp, gif, svg, or webp).',
+                'max' =>
+                    'Maximum file size to upload is 8MB (8192 KB). If you are uploading a photo, try to reduce its resolution to make it under 8MB',
+            ]
+        );
+        if ($validator->fails()) {
+            $error = $validator->errors()->first();
+            session()->flash('danger', $error);
+            return back()->withInput();
+        }
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        session()->flash('success', 'Password has been updated');
+        return back();
+    }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function destroy(Request $request)
     {
         User::destroy($request->user_id);

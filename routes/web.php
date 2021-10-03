@@ -99,6 +99,10 @@ Route::middleware(['auth'])->group(function () {
                     App\Http\Controllers\Admin\UserController::class,
                     'update',
                 ])->name('users_update');
+                Route::post('/change-password/{id}', [
+                    App\Http\Controllers\Admin\UserController::class,
+                    'changePassword',
+                ])->name('users_change_password');
                 Route::delete('/destroy', [
                     App\Http\Controllers\Admin\UserController::class,
                     'destroy',
@@ -229,8 +233,12 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/', function () {
                 return view('pages.consumen.transactions.index');
             })->name('transactions');
-            Route::get('/detail', function(){return view('pages.consumen.transactions.detail');})->name('transactions_detail');
-            Route::get('/confirmation', function(){return view('pages.consumen.transactions.confirmation');})->name('transactions_confirmation');
+            Route::get('/detail', function () {
+                return view('pages.consumen.transactions.detail');
+            })->name('transactions_detail');
+            Route::get('/confirmation', function () {
+                return view('pages.consumen.transactions.confirmation');
+            })->name('transactions_confirmation');
             // Route::get('/edit', function(){return view('pages.master.services.edit');})->name('services_edit');
         });
 
