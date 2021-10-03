@@ -174,7 +174,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/', function () {
                 return view('pages.consumen.transactions.index');
             })->name('transactions');
-            // Route::get('/create', function(){return view('pages.master.services.create');})->name('services_create');
+            Route::get('/detail', function(){return view('pages.consumen.transactions.detail');})->name('transactions_detail');
+            Route::get('/confirmation', function(){return view('pages.consumen.transactions.confirmation');})->name('transactions_confirmation');
             // Route::get('/edit', function(){return view('pages.master.services.edit');})->name('services_edit');
         });
 

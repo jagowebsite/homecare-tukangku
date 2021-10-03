@@ -80,7 +80,7 @@
                     <div class="row align-items-start">
                         <div class="col-4 tx-12">Foto Bukti</div><!-- col-4 -->
                         <div class="col-8">
-                            <img src="https://picsum.photos/64" class="wd-100 rounded" alt="">
+                            <a href="" target="_blank"><img src="https://picsum.photos/64" class="wd-60 rounded" alt=""></a>
                         </div><!-- col-8 -->
                     </div><!-- row -->
                     
@@ -119,7 +119,7 @@
                     <div class="row align-items-start">
                         <div class="col-4 tx-12">Foto konsumen</div><!-- col-4 -->
                         <div class="col-8">
-                            <img src="https://picsum.photos/64" class="wd-100 rounded" alt="">
+                            <a href="" target="_blank"><img src="https://picsum.photos/64" class="wd-60 rounded" alt=""></a>
                         </div><!-- col-8 -->
                     </div><!-- row -->
                     

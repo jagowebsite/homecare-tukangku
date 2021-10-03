@@ -55,8 +55,8 @@
               </td>
               <td>
                 <div class="btn-group" role="group" aria-label="Basic example">
-                  <button data-toggle="modal" data-target="#editCategory"  class="btn btn-success active"><i class="fa fa-check-circle"></i> Konfirmasi</button>
-                  <button data-toggle="modal" data-target="#editCategory"  class="btn btn-secondary"><i class="fa fa-eye"></i></button>
+                  <a href="{{route('transactions_confirmation')}}"  class="btn btn-success active"><i class="fa fa-check-circle"></i> Konfirmasi</a>
+                  <a href="{{route('transactions_detail')}}" class="btn btn-secondary"><i class="fa fa-eye"></i></a>
                   <a href=""  type="button" class="btn btn-secondary"><i class="fa fa-trash"></i></a>
                 </div>
               </td>
