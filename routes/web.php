@@ -33,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
                 ])->name('roles');
                 Route::get('/get-roles', [
                     App\Http\Controllers\Admin\RoleController::class,
-                    'getrole',
+                    'getRole',
                 ])->name('get_roles');
                 Route::post('/store', [
                     App\Http\Controllers\Admin\RoleController::class,
@@ -50,11 +50,11 @@ Route::middleware(['auth'])->group(function () {
 
                 Route::post('/rolepermission/{id}', [
                     App\Http\Controllers\Admin\RoleController::class,
-                    'rolepermission',
+                    'rolePermission',
                 ])->name('roles_permissions');
                 Route::delete('/revoke', [
                     App\Http\Controllers\Admin\RoleController::class,
-                    'revokepermission',
+                    'revokePermission',
                 ])->name('revoke_permission');
             });
 
@@ -115,41 +115,92 @@ Route::middleware(['auth'])->group(function () {
         function () {
             // Route for Employee
             Route::group(['prefix' => 'employees'], function () {
-                Route::get('/', function () {
-                    return view('pages.master.employees.index');
-                })->name('employees');
-                Route::get('/create', function () {
-                    return view('pages.master.employees.create');
-                })->name('employees_create');
-                Route::get('/edit', function () {
-                    return view('pages.master.employees.edit');
-                })->name('employees_edit');
+                Route::get('/', [
+                    App\Http\Controllers\Admin\EmployeeController::class,
+                    'index',
+                ])->name('employees');
+                Route::get('/create', [
+                    App\Http\Controllers\Admin\EmployeeController::class,
+                    'create',
+                ])->name('employees_create');
+                Route::post('/store', [
+                    App\Http\Controllers\Admin\EmployeeController::class,
+                    'store',
+                ])->name('employees_store');
+                Route::get('/edit/{id}', [
+                    App\Http\Controllers\Admin\EmployeeController::class,
+                    'edit',
+                ])->name('employees_edit');
+                Route::post('/update/{id}', [
+                    App\Http\Controllers\Admin\EmployeeController::class,
+                    'update',
+                ])->name('employees_update');
+                Route::delete('/destroy', [
+                    App\Http\Controllers\Admin\EmployeeController::class,
+                    'destroy',
+                ])->name('employees_destroy');
             });
 
             // Route for Banners
             Route::group(['prefix' => 'banners'], function () {
-                Route::get('/', function () {
-                    return view('pages.master.banners.index');
-                })->name('banners');
-                Route::get('/create', function () {
-                    return view('pages.master.banners.create');
-                })->name('banners_create');
-                Route::get('/edit', function () {
-                    return view('pages.master.banners.edit');
-                })->name('banners_edit');
+                Route::get('/', [
+                    App\Http\Controllers\Admin\AssetBannerController::class,
+                    'index',
+                ])->name('banners');
+                Route::get('/create', [
+                    App\Http\Controllers\Admin\AssetBannerController::class,
+                    'create',
+                ])->name('banners_create');
+                Route::post('/store', [
+                    App\Http\Controllers\Admin\AssetBannerController::class,
+                    'store',
+                ])->name('banners_store');
+                Route::get('/edit/{id}', [
+                    App\Http\Controllers\Admin\AssetBannerController::class,
+                    'edit',
+                ])->name('banners_edit');
+                Route::post('/update/{id}', [
+                    App\Http\Controllers\Admin\AssetBannerController::class,
+                    'update',
+                ])->name('banners_update');
+                Route::delete('/destroy', [
+                    App\Http\Controllers\Admin\AssetBannerController::class,
+                    'destroy',
+                ])->name('banners_destroy');
             });
 
             // Route for Services
             Route::group(['prefix' => 'services'], function () {
-                Route::get('/', function () {
-                    return view('pages.master.services.index');
-                })->name('services');
-                Route::get('/create', function () {
-                    return view('pages.master.services.create');
-                })->name('services_create');
-                Route::get('/edit', function () {
-                    return view('pages.master.services.edit');
-                })->name('services_edit');
+                Route::get('/', [
+                    App\Http\Controllers\Admin\ServiceController::class,
+                    'index',
+                ])->name('services');
+                Route::get('/create', [
+                    App\Http\Controllers\Admin\ServiceController::class,
+                    'create',
+                ])->name('services_create');
+                Route::post('/store', [
+                    App\Http\Controllers\Admin\ServiceController::class,
+                    'store',
+                ])->name('services_store');
+                Route::get('/edit/{id}', [
+                    App\Http\Controllers\Admin\ServiceController::class,
+                    'edit',
+                ])->name('services_edit');
+
+                Route::get('/get-images/{id}', [
+                    App\Http\Controllers\Admin\ServiceController::class,
+                    'getImages',
+                ])->name('services_images');
+                Route::post('/update/{id}', [
+                    App\Http\Controllers\Admin\ServiceController::class,
+                    'update',
+                ])->name('services_update');
+
+                Route::delete('/destroy', [
+                    App\Http\Controllers\Admin\ServiceController::class,
+                    'destroy',
+                ])->name('services_destroy');
 
                 // Service Categories
                 Route::get('/categories', [
@@ -160,10 +211,14 @@ Route::middleware(['auth'])->group(function () {
                     App\Http\Controllers\Admin\ServiceCategoryController::class,
                     'destroy',
                 ])->name('categories_destroy');
-                Route::post('/update/{id}', [
+                Route::post('/categories/update/{id}', [
                     App\Http\Controllers\Admin\ServiceCategoryController::class,
                     'update',
                 ])->name('categories_update');
+                Route::post('/categories/store', [
+                    App\Http\Controllers\Admin\ServiceCategoryController::class,
+                    'store',
+                ])->name('categories_store');
             });
         }
     );

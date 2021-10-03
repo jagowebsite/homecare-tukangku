@@ -12,6 +12,7 @@ class ServiceCategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -41,16 +42,6 @@ class ServiceCategoryController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -58,29 +49,11 @@ class ServiceCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        ServiceCategory::create([
+            'name' => $request->name,
+        ]);
+        session()->flash('success', 'Service Category has been added');
+        return back();
     }
 
     /**
@@ -92,7 +65,11 @@ class ServiceCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = ServiceCategory::find($id);
+        $category->name = $request->name;
+        $category->save();
+        session()->flash('success', 'Service Category has been updated');
+        return back();
     }
 
     /**
@@ -103,6 +80,7 @@ class ServiceCategoryController extends Controller
      */
     public function destroy(Request $request)
     {
+        // dd($request);
         ServiceCategory::destroy($request->category_id);
         session()->flash('danger', 'Service Category has been deleted');
         return back();

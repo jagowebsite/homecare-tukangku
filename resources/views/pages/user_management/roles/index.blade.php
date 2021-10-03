@@ -167,8 +167,8 @@
                         </div>
                         <div class="form-group">
                             <label for="">Nama Perizinan</label>
-
                             <select class="form-control" name="permission" id="permission">
+                                <option value="">Choose...</option>
                                 @isset($permissions)
                                     @foreach ($permissions as $item)
                                         <option value="{{ $item->id }}">{{ $item->name }} ({{ $item->guard_name }})

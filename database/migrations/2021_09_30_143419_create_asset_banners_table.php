@@ -15,6 +15,7 @@ class CreateAssetBannersTable extends Migration
     {
         Schema::create('asset_banners', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->nullable();
             $table->text('images')->nullable();
             $table->text('url_asset');
             $table->unsignedInteger('is_active')->nullable();

@@ -19,9 +19,11 @@ class CreatePaymentsTable extends Migration
             $table->unsignedBigInteger('order_id')->index();
             $table->string('payment_code')->unique();
             $table->string('type')->nullable();
+            $table->string('type_transfer')->nullable();
             $table->text('images_payment')->nullable();
             $table->text('images_user')->nullable();
             $table->string('bank_number')->nullable();
+            $table->string('bank_name')->nullable();
             $table->string('account_name')->nullable();
             $table->string('longitude')->nullable();
             $table->string('latitude')->nullable();

@@ -13,6 +13,7 @@ class RoleController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -29,7 +30,7 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getrole(Request $request)
+    public function getRole(Request $request)
     {
         $roles = Role::with('permissions');
         return DataTables::eloquent($roles)
@@ -129,7 +130,7 @@ class RoleController extends Controller
      * @param  Request $request
      * @return void
      */
-    public function revokepermission(Request $request)
+    public function revokePermission(Request $request)
     {
         $permission = Permission::find($request->permission_id);
         $role = Role::find($request->role_id);
@@ -145,7 +146,7 @@ class RoleController extends Controller
      * @param  Request $request
      * @return void
      */
-    public function rolepermission(Request $request, $id)
+    public function rolePermission(Request $request, $id)
     {
         $permission = Permission::find($request->permission);
         $role = Role::find($id);

@@ -84,6 +84,7 @@
                     <div class="form-group  col-xs-12 col-md-6">
                         <label for="">Role</label>
                         <select class="form-control" name="role" id="role">
+                            <option value="">Choose...</option>
                             @isset($roles)
                                 @foreach (@$roles as $item)
                                     <option value="{{ @$item->name }}">{{ @$item->name }}</option>

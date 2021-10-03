@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-
+    @include('layouts.alert')
     <div class="br-pageheader pd-y-15 pd-l-20">
         <nav class="breadcrumb pd-0 mg-0 tx-12">
             <a class="breadcrumb-item" href="">Homecare</a>
@@ -39,7 +39,7 @@
                             <th class="wd-5p">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    {{-- <tbody>
                         <tr>
                             <td>1</td>
                             <td>Akmal Roziq</td>
@@ -51,7 +51,7 @@
                                 </div>
                             </td>
                         </tr>
-                    </tbody>
+                    </tbody> --}}
                 </table>
             </div><!-- table-wrapper -->
         </div><!-- br-section-wrapper -->
@@ -67,19 +67,23 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body pd-25">
-                    <h4 class="lh-3 mg-b-20">Tambah Kategori</h4>
-                    <div class="form-group">
-                        <label for="">Nama Kategori</label>
-                        <input type="text" name="" id="" class="form-control" placeholder="">
+                <form id="form_edit-category" method="POST" action="{{ route('categories_store') }}">
+                    @csrf
+                    <div class="modal-body pd-25">
+                        <h4 class="lh-3 mg-b-20">Tambah Kategori</h4>
+                        <div class="form-group">
+                            <label for="">Nama Kategori</label>
+                            <input type="text" name="name" class="form-control" placeholder="">
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium">Save
-                        changes</button>
-                    <button type="button" class="btn btn-secondary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium"
-                        data-dismiss="modal">Close</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="submit"
+                            class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium">Save
+                            changes</button>
+                        <button type="button" class="btn btn-secondary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium"
+                            data-dismiss="modal">Close</button>
+                    </div>
+                </form>
             </div>
         </div><!-- modal-dialog -->
     </div><!-- modal -->
@@ -104,7 +108,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button"
+                        <button type="submit"
                             class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium">Save
                             changes</button>
                         <button type="button" class="btn btn-secondary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium"
@@ -149,7 +153,25 @@
                     searchPlaceholder: 'Search...',
                     sSearch: '',
                     lengthMenu: '_MENU_ items/page',
-                }
+                },
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('services_categories') }}",
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name',
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
             });
 
             // Select2

@@ -15,9 +15,5 @@ class AssetBanner extends Model
      *
      * @var string[]
      */
-    protected $fillable = [
-        'images',
-        'url_asset',
-        'is_active',
-    ];
+    protected $fillable = ['name', 'images', 'url_asset', 'is_active'];
 }
