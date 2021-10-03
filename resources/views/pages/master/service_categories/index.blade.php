@@ -1,8 +1,8 @@
 @extends('layouts.main', [
-    'title' => 'Kategori Jasa - Tukangku',
-    'menu' => 'master',
-    'submenu' => 'services_category'
-  ])
+'title' => 'Kategori Jasa - Tukangku',
+'menu' => 'master',
+'submenu' => 'services_category'
+])
 
 @section('style')
     <link href="{{ url('/') }}/assets/lib/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
@@ -67,7 +67,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="form_edit-category" method="POST" action="{{ route('categories_store') }}">
+                <form id="form_add-category" method="POST" action="{{ route('categories_store') }}">
                     @csrf
                     <div class="modal-body pd-25">
                         <h4 class="lh-3 mg-b-20">Tambah Kategori</h4>

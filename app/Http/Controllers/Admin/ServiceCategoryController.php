@@ -65,9 +65,11 @@ class ServiceCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request);
         $category = ServiceCategory::find($id);
         $category->name = $request->name;
         $category->save();
+
         session()->flash('success', 'Service Category has been updated');
         return back();
     }
