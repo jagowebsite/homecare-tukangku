@@ -1,4 +1,8 @@
-@extends('layouts.main')
+@extends('layouts.main', [
+  'title' => 'Dashboard - Tukangku',
+  'menu' => 'dashboard',
+  'submenu' => 'graphic'
+])
 
 @section('content')
     

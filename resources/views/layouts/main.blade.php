@@ -1,12 +1,15 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-  @include('layouts.header')
+  @include('layouts.header', ['title' => @$title ?? config('app.name', 'Homecare - Tukangku')])
 
   @yield('style')
 </head>
 <body>
-    @include('layouts.sidebar')
+    @include('layouts.sidebar', [
+      'menu' => @$menu ?? 'dashboard',
+      'submenu' => @$submenu ?? 'grafik'
+    ])
 
     @include('layouts.navbar')
 

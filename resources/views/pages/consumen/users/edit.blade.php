@@ -1,4 +1,8 @@
-@extends('layouts.main')
+@extends('layouts.main', [
+    'title' => 'Edit Pendaftaran - Tukangku',
+    'menu' => 'consumen_users',
+    'submenu' => ''
+  ])
 
 @section('content')
     @include('layouts.alert')

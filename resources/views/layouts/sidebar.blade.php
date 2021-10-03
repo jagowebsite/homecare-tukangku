@@ -3,7 +3,7 @@
 <div class="br-sideleft overflow-y-auto">
   <label class="sidebar-label pd-x-15 mg-t-20">Navigation</label>
   <div class="br-sideleft-menu">
-    <a href="index.html" class="br-menu-link active">
+    <a href="index.html" class="br-menu-link @if($menu == 'dashboard') active show-sub @endif">
       <div class="br-menu-item">
         <i class="menu-item-icon icon ion-ios-home-outline tx-22"></i>
         <span class="menu-item-label">Dashboard</span>
@@ -11,9 +11,9 @@
       </div><!-- menu-item -->
     </a><!-- br-menu-link -->
     <ul class="br-menu-sub nav flex-column">
-      <li class="nav-item"><a href="navigation.html" class="nav-link">Grafik</a></li>
+      <li class="nav-item"><a href="{{url('/')}}" class="nav-link @if($submenu == 'graphic') active @endif">Grafik</a></li>
     </ul>
-    <a href="mailbox.html" class="br-menu-link">
+    <a href="mailbox.html" class="br-menu-link @if($menu == 'master') active show-sub @endif">
       <div class="br-menu-item">
         <i class="menu-item-icon icon ion-soup-can-outline tx-24"></i>
         <span class="menu-item-label">Master</span>
@@ -21,10 +21,10 @@
       </div><!-- menu-item -->
     </a><!-- br-menu-link -->
     <ul class="br-menu-sub nav flex-column">
-      <li class="nav-item"><a href="{{route('services')}}" class="nav-link">Data Jasa</a></li>
-      <li class="nav-item"><a href="{{route('employees')}}" class="nav-link">Data Tukang</a></li>
-      <li class="nav-item"><a href="{{route('services_categories')}}" class="nav-link">Data Kategori</a></li>
-      <li class="nav-item"><a href="{{route('banners')}}" class="nav-link">Data Banner</a></li>
+      <li class="nav-item"><a href="{{route('services')}}" class="nav-link @if($submenu == 'services') active @endif">Data Jasa</a></li>
+      <li class="nav-item"><a href="{{route('employees')}}" class="nav-link @if($submenu == 'employees') active @endif">Data Tukang</a></li>
+      <li class="nav-item"><a href="{{route('services_categories')}}" class="nav-link @if($submenu == 'services_category') active @endif">Data Kategori</a></li>
+      <li class="nav-item"><a href="{{route('banners')}}" class="nav-link @if($submenu == 'banners') active @endif">Data Banner</a></li>
     </ul>
     {{-- <a href="card-dashboard.html" class="br-menu-link">
       <div class="br-menu-item">
@@ -43,7 +43,7 @@
       <li class="nav-item"><a href="accordion.html" class="nav-link">Laporan Jasa</a></li>
       <li class="nav-item"><a href="alerts.html" class="nav-link">Laporan Seluruh Penjual</a></li>
     </ul>
-    <a href="#" class="br-menu-link">
+    <a href="#" class="br-menu-link @if($menu == 'users') active show-sub @endif">
       <div class="br-menu-item">
         <i class="menu-item-icon ion-ios-gear-outline tx-24"></i>
         <span class="menu-item-label">Management User</span>
@@ -51,17 +51,17 @@
       </div><!-- menu-item -->
     </a><!-- br-menu-link -->
     <ul class="br-menu-sub nav flex-column">
-      <li class="nav-item"><a href="{{route('users')}}" class="nav-link">Data User</a></li>
-      <li class="nav-item"><a href="{{route('user_logs')}}" class="nav-link">Log User</a></li>
-      <li class="nav-item"><a href="{{route('roles')}}" class="nav-link">Role Akses</a></li>
+      <li class="nav-item"><a href="{{route('users')}}" class="nav-link @if($submenu == 'user_datas') active @endif">Data User</a></li>
+      <li class="nav-item"><a href="{{route('user_logs')}}" class="nav-link @if($submenu == 'user_logs') active @endif">Log User</a></li>
+      <li class="nav-item"><a href="{{route('roles')}}" class="nav-link @if($submenu == 'user_roles') active @endif">Role Akses</a></li>
     </ul>
-    <a href="{{route('consumen_users')}}" class="br-menu-link">
+    <a href="{{route('consumen_users')}}" class="br-menu-link @if($menu == 'consumen_users') active @endif">
       <div class="br-menu-item">
         <i class="menu-item-icon ion-person-stalker tx-20"></i>
         <span class="menu-item-label">Pendaftaran Konsumen</span>
       </div><!-- menu-item -->
     </a><!-- br-menu-link -->
-    <a href="#" class="br-menu-link">
+    <a href="#" class="br-menu-link @if($menu == 'consumen') active show-sub @endif">
       <div class="br-menu-item">
         <i class="menu-item-icon icon ion-bag tx-24"></i>
         <span class="menu-item-label">Pembeli / Konsumen</span>
@@ -69,9 +69,9 @@
       </div><!-- menu-item -->
     </a><!-- br-menu-link -->
     <ul class="br-menu-sub nav flex-column">
-      <li class="nav-item"><a href="{{route('transactions')}}" class="nav-link">View User Pembeli</a></li>
-      <li class="nav-item"><a href="{{route('payments')}}" class="nav-link">Transaksi Pembeli</a></li>
-      <li class="nav-item"><a href="{{route('gps_logs')}}" class="nav-link">Log GPS Pembeli</a></li>
+      <li class="nav-item"><a href="{{route('transactions')}}" class="nav-link @if($submenu == 'transactions') active @endif">View User Pembeli</a></li>
+      <li class="nav-item"><a href="{{route('payments')}}" class="nav-link @if($submenu == 'payments') active @endif">Transaksi Pembeli</a></li>
+      <li class="nav-item"><a href="{{route('gps_logs')}}" class="nav-link @if($submenu == 'gps_logs') active @endif">Log GPS Pembeli</a></li>
     </ul>
     <a href="#" class="br-menu-link">
       <div class="br-menu-item">
@@ -94,6 +94,12 @@
       <li class="nav-item"><a href="map-google.html" class="nav-link">History Pekerjaan Tukang</a></li>
       <li class="nav-item"><a href="map-leaflet.html" class="nav-link">History Orderan Tukang</a></li>
     </ul>
+    <a href="{{route('profile_edit')}}" class="br-menu-link @if($menu == 'profile') active @endif">
+      <div class="br-menu-item">
+        <i class="menu-item-icon ion-ios-person tx-20"></i>
+        <span class="menu-item-label">Profile</span>
+      </div><!-- menu-item -->
+    </a><!-- br-menu-link -->
   </div><!-- br-sideleft-menu -->
 </div><!-- br-sideleft -->
 <!-- ########## END: LEFT PANEL ########## -->

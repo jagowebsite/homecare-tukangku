@@ -1,9 +1,8 @@
-@extends('layouts.main')
-
-@section('style')
-    <link href="{{ url('/') }}/assets/lib/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
-
-@endsection
+@extends('layouts.main', [
+    'title' => 'Pendaftaran Konsumen - Tukangku',
+    'menu' => 'consumen_users',
+    'submenu' => ''
+  ])
 
 @section('content')
     @include('layouts.alert')
@@ -24,8 +23,8 @@
             <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Data User</h6>
             <p class="mg-b-25 mb-4">Semua users homecare - Tukangku.</p>
 
-            <a href="{{ route('users_create') }}" class="btn btn-primary mb-4"><i class="fa fa-plus"></i> Tambah
-                User</a>
+            {{-- <a href="{{ route('users_create') }}" class="btn btn-primary mb-4"><i class="fa fa-plus"></i> Tambah
+                User</a> --}}
 
             <div class="table-wrapper">
                 <table id="datatable2" class="table display responsive nowrap">

@@ -1,4 +1,8 @@
-@extends('layouts.main')
+@extends('layouts.main', [
+  'title' => 'GPS Logs - Tukangku',
+  'menu' => 'consumen',
+  'submenu' => 'gps_logs'
+])
 
 @section('content')
 

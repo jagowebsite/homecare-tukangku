@@ -1,4 +1,8 @@
-@extends('layouts.main')
+@extends('layouts.main', [
+    'title' => 'Tambah Jasa - Tukangku',
+    'menu' => 'master',
+    'submenu' => 'services'
+  ])
 
 @section('style')
     <link rel="stylesheet" href="{{url('/')}}/vendor/image-uploader/src/image-uploader.css">

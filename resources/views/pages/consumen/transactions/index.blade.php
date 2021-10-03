@@ -1,4 +1,8 @@
-@extends('layouts.main')
+@extends('layouts.main', [
+  'title' => 'View User Pembeli - Tukangku',
+  'menu' => 'consumen',
+  'submenu' => 'transactions'
+])
 
 @section('content')
 

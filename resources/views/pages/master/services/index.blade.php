@@ -1,4 +1,8 @@
-@extends('layouts.main')
+@extends('layouts.main', [
+  'title' => 'Data Jasa - Tukangku',
+  'menu' => 'master',
+  'submenu' => 'services'
+])
 
 @section('style')
     <link href="{{url('/')}}/assets/lib/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">

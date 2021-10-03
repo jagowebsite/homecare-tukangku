@@ -1,8 +1,8 @@
-@extends('layouts.main')
-
-@section('style')
-    <link href="{{ url('/') }}/assets/lib/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
-@endsection
+@extends('layouts.main', [
+    'title' => 'Tambah User Data - Tukangku',
+    'menu' => 'users',
+    'submenu' => 'user_datas'
+  ])
 
 @section('content')
     @include('layouts.alert')

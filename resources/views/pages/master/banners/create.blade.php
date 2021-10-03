@@ -1,4 +1,8 @@
-@extends('layouts.main')
+@extends('layouts.main', [
+  'title' => 'Tambah Banners - Tukangku',
+  'menu' => 'master',
+  'submenu' => 'banners'
+])
 
 @section('content')
 
