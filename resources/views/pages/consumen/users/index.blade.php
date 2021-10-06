@@ -1,8 +1,8 @@
 @extends('layouts.main', [
-    'title' => 'Pendaftaran Konsumen - Tukangku',
-    'menu' => 'consumen_users',
-    'submenu' => ''
-  ])
+'title' => 'Pendaftaran Konsumen - Tukangku',
+'menu' => 'consumen_users',
+'submenu' => ''
+])
 
 @section('content')
     @include('layouts.alert')
@@ -14,13 +14,13 @@
         </nav>
     </div><!-- br-pageheader -->
     <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-        <h4 class="tx-gray-800 mg-b-5">Akses Role</h4>
-        <p class="mg-b-0">Akses Role dan Perizinan Penguna</p>
+        <h4 class="tx-gray-800 mg-b-5">Data User Customer</h4>
+        <p class="mg-b-0">Riwayat pendaftaran pedaftaran customer</p>
     </div>
 
     <div class="br-pagebody">
         <div class="br-section-wrapper">
-            <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Data User</h6>
+            <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Data User Costumer</h6>
             <p class="mg-b-25 mb-4">Semua users homecare - Tukangku.</p>
 
             {{-- <a href="{{ route('users_create') }}" class="btn btn-primary mb-4"><i class="fa fa-plus"></i> Tambah
@@ -31,6 +31,7 @@
                     <thead>
                         <tr>
                             <th class="wd-5p">ID</th>
+                            <th class="wd-15p">Tanggal Pendaftaran</th>
                             <th class="wd-15p">Foto</th>
                             <th class="wd-15p">Nama</th>
                             <th class="wd-20p">Email</th>
@@ -39,7 +40,7 @@
                             <th class="wd-5p">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    {{-- <tbody>
                         <tr>
                             <td>1</td>
                             <td>
@@ -51,17 +52,19 @@
                             <td>0856513213</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                    <a href="{{route('consumen_users_edit')}}" class="btn btn-secondary active"><i class="fa fa-edit"></i></button>
-                                    <a href="" type="button" class="btn btn-secondary"><i class="fa fa-trash"></i></a>
+                                    <a href="{{ route('consumen_users_edit', 1) }}" class="btn btn-secondary active"><i
+                                            class="fa fa-edit"></i></button>
+                                        <a href="" type="button" class="btn btn-secondary"><i
+                                                class="fa fa-trash"></i></a>
                                 </div>
                             </td>
                         </tr>
-                    </tbody>
+                    </tbody> --}}
                 </table>
             </div><!-- table-wrapper -->
         </div><!-- br-section-wrapper -->
     </div><!-- br-pagebody -->
-    <form id="form_delete" action="{{ route('users_destroy') }}" method="POST" hidden>
+    <form id="form_delete" action="{{ route('consumen_users_destroy') }}" method="POST" hidden>
         @method('delete')
         @csrf
         <input type="text" name="user_id" id="user_id" placeholder="" value="">
@@ -69,4 +72,72 @@
 @endsection
 
 @section('scripts')
+    <script>
+        $(document).on("click", ".btn-delete", function(e) {
+            e.preventDefault()
+            let user_id = $(this).data('user_id');
+            $("#form_delete #user_id").val(user_id);
+            if (user_id) {
+                document.getElementById('form_delete').submit();
+            }
+        });
+        $(function() {
+
+            let table_user = $('#datatable2').DataTable({
+                responsive: true,
+                language: {
+                    searchPlaceholder: 'Search...',
+                    sSearch: '',
+                    lengthMenu: '_MENU_ items/page',
+                },
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('consumen_users') }}",
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'user_date',
+                        name: 'created_at',
+
+                    },
+                    {
+                        data: 'user_images',
+                        name: 'user_images',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'date_of_birth',
+                        name: 'date_of_birth'
+                    },
+                    {
+                        data: 'number',
+                        name: 'number'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
+
+            // Select2
+            $('.dataTables_length select').select2({
+                minimumResultsForSearch: Infinity
+            });
+
+        });
+    </script>
 @endsection

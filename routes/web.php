@@ -258,19 +258,30 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::group(['prefix' => 'users'], function () {
-            Route::get('/', function () {
-                return view('pages.consumen.users.index');
-            })->name('consumen_users');
-            Route::get('/edit', function () {
-                return view('pages.consumen.users.edit');
-            })->name('consumen_users_edit');
+            Route::get('/', [
+                App\Http\Controllers\Admin\CostumerController::class,
+                'index',
+            ])->name('consumen_users');
+            Route::get('/edit/{id}', [
+                App\Http\Controllers\Admin\CostumerController::class,
+                'edit',
+            ])->name('consumen_users_edit');
+            Route::post('/update/{id}', [
+                App\Http\Controllers\Admin\CostumerController::class,
+                'update',
+            ])->name('consumen_users_update');
+            Route::delete('/destroy', [
+                App\Http\Controllers\Admin\CostumerController::class,
+                'destroy',
+            ])->name('consumen_users_destroy');
         });
     });
 
     // Route User Logs
-    Route::get('/user_logs', function () {
-        return view('pages.user_management.user_logs.index');
-    })->name('user_logs');
+    Route::get('/user-logs', [
+        App\Http\Controllers\Admin\LogController::class,
+        'index',
+    ])->name('user_logs');
 
     // Route Profile Edit
     Route::get('/profile/edit', function () {

@@ -5,24 +5,22 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
-class UserController extends Controller
+class CostumerController extends Controller
 {
     /**
-     * Display a user management of a resources.
+     * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
         $users = User::with(['roles'])->whereHas('roles', function ($query) {
-            $query->where('name', '<>', 'user');
+            $query->where('name', 'user');
         });
         if ($request->ajax()) {
             return DataTables::eloquent($users)
@@ -46,7 +44,7 @@ class UserController extends Controller
                     $action =
                         '<div class="btn-group" role="group" aria-label="Basic example">
                 <a href="' .
-                        route('users_edit', ['id' => $user->id]) .
+                        route('consumen_users_edit', ['id' => $user->id]) .
                         '"  class="btn btn-secondary active"><i class="fa fa-edit"></i></a>
                 <a href=""  type="button" class="btn btn-secondary btn-delete" data-user_id="' .
                         $user->id .
@@ -58,7 +56,7 @@ class UserController extends Controller
                 // ->make(true);
                 ->toJson();
         }
-        return view('pages.user_management.user_data.index');
+        return view('pages.consumen.users.index');
     }
 
     /**
@@ -68,8 +66,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::whereNotIn('name', ['user'])->get();
-        return view('pages.user_management.user_data.create', compact('roles'));
+        //
     }
 
     /**
@@ -80,52 +77,18 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'email' => 'required|email|unique:users',
-                'name' => 'required',
-                'user_image' => 'image|file|max:8192',
-                'user_ktp' => 'image|file|max:8192',
-                'date_of_birth' => 'required',
-                'number' => 'required',
-                'password' => 'required|confirmed',
-            ],
-            $messages = [
-                'required' => 'The :attribute field is required.',
-                'email' => 'Email is not valid.',
-                'unique' => 'Email has been registered.',
-                'image' =>
-                    'File upload must be an image (jpg, jpeg, png, bmp, gif, svg, or webp).',
-                'max' =>
-                    'Maximum file size to upload is 8MB (8192 KB). If you are uploading a photo, try to reduce its resolution to make it under 8MB',
-                'confirmed' => 'The password confirmation does not match',
-            ]
-        );
-        if ($validator->fails()) {
-            $error = $validator->errors()->first();
-            session()->flash('danger', $error);
-            return back()->withInput();
-        }
-        if ($request->file('user_image')) {
-            $user_image = @$request->file('user_image')->store('user_image');
-        }
-        if ($request->file('user_ktp')) {
-            $user_ktp = @$request->file('user_ktp')->store('user_image');
-        }
-        $user = User::create([
-            'email' => $request->email,
-            'name' => $request->name,
-            'password' => bcrypt($request->password),
-            'date_of_birth' => $request->date_of_birth,
-            // 'address' => $request->address,
-            'number' => $request->number,
-            'images' => @$user_image,
-            'ktp_image' => @$user_ktp,
-        ]);
-        $user->assignRole($request->role);
-        session()->flash('success', 'User has been added');
-        return redirect()->route('users');
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
     }
 
     /**
@@ -136,13 +99,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::with(['roles'])->find($id);
-
-        $roles = Role::whereNotIn('name', ['user'])->get();
-        return view(
-            'pages.user_management.user_data.edit',
-            compact('user', 'roles')
-        );
+        $user = User::find($id);
+        return view('pages.consumen.users.edit', compact('user'));
     }
 
     /**
@@ -196,52 +154,10 @@ class UserController extends Controller
         $user->date_of_birth = $request->date_of_birth;
         $user->number = $request->user_number;
         $user->save();
-
-        $role = Role::find($request->role);
-        if ($user && $role) {
-            $user->syncRoles($role);
-        }
         session()->flash('success', 'Data berhasil diupdate');
-        return redirect()->route('users');
+        return redirect()->route('consumen_users');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function changePassword(Request $request, $id)
-    {
-        $user = User::find($id);
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'password' => 'required|string|confirmed',
-                'password_confirmation' => 'required',
-            ],
-            $messages = [
-                'required' => 'The :attribute field is required.',
-                'confirmed' => 'The password confirmation does not match',
-                'email' => 'Email is not valid.',
-                'unique' => 'Email has been registered.',
-                'image' =>
-                    'File upload must be an image (jpg, jpeg, png, bmp, gif, svg, or webp).',
-                'max' =>
-                    'Maximum file size to upload is 8MB (8192 KB). If you are uploading a photo, try to reduce its resolution to make it under 8MB',
-            ]
-        );
-        if ($validator->fails()) {
-            $error = $validator->errors()->first();
-            session()->flash('danger', $error);
-            return back()->withInput();
-        }
-        $user->password = bcrypt($request->password);
-        $user->save();
-
-        session()->flash('success', 'Password has been updated');
-        return back();
-    }
     /**
      * Remove the specified resource from storage.
      *
