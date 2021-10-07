@@ -16,13 +16,12 @@ class CreateOrderConfirmationsTable extends Migration
         Schema::create('order_confirmations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('employee_id')->index();
-            $table->unsignedBigInteger('order_id')->index();
+            $table->unsignedBigInteger('order_detail_id')->index();
             $table->unsignedBigInteger('service_id')->index();
             $table->unsignedDouble('work_duration')->nullable();
             $table->string('type_work_duration')->nullable();
             $table->text('description')->nullable();
             $table->unsignedBigInteger('salary_employee')->nullable();
-            $table->timestamp('verified_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

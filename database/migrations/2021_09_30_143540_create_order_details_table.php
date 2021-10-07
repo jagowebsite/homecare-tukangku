@@ -17,10 +17,12 @@ class CreateOrderDetailsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('order_id')->index();
             $table->unsignedBigInteger('service_id')->index();
-            $table->unsignedBigInteger('quantity')->nullable();
+            $table->unsignedDouble('quantity')->nullable();
             $table->unsignedBigInteger('price')->nullable();
             $table->unsignedBigInteger('total_price')->nullable();
             $table->text('description')->nullable();
+            $table->string('status')->nullable();
+            $table->timestamp('verified_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

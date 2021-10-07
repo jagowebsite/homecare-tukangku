@@ -17,17 +17,16 @@ class OrderConfirmation extends Model
      */
     protected $fillable = [
         'employee_id',
-        'order_id',
+        'order_detail_id',
         'service_id',
         'work_duration',
         'type_work_duration',
         'description',
         'salary_employee',
-        'verified_at',
     ];
-    public function order()
+    public function orderDetail()
     {
-        return $this->belongsTo(Order::class, 'order_id');
+        return $this->belongsTo(OrderDetail::class, 'order_detail_id');
     }
     public function employee()
     {
@@ -37,5 +36,4 @@ class OrderConfirmation extends Model
     {
         return $this->belongsTo(Service::class, 'service_id');
     }
-
 }

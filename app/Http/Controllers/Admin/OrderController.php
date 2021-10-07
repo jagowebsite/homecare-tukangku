@@ -1,0 +1,209 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Employee;
+use App\Models\Order;
+use App\Models\OrderConfirmation;
+use App\Models\OrderDetail;
+use App\Models\Service;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
+
+class OrderController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $orders = Order::with(['user', 'orderDetails', 'orderDetails.service']);
+        // dd($orders);
+        if ($request->ajax()) {
+            return DataTables::eloquent($orders)
+                ->addIndexColumn()
+                ->addColumn('service_name', function (Order $order) {
+                    $orderdetail = '<p>';
+                    foreach ($order->orderDetails as $value) {
+                        $orderdetail .=
+                            '<a class="" href="' .
+                            route('services_edit', $value->service->id) .
+                            '">' .
+                            $value->service->name .
+                            ' </a><br>
+                    ';
+                    }
+                    $orderdetail .= '</p>';
+                    return $orderdetail;
+                })
+                ->addColumn('total_price', function (Order $order) {
+                    $total_price = $order->orderDetails->sum('total_price');
+                    return $total_price;
+                })
+                ->addColumn('action', function (Order $order) {
+                    $action =
+                        '<div class="btn-group" role="group" aria-label="Basic example">
+                        <a href="' .
+                        route('transactions_detail', $order->id) .
+                        '" class="btn btn-secondary"><i class="fa fa-eye"></i></a>
+                        <a href=""  type="button" class="btn btn-secondary"><i class="fa fa-trash"></i></a>
+                      </div>
+               ';
+                    return $action;
+                })
+                // ->filterColumn('price', function ($query, $keyword) {
+                //     $sql = 'order_details.total_price';
+                //     $query->sum($sql);
+                // })
+                ->rawColumns(['action', 'service_name', 'total_price'])
+                // ->make(true);
+                ->toJson();
+        }
+
+        return view('pages.consumen.transactions.index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $order = Order::with(['user', 'orderDetails', 'payments'])->find($id);
+        return view('pages.consumen.transactions.detail', compact('order'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function createConfirmation($id)
+    {
+        $orderdetail = OrderDetail::with(['service'])->find($id);
+        $service = Service::with(['serviceCategory'])->find(
+            $orderdetail->service->id
+        );
+        $employees = Employee::where(
+            'service_category_id',
+            @$service->serviceCategory->id
+        )->get();
+        return view(
+            'pages.consumen.transactions.confirmation',
+            compact('orderdetail', 'service', 'employees')
+        );
+    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function storeConfirmation(Request $request, $id)
+    {
+        // dd($id);
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'employee_id' => 'required',
+                'work_duration' => 'required',
+                'type_work_duration' => 'required',
+                'salary_employee' => 'required',
+            ],
+            $messages = [
+                'required' => 'The :attribute field is required.',
+                'email' => 'Email is not valid.',
+                'unique' => 'Email has been registered.',
+                'digits' => 'your :attribute is to long',
+                'image' =>
+                    'File upload must be an image (jpg, jpeg, png, bmp, gif, svg, or webp).',
+                'max' =>
+                    'Maximum file size to upload is 8MB (8192 KB). If you are uploading a photo, try to reduce its resolution to make it under 8MB',
+            ]
+        );
+        if ($validator->fails()) {
+            $error = $validator->errors()->first();
+            session()->flash('danger', $error);
+            return back()->withInput();
+        }
+        DB::beginTransaction();
+        $orderdetail = OrderDetail::with(['service'])->find($id);
+        // dd($orderdetail);
+        OrderConfirmation::create([
+            'employee_id' => $request->employee_id,
+            'order_detail_id' => @$orderdetail->id,
+            'service_id' => @$orderdetail->service->id,
+            'work_duration' => $request->work_duration,
+            'type_work_duration' => $request->type_work_duration,
+            'description' => $request->description,
+            'salary_employee' => $request->salary_employee,
+        ]);
+        $orderdetail->status = 'proses';
+        $orderdetail->save();
+        DB::commit();
+        session()->flash('success', 'Order Confirmation has been added');
+        return redirect()->route('transactions_detail', $orderdetail->order_id);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+}

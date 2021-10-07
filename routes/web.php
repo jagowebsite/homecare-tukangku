@@ -230,15 +230,22 @@ Route::middleware(['auth'])->group(function () {
     // Route for Consumen
     Route::group(['prefix' => 'consumen'], function () {
         Route::group(['prefix' => 'transactions'], function () {
-            Route::get('/', function () {
-                return view('pages.consumen.transactions.index');
-            })->name('transactions');
-            Route::get('/detail', function () {
-                return view('pages.consumen.transactions.detail');
-            })->name('transactions_detail');
-            Route::get('/confirmation', function () {
-                return view('pages.consumen.transactions.confirmation');
-            })->name('transactions_confirmation');
+            Route::get('/', [
+                App\Http\Controllers\Admin\OrderController::class,
+                'index',
+            ])->name('transactions');
+            Route::get('/detail/{id}', [
+                App\Http\Controllers\Admin\OrderController::class,
+                'show',
+            ])->name('transactions_detail');
+            Route::get('/confirmation/{id}', [
+                App\Http\Controllers\Admin\OrderController::class,
+                'createConfirmation',
+            ])->name('transactions_confirmation');
+            Route::post('/confirmation/store/{id}', [
+                App\Http\Controllers\Admin\OrderController::class,
+                'storeConfirmation',
+            ])->name('create_confirmation');
             // Route::get('/edit', function(){return view('pages.master.services.edit');})->name('services_edit');
         });
 

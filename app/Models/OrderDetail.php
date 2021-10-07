@@ -22,6 +22,8 @@ class OrderDetail extends Model
         'price',
         'total_price',
         'description',
+        'status',
+        'verified_at',
     ];
 
     public function order()
@@ -31,6 +33,10 @@ class OrderDetail extends Model
 
     public function service()
     {
-        return $this->belongsTo(Order::class, 'order_id');
+        return $this->belongsTo(Service::class, 'service_id');
+    }
+    public function orderConfirmation()
+    {
+        return $this->hasOne(OrderConfirmation::class, 'order_detail_id');
     }
 }
