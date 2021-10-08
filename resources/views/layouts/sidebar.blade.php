@@ -32,7 +32,7 @@
         <span class="menu-item-label">Cards &amp; Widgets</span>
       </div><!-- menu-item -->
     </a><!-- br-menu-link --> --}}
-    <a href="#" class="br-menu-link">
+    <a href="#" class="br-menu-link @if($menu == 'report') active show-sub @endif">
       <div class="br-menu-item">
         <i class="menu-item-icon icon ion-ios-pie-outline tx-24"></i>
         <span class="menu-item-label">Laporan</span>
@@ -40,8 +40,8 @@
       </div><!-- menu-item -->
     </a><!-- br-menu-link -->
     <ul class="br-menu-sub nav flex-column">
-      <li class="nav-item"><a href="accordion.html" class="nav-link">Laporan Jasa</a></li>
-      <li class="nav-item"><a href="alerts.html" class="nav-link">Laporan Seluruh Penjual</a></li>
+      <li class="nav-item"><a href="{{route('report_service')}}" class="nav-link @if($submenu == 'service') active @endif">Laporan Jasa</a></li>
+      <li class="nav-item"><a href="{{route('report_consumen')}}" class="nav-link @if($submenu == 'consumen') active @endif">Laporan Seluruh Penjual</a></li>
     </ul>
     <a href="#" class="br-menu-link @if($menu == 'users') active show-sub @endif">
       <div class="br-menu-item">
@@ -83,7 +83,7 @@
     <ul class="br-menu-sub nav flex-column">
       <li class="nav-item"><a href="table-basic.html" class="nav-link">Chatting Consumen</a></li>
     </ul>
-    <a href="#" class="br-menu-link">
+    <a href="#" class="br-menu-link @if($menu == 'history') active show-sub @endif">
       <div class="br-menu-item">
         <i class="menu-item-icon icon ion-document tx-24"></i>
         <span class="menu-item-label">History</span>
@@ -91,8 +91,8 @@
       </div><!-- menu-item -->
     </a><!-- br-menu-link -->
     <ul class="br-menu-sub nav flex-column">
-      <li class="nav-item"><a href="map-google.html" class="nav-link">History Pekerjaan Tukang</a></li>
-      <li class="nav-item"><a href="map-leaflet.html" class="nav-link">History Orderan Tukang</a></li>
+      <li class="nav-item"><a href="{{route('history_employee')}}" class="nav-link @if($submenu == 'employee') active @endif">History Pekerjaan Tukang</a></li>
+      <li class="nav-item"><a href="{{route('history_transaction')}}" class="nav-link @if($submenu == 'transaction') active @endif">History Orderan Tukang</a></li>
     </ul>
     <a href="{{route('profile_edit')}}" class="br-menu-link @if($menu == 'profile') active @endif">
       <div class="br-menu-item">

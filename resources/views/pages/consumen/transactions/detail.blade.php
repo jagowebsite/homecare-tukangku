@@ -27,87 +27,13 @@
                 <div class="col-md-6 col-xs-12">
                     <div class="card shadow-base bd-0">
                         <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
-                            <h6 class="card-title tx-uppercase tx-12 mg-b-0">Data Konsumen</h6>
-                            <span class="tx-12 tx-uppercase"></span>
-                        </div><!-- card-header -->
-                        <div class="card-body">
-                            <p class="tx-sm tx-inverse tx-medium mg-b-0 tx-uppercase">{{ @$order->user->name }}</p>
-                            <p class="tx-12">{{ @$order->user->address }}</p>
-                            <div class="row align-items-center">
-                                <div class="col-4 tx-12">No Telp</div><!-- col-4 -->
-                                <div class="col-8">
-                                    {{ @$order->user->number }}
-                                </div><!-- col-8 -->
-                            </div><!-- row -->
-
-                            <p class="tx-11 mg-b-0 mg-t-15">* Pastikan data konsumen sudah sesuai.</p>
-                        </div><!-- card-body -->
-                    </div><!-- card -->
-                    <div class="card shadow-base bd-0 mt-3">
-                        <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
-                            <h6 class="card-title tx-uppercase tx-12 mg-b-0">Data Transaksi</h6>
-                            {{-- <span class="tx-12 tx-uppercase">12 February 2021</span> --}}
-                        </div><!-- card-header -->
-                        <div class="card-body">
-                            <p class="tx-sm tx-inverse tx-medium mg-b-0">
-                                Invoice: {{ $order->invoice_code }}
-                            </p>
-                            <p class="tx-12">{{ $order->created_at }}</p>
-                            <div class="row align-items-center">
-                                <div class="col-5 tx-sm tx-inverse tx-medium mg-b-0">
-                                    Daftar Pesanan
-                                </div>
-                                <div class="col-4 tx-sm tx-inverse tx-medium mg-b-0">
-                                    Jumlah/Durasi
-                                </div>
-                                <div class="col-3 tx-sm tx-inverse tx-medium mg-b-0">
-                                    Total Price
-                                </div>
-                            </div>
-                            @foreach ($order->orderDetails as $orderDetail)
-                                <div class="row align-items-center">
-                                    <div class="col-5 tx-12">{{ @$orderDetail->service->serviceCategory->name }} -
-                                        {{ @$orderDetail->service->name }}</div>
-                                    <!-- col-4 -->
-                                    <div class="col-4 text-center">
-                                        {{ @$orderDetail->quantity }}
-                                    </div><!-- col-8 -->
-                                    <div class="col-3 text-right">
-                                        Rp. {{ number_format(@$orderDetail->total_price) }}
-                                    </div><!-- col-8 -->
-                                </div>
-                            @endforeach
-                            <div class="row align-items-center mt-2">
-                                <div class="col-8 tx-sm tx-inverse tx-medium">Total</div><!-- col-4 -->
-                                <div class="col-4 tx-sm tx-inverse tx-medium text-right">
-                                    Rp {{ @number_format(@$order->orderDetails->sum('total_price')) }}
-                                </div><!-- col-8 -->
-                            </div><!-- row -->
-                            <div class="row align-items-center">
-                                <div class="col-4 tx-12">Status</div><!-- col-4 -->
-                                <div class="col-8 text-right text-capitalize">
-                                    @if ($order->status == 'done')
-                                        <i class="fa fa-check-circle-o text-success " aria-hidden="true"></i>
-                                    @else
-                                        <i class="fa fa-hourglass text-warning" aria-hidden="true"></i>
-                                    @endif
-                                    {{ $order->status }}
-                                </div><!-- col-8 -->
-                            </div><!-- row -->
-                            {{-- <p class="tx-11 mg-b-0 mg-t-15">Deskripsi: Pembayaran sudah sesuai.</p> --}}
-                        </div><!-- card-body -->
-                    </div><!-- card -->
-                </div>
-                <div class="col-md-6 col-xs-12">
-                    <div class="card shadow-base bd-0">
-                        <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
                             <h6 class="card-title tx-uppercase tx-12 mg-b-0">Konfimasi Transaksi</h6>
                             {{-- <span class="tx-12 tx-uppercase">12 February 2021</span> --}}
                         </div><!-- card-header -->
                         <div class="card-body">
                             {{-- <p class="tx-sm tx-inverse tx-medium mg-b-0">
-                        <a href="">Bebersih Rumah Cepat Mewah</a>
-                    </p> --}}
+                                <a href="">Bebersih Rumah Cepat Mewah</a>
+                            </p> --}}
                             <div class="row align-items-center">
                                 <div class="col-5 tx-sm tx-inverse tx-medium mg-b-0">
                                     Daftar Pesanan
@@ -130,9 +56,11 @@
                                     <div class="col-3 ">
                                         @if (@$orderDetail->status == 'pending')
                                             <a href="{{ route('transactions_confirmation', $orderDetail->id) }}"
-                                                class="btn btn-sm btn-success mt-3">Process</a>
+                                                class="btn btn-sm btn-success mt-3">Konfirmasi</a>
+                                            <a href=""
+                                                class="btn btn-sm btn-outline-light mt-3" title="Batalkan layanan"><i class="fa fa-times" aria-hidden="true"></i></a>
                                         @else
-                                            <a class="btn btn-sm btn-primary mt-3 text-white">Done</a>
+                                            <a href="#" data-toggle="modal" data-target="#confirmDetail">Lihat</a> | <i class="fa fa-check-circle-o text-success" aria-hidden="true"></i> Terkonfirmasi
                                         @endif
                                     </div><!-- col-8 -->
                                 </div>
@@ -204,9 +132,150 @@
                             </tbody>
                         </table>
                     </div><!-- card -->
+                    <div class="card shadow-base bd-0 mt-3">
+                        <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+                            <h6 class="card-title tx-uppercase tx-12 mg-b-0">Summary</h6>
+                            <span class="tx-12 tx-uppercase">
+                                @if ($order->status == 'done')
+                                    <i class="fa fa-check-circle-o text-success " aria-hidden="true"></i>
+                                @else
+                                    <i class="fa fa-hourglass text-warning" aria-hidden="true"></i>
+                                @endif
+                                {{ $order->status }}
+                            </span>
+                        </div><!-- card-header -->
+                        <div class="card-body">
+                            <p class="tx-sm tx-inverse tx-medium mg-b-0">
+                                Invoice: {{ $order->invoice_code }}
+                            </p>
+                            <p class="tx-12">{{ $order->created_at }}</p>
+                            <div class="row align-items-center">
+                                <div class="col-5 tx-sm tx-inverse tx-medium mg-b-0">
+                                    Daftar Pesanan
+                                </div>
+                                <div class="col-4 tx-sm tx-inverse tx-medium mg-b-0">
+                                    Jumlah/Durasi
+                                </div>
+                                <div class="col-3 tx-sm tx-inverse tx-medium mg-b-0">
+                                    Total Price
+                                </div>
+                            </div>
+                            @foreach ($order->orderDetails as $orderDetail)
+                                <div class="row align-items-center">
+                                    <div class="col-5 tx-12">{{ @$orderDetail->service->serviceCategory->name }} -
+                                        {{ @$orderDetail->service->name }}</div>
+                                    <!-- col-4 -->
+                                    <div class="col-4 text-center">
+                                        {{ @$orderDetail->quantity }}
+                                    </div><!-- col-8 -->
+                                    <div class="col-3 text-right">
+                                        Rp. {{ number_format(@$orderDetail->total_price) }}
+                                    </div><!-- col-8 -->
+                                </div>
+                            @endforeach
+                            <div class="row align-items-center mt-2">
+                                <div class="col-8 tx-sm tx-inverse tx-medium">Total</div><!-- col-4 -->
+                                <div class="col-4 tx-sm tx-inverse tx-medium text-right">
+                                    Rp {{ @number_format(@$order->orderDetails->sum('total_price')) }}
+                                </div><!-- col-8 -->
+                            </div><!-- row -->
+                            {{-- <p class="tx-11 mg-b-0 mg-t-15">Deskripsi: Pembayaran sudah sesuai.</p> --}}
+                        </div><!-- card-body -->
+                    </div><!-- card -->
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <div class="card shadow-base bd-0">
+                        <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+                            <h6 class="card-title tx-uppercase tx-12 mg-b-0">Data Konsumen</h6>
+                            <span class="tx-12 tx-uppercase"></span>
+                        </div><!-- card-header -->
+                        <div class="card-body">
+                            <p class="tx-sm tx-inverse tx-medium mg-b-0 tx-uppercase">{{ @$order->user->name }}</p>
+                            <p class="tx-12">{{ @$order->user->address }}</p>
+                            <div class="row align-items-center">
+                                <div class="col-4 tx-12">No Telp</div><!-- col-4 -->
+                                <div class="col-8">
+                                    {{ @$order->user->number ?? '(Kosong)' }}
+                                </div><!-- col-8 -->
+                            </div><!-- row -->
+
+                            <p class="tx-11 mg-b-0 mg-t-15">* Pastikan data konsumen sudah sesuai.</p>
+                        </div><!-- card-body -->
+                    </div><!-- card -->
+                    
+                </div>
+                
+                <div class="col-md-12 col-xs-12 mt-3">
+                    <a href="" class="btn btn-danger btn-with-icon">
+                        <div class="ht-40 justify-content-between">
+                            <span class="icon wd-40"><i class="fa fa-times"></i></span>
+                          <span class="pd-x-15">Batalkan Transaksi</span>
+                        </div>
+                    </a>
+                    <a href="" class="btn btn-light btn-with-icon">
+                        <div class="ht-40 justify-content-between">
+                            <span class="icon wd-40"><i class="fa fa-check"></i></span>
+                          <span class="pd-x-15">Konfirmasi Transaksi</span>
+                        </div>
+                    </a>
+                    <a href="" class="btn btn-success btn-with-icon">
+                        <div class="ht-40 justify-content-between">
+                            <span class="icon wd-40"><i class="fa fa-check"></i></span>
+                          <span class="pd-x-15">Konfirmasi Transaksi</span>
+                        </div>
+                    </a>
                 </div>
             </div>
 
         </div><!-- br-section-wrapper -->
     </div><!-- br-pagebody -->
+
+    <!--  SEE CONFIRM TRANSACTIONS DETAIL -->
+    <div id="confirmDetail" class="modal fade">
+        <div class="modal-dialog modal-dialog-vertical-center" role="document">
+            <div class="modal-content bd-0 tx-14">
+                {{-- <div class="modal-header pd-y-20 pd-x-25">
+                    <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Detail Konfirmasi Transaksi</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div> --}}
+                <form id="form_add-category" method="POST" action="{{ route('categories_store') }}">
+                    @csrf
+                    <div class="modal-body">
+                        <table class="table table-valign-middle">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <b>Tukang</b>
+                                    </td>
+                                    <td>Pak Budiono</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Upah</b>
+                                    </td>
+                                    <td>Rp 25.000</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Jumlah/Durasi Kerja</b>
+                                    </td>
+                                    <td>3 Jam</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Deskripsi</b>
+                                    </td>
+                                    <td>Layanan Selesai Secepat Kilat</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button type="button" class="btn btn-secondary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium"
+                            data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div><!-- modal-dialog -->
+    </div><!-- modal -->
 @endsection

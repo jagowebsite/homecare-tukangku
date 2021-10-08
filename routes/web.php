@@ -284,6 +284,24 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 
+    Route::group(['prefix' => 'report'], function () {
+        Route::get('/service', function () {
+            return view('pages.report.report_service');
+        })->name('report_service');
+        Route::get('/consumen', function () {
+            return view('pages.report.report_consumen');
+        })->name('report_consumen');
+    });
+    
+    Route::group(['prefix' => 'history'], function () {
+        Route::get('/employee', function () {
+            return view('pages.history.history_employee');
+        })->name('history_employee');
+        Route::get('/transaction', function () {
+            return view('pages.history.history_transaction');
+        })->name('history_transaction');
+    });
+
     // Route User Logs
     Route::get('/user-logs', [
         App\Http\Controllers\Admin\LogController::class,
