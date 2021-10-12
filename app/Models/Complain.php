@@ -19,7 +19,7 @@ class Complain extends Model
         'user_id',
         'order_id',
         'description',
-        'status',
+        'status_complain',
         'verified_at',
     ];
     public function user()

@@ -103,8 +103,8 @@
                         searchable: false
                     },
                     {
-                        data: 'status',
-                        name: 'status'
+                        data: 'status_order',
+                        name: 'status_order'
                     },
 
                     {

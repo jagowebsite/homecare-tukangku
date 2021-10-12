@@ -238,6 +238,15 @@ Route::middleware(['auth'])->group(function () {
                 App\Http\Controllers\Admin\OrderController::class,
                 'show',
             ])->name('transactions_detail');
+            Route::get('/cancel/{id}', [
+                App\Http\Controllers\Admin\OrderController::class,
+                'cancelOrder',
+            ])->name('transactions_cancel');
+            Route::get('/confirm/{id}', [
+                App\Http\Controllers\Admin\OrderController::class,
+                'confirmOrder',
+            ])->name('transactions_confirm');
+
             Route::get('/confirmation/{id}', [
                 App\Http\Controllers\Admin\OrderController::class,
                 'createConfirmation',
@@ -246,22 +255,38 @@ Route::middleware(['auth'])->group(function () {
                 App\Http\Controllers\Admin\OrderController::class,
                 'storeConfirmation',
             ])->name('create_confirmation');
+            Route::get('/confirmation/cancel/{id}', [
+                App\Http\Controllers\Admin\OrderController::class,
+                'cancelDetailOrder',
+            ])->name('cancel_confirmation');
+
             // Route::get('/edit', function(){return view('pages.master.services.edit');})->name('services_edit');
         });
 
         Route::group(['prefix' => 'gps-logs'], function () {
-            Route::get('/', function () {
-                return view('pages.consumen.gps_logs.index');
-            })->name('gps_logs');
+            Route::get('/', [
+                App\Http\Controllers\Admin\GpsController::class,
+                'index',
+            ])->name('gps_logs');
         });
 
         Route::group(['prefix' => 'payments'], function () {
-            Route::get('/', function () {
-                return view('pages.consumen.payments.index');
-            })->name('payments');
-            Route::get('/detail', function () {
-                return view('pages.consumen.payments.detail');
-            })->name('payments_detail');
+            Route::get('/', [
+                App\Http\Controllers\Admin\PaymentController::class,
+                'index',
+            ])->name('payments');
+            Route::get('/detail/{id}', [
+                App\Http\Controllers\Admin\PaymentController::class,
+                'show',
+            ])->name('payments_detail');
+            Route::get('/cancel/{id}', [
+                App\Http\Controllers\Admin\PaymentController::class,
+                'cancelPayment',
+            ])->name('cancel_payment');
+            Route::get('/confirm/{id}', [
+                App\Http\Controllers\Admin\PaymentController::class,
+                'confirmPayment',
+            ])->name('confirm_payment');
         });
 
         Route::group(['prefix' => 'users'], function () {
@@ -292,7 +317,7 @@ Route::middleware(['auth'])->group(function () {
             return view('pages.report.report_consumen');
         })->name('report_consumen');
     });
-    
+
     Route::group(['prefix' => 'history'], function () {
         Route::get('/employee', function () {
             return view('pages.history.history_employee');

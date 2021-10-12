@@ -124,7 +124,7 @@ class ServiceController extends Controller
             'price' => $request->price,
             'type_quantity' => $request->type_quantity,
             'description' => $request->description,
-            'status' => $status,
+            'status_service' => $status,
             'images' => $images,
         ]);
         session()->flash('success', 'Services has been added');
@@ -228,7 +228,7 @@ class ServiceController extends Controller
         $service->price = $request->price;
         $service->type_quantity = $request->type_quantity;
         $service->description = $request->description;
-        $service->status = $status;
+        $service->status_service = $status;
         $service->images = $images;
         $service->save();
         session()->flash('success', 'Services has been updated');

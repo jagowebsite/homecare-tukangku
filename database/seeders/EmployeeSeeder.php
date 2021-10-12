@@ -17,10 +17,10 @@ class EmployeeSeeder extends Seeder
         Employee::create([
             'service_category_id' => 1,
             'name' => 'Handoko Wijaya',
-            'address'=> 'Jalan timur raya',
-            'number'=> '(021) 253 9827',
-            'is_ready'=> 1,
-            'status'=> 'active',
+            'address' => 'Jalan timur raya',
+            'number' => '(021) 253 9827',
+            'is_ready' => 1,
+            'status_employee' => 'active',
         ]);
     }
 }

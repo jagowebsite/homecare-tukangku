@@ -21,7 +21,7 @@ class CreateOrderDetailsTable extends Migration
             $table->unsignedBigInteger('price')->nullable();
             $table->unsignedBigInteger('total_price')->nullable();
             $table->text('description')->nullable();
-            $table->string('status')->nullable();
+            $table->string('status_order_detail')->nullable();
             $table->timestamp('verified_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

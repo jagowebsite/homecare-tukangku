@@ -28,7 +28,7 @@ class CreatePaymentsTable extends Migration
             $table->string('longitude')->nullable();
             $table->string('latitude')->nullable();
             $table->unsignedBigInteger('total_payment')->nullable();
-            $table->string('status')->nullable();
+            $table->string('status_payment')->nullable();
             $table->text('description')->nullable();
             $table->text('address')->nullable();
             $table->timestamp('verified_at')->nullable();

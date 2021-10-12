@@ -20,7 +20,7 @@ class CreateEmployeesTable extends Migration
             $table->text('address')->nullable();
             $table->string('number')->nullable();
             $table->unsignedInteger('is_ready')->nullable();
-            $table->string('status')->nullable();
+            $table->string('status_employee')->nullable();
             $table->text('images')->nullable();
             $table->timestamps();
             $table->softDeletes();

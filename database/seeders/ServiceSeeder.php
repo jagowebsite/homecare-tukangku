@@ -20,7 +20,7 @@ class ServiceSeeder extends Seeder
             'price' => 50000,
             'type_quantity' => 'layanan',
             'description' => 'perbaikan ac rusak ',
-            'status' => '1',
+            'status_service' => '1',
             'images' => json_encode([], true),
         ]);
         Service::create([
@@ -29,7 +29,7 @@ class ServiceSeeder extends Seeder
             'price' => 80000,
             'type_quantity' => 'layanan',
             'description' => 'pengisian freon AC',
-            'status' => '1',
+            'status_service' => '1',
             'images' => json_encode([], true),
         ]);
         Service::create([
@@ -38,7 +38,7 @@ class ServiceSeeder extends Seeder
             'price' => 25000,
             'type_quantity' => 'jam',
             'description' => 'mengepel ruang tamu, keluarga dan teras rumah',
-            'status' => '1',
+            'status_service' => '1',
             'images' => json_encode([], true),
         ]);
     }

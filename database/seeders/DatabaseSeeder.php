@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Payment;
 use App\Models\Service;
 use Illuminate\Database\Seeder;
 
@@ -22,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ServiceSeeder::class);
         $this->call(OrderSeeder::class);
         $this->call(OrderDetailSeeder::class);
+        $this->call(PaymentSeeder::class);
     }
 }

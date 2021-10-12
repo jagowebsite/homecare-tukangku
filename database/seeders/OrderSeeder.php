@@ -17,7 +17,7 @@ class OrderSeeder extends Seeder
         Order::create([
             'user_id' => 2,
             'invoice_code' => 'TK74867833',
-            'status' => 'pending',
+            'status_order' => 'pending',
         ]);
     }
 }

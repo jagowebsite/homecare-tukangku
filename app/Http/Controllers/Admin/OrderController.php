@@ -11,6 +11,7 @@ use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use PHPUnit\Framework\Constraint\Count;
 use Yajra\DataTables\Facades\DataTables;
 
 class OrderController extends Controller
@@ -98,7 +99,14 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::with(['user', 'orderDetails', 'payments'])->find($id);
-        return view('pages.consumen.transactions.detail', compact('order'));
+        $countorderdetail = OrderDetail::where('order_id', $order->id)
+            ->where('status_order_detail', 'pending')
+            ->get()
+            ->count();
+        return view(
+            'pages.consumen.transactions.detail',
+            compact('order', 'countorderdetail')
+        );
     }
 
     /**
@@ -177,11 +185,63 @@ class OrderController extends Controller
             'description' => $request->description,
             'salary_employee' => $request->salary_employee,
         ]);
-        $orderdetail->status = 'proses';
+        $orderdetail->status_order_detail = 'process';
+        $orderdetail->verified_at = now();
         $orderdetail->save();
         DB::commit();
         session()->flash('success', 'Order Confirmation has been added');
         return redirect()->route('transactions_detail', $orderdetail->order_id);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function cancelDetailOrder($id)
+    {
+        $orderdetail = OrderDetail::find($id);
+        $orderdetail->status_order_detail = 'cancel';
+        $orderdetail->verified_at = now();
+        $orderdetail->save();
+
+        session()->flash('danger', 'Order Confirmation has been canceled');
+        return redirect()->route('transactions_detail', $orderdetail->order_id);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function cancelOrder($id)
+    {
+        $order = Order::find($id);
+        $order->status_order = 'cancel';
+        $order->verified_at = now();
+        $order->save();
+
+        $orderdetails = OrderDetail::where('order_id', $id)->get();
+        foreach ($orderdetails as $orderdetail) {
+            $orderdetail->status_order_detail = 'cancel';
+            $orderdetail->verified_at = now();
+            $orderdetail->save();
+        }
+
+        session()->flash('danger', 'Order has been canceled');
+        return redirect()->route('transactions_detail', $order->id);
+    }
+    public function confirmOrder($id)
+    {
+        $order = Order::find($id);
+        $order->status_order = 'done';
+        $order->verified_at = now();
+        $order->save();
+
+        session()->flash('success', 'Order has been approved');
+        return back();
     }
 
     /**

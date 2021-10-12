@@ -21,7 +21,7 @@ class Employee extends Model
         'address',
         'number',
         'is_ready',
-        'status',
+        'status_employee',
         'images',
     ];
     public function serviceCategory()

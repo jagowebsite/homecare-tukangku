@@ -51,53 +51,27 @@
                                         {{ @$orderDetail->service->name }}</div>
                                     <!-- col-4 -->
                                     <div class="col-4 text-center text-capitalize">
-                                        {{ @$orderDetail->status }}
+                                        {{ @$orderDetail->status_order_detail }}
                                     </div><!-- col-8 -->
                                     <div class="col-3 ">
-                                        @if (@$orderDetail->status == 'pending')
+                                        @if (@$orderDetail->status_order_detail == 'pending')
                                             <a href="{{ route('transactions_confirmation', $orderDetail->id) }}"
                                                 class="btn btn-sm btn-success mt-3">Konfirmasi</a>
-                                            <a href=""
-                                                class="btn btn-sm btn-outline-light mt-3" title="Batalkan layanan"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                            <a href="{{ route('cancel_confirmation', $orderDetail->id) }}"
+                                                class="btn btn-sm btn-outline-light mt-3" title="Batalkan layanan"><i
+                                                    class="fa fa-times" aria-hidden="true"></i></a>
+                                        @elseif (@$orderDetail->status_order_detail == 'cancel')
+                                            <i class="fa fa-times-circle text-danger"></i>
+                                            Dibatalkan
                                         @else
-                                            <a href="#" data-toggle="modal" data-target="#confirmDetail">Lihat</a> | <i class="fa fa-check-circle-o text-success" aria-hidden="true"></i> Terkonfirmasi
+                                            <a href="#" data-toggle="modal" data-target="#confirmDetail">Lihat</a> | <i
+                                                class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
+                                            Terkonfirmasi
                                         @endif
                                     </div><!-- col-8 -->
                                 </div>
                             @endforeach
-                            {{-- <p class="tx-12">Invoice: 758384</p> --}}
-                            {{-- <div class="row align-items-center">
-                                <div class="col-4 tx-12">Tanggal</div>
-                                <!-- col-4 -->
-                                <div class="col-8">
-                                    12-02-2021
-                                </div>
-                                <!-- col-8 -->
-                            </div><!-- row -->
-                            <div class="row align-items-center">
-                                <div class="col-4 tx-12">Tukang</div><!-- col-4 -->
-                                <div class="col-8">
-                                    Pak Akmal
-                                </div><!-- col-8 -->
-                            </div><!-- row -->
-                            <div class="row align-items-center">
-                                <div class="col-4 tx-12">Upah Tukang</div><!-- col-4 -->
-                                <div class="col-8">
-                                    Rp 50.000
-                                </div><!-- col-8 -->
-                            </div><!-- row -->
-                            <div class="row align-items-center">
-                                <div class="col-4 tx-12">Durasi pengerjaan</div><!-- col-4 -->
-                                <div class="col-8">
-                                    9 Jam
-                                </div><!-- col-8 -->
-                            </div><!-- row -->
-                            <p class="tx-11 mg-b-0 mg-t-15">Deskripsi : Pengerjaan dilakukan pagi hari</p> --}}
 
-                            {{-- Kalau belum dikonfirmasi, munculkan tombol ini saja --}}
-                            {{-- <a href="{{ route('transactions_confirmation') }}"
-                                class="btn btn-sm btn-success mt-3">Konfirmasi
-                                Transaksi</a> --}}
 
 
                         </div><!-- card-body -->
@@ -106,7 +80,7 @@
                         <div class="card-header bg-transparent pd-20">
                             <h6 class="card-title tx-uppercase tx-12 mg-b-0">Bukti Pembayaran Transaksi</h6>
                         </div><!-- card-header -->
-                        <table class="table table-responsive mg-b-0 tx-12">
+                        <table class="table table-responsive mg-b-0 tx-12" id="table-payment">
                             <thead>
                                 <tr class="tx-10">
                                     <th class="wd-10p pd-y-5">&nbsp;</th>
@@ -116,19 +90,34 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="pd-l-20">
-                                        <img src="http://via.placeholder.com/280x280" class="wd-36 rounded" alt="Image">
-                                    </td>
-                                    <td>
-                                        <a href="" class="tx-inverse tx-14 tx-medium d-block">John L. Goulette</a>
-                                        <span class="tx-11 d-block">Kode: 1234567890</span>
-                                    </td>
-                                    <td class="tx-12">
-                                        <span class="square-8 bg-success mg-r-5 rounded-circle"></span> Lunas
-                                    </td>
-                                    <td>16 Agustus 2021</td>
-                                </tr>
+                                @foreach (@$order->payments as $payment)
+                                    <tr>
+                                        <td class="pd-l-20">
+                                            <img src="{{ $payment->images_payment ? asset('storage/' . $payment->images_payment) : 'https://picsum.photos/64' }}"
+                                                class="wd-36 rounded" alt="Image">
+                                        </td>
+                                        <td>
+                                            <a href=""
+                                                class="tx-inverse tx-14 tx-medium d-block">{{ $payment->user->name }}</a>
+                                            <span class="tx-11 d-block">Kode: {{ $payment->payment_code }}</span>
+                                        </td>
+                                        <td class="tx-12">
+                                            @if ($payment->type == 'lunas')
+                                                <span class="square-8 bg-success mg-r-5 rounded-circle"></span>
+                                                {{ $payment->type }}
+                                            @else
+                                                <span class="square-8 bg-warning mg-r-5 rounded-circle"></span>
+                                                {{ $payment->type }}
+                                            @endif
+
+                                        </td>
+                                        @php
+                                            $date = date_create($payment->created_at);
+                                        @endphp
+                                        <td>{{ date_format($date, 'd F Y') }}</td>
+                                    </tr>
+                                @endforeach
+
                             </tbody>
                         </table>
                     </div><!-- card -->
@@ -136,12 +125,14 @@
                         <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
                             <h6 class="card-title tx-uppercase tx-12 mg-b-0">Summary</h6>
                             <span class="tx-12 tx-uppercase">
-                                @if ($order->status == 'done')
+                                @if ($order->status_order == 'done')
                                     <i class="fa fa-check-circle-o text-success " aria-hidden="true"></i>
+                                @elseif($order->status_order == 'cancel')
+                                    <i class="fa fa-times-circle text-danger" aria-hidden="true"></i>
                                 @else
                                     <i class="fa fa-hourglass text-warning" aria-hidden="true"></i>
                                 @endif
-                                {{ $order->status }}
+                                {{ $order->status_order }}
                             </span>
                         </div><!-- card-header -->
                         <div class="card-body">
@@ -202,28 +193,35 @@
                             <p class="tx-11 mg-b-0 mg-t-15">* Pastikan data konsumen sudah sesuai.</p>
                         </div><!-- card-body -->
                     </div><!-- card -->
-                    
+
                 </div>
-                
+
                 <div class="col-md-12 col-xs-12 mt-3">
-                    <a href="" class="btn btn-danger btn-with-icon">
-                        <div class="ht-40 justify-content-between">
-                            <span class="icon wd-40"><i class="fa fa-times"></i></span>
-                          <span class="pd-x-15">Batalkan Transaksi</span>
-                        </div>
-                    </a>
-                    <a href="" class="btn btn-light btn-with-icon">
-                        <div class="ht-40 justify-content-between">
-                            <span class="icon wd-40"><i class="fa fa-check"></i></span>
-                          <span class="pd-x-15">Konfirmasi Transaksi</span>
-                        </div>
-                    </a>
-                    <a href="" class="btn btn-success btn-with-icon">
-                        <div class="ht-40 justify-content-between">
-                            <span class="icon wd-40"><i class="fa fa-check"></i></span>
-                          <span class="pd-x-15">Konfirmasi Transaksi</span>
-                        </div>
-                    </a>
+                    @if ($order->status_order == 'pending')
+                        <a href="{{ route('transactions_cancel', $order->id) }}" class="btn btn-danger btn-with-icon">
+                            <div class="ht-40 justify-content-between">
+                                <span class="icon wd-40"><i class="fa fa-times"></i></span>
+                                <span class="pd-x-15">Batalkan Transaksi</span>
+                            </div>
+                        </a>
+                        @if ($countorderdetail)
+                            <a class="btn btn-light btn-with-icon">
+                                <div class="ht-40 justify-content-between">
+                                    <span class="icon wd-40"><i class="fa fa-check"></i></span>
+                                    <span class="pd-x-15">Konfirmasi Transaksi</span>
+                                </div>
+                            </a>
+                        @else
+                            <a href="{{ route('transactions_confirm', $order->id) }}"
+                                class="btn btn-success btn-with-icon">
+                                <div class="ht-40 justify-content-between">
+                                    <span class="icon wd-40"><i class="fa fa-check"></i></span>
+                                    <span class="pd-x-15">Konfirmasi Transaksi</span>
+                                </div>
+                            </a>
+                        @endif
+                    @endif
+
                 </div>
             </div>
 
@@ -271,11 +269,33 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <button type="button" class="btn btn-secondary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium"
+                        <button type="button"
+                            class="btn btn-secondary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium"
                             data-dismiss="modal">Close</button>
                     </div>
                 </form>
             </div>
         </div><!-- modal-dialog -->
     </div><!-- modal -->
+@endsection
+@section('scripts')
+
+    <script>
+        $(function() {
+
+            var table = $('#table-payment').DataTable({
+                responsive: true,
+                "searching": false,
+                "ordering": false,
+                "paging": false,
+                "lengthChange": false,
+            });
+
+            // Select2
+            $('.dataTables_length select').select2({
+                minimumResultsForSearch: Infinity
+            });
+
+        });
+    </script>
 @endsection

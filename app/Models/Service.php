@@ -22,7 +22,7 @@ class Service extends Model
         'price',
         'images',
         'description',
-        'status',
+        'status_service',
     ];
     public function serviceCategory()
     {

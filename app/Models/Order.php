@@ -15,7 +15,12 @@ class Order extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['user_id', 'invoice_code', 'status', 'verified_at'];
+    protected $fillable = [
+        'user_id',
+        'invoice_code',
+        'status_order',
+        'verified_at',
+    ];
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

@@ -17,7 +17,7 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->index();
             $table->string('invoice_code')->nullable();
-            $table->string('status')->nullable();
+            $table->string('status_order')->nullable();
             $table->timestamp('verified_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

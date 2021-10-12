@@ -18,7 +18,7 @@ class CreateComplainsTable extends Migration
             $table->unsignedBigInteger('user_id')->index();
             $table->unsignedBigInteger('order_id')->index();
             $table->text('description')->nullable();
-            $table->string('status')->nullable();
+            $table->string('status_complain')->nullable();
             $table->timestamp('verified_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

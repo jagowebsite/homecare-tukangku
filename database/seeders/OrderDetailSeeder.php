@@ -21,7 +21,7 @@ class OrderDetailSeeder extends Seeder
             'price' => 50000,
             'total_price' => 50000,
             'description' => 'ac tidak bisa menyala',
-            'status' => 'pending',
+            'status_order_detail' => 'pending',
         ]);
         OrderDetail::create([
             'order_id' => 1,
@@ -30,7 +30,7 @@ class OrderDetailSeeder extends Seeder
             'price' => 25000,
             'total_price' => 75000,
             'description' => 'mengepel seluruh bagian rumah',
-            'status' => 'pending',
+            'status_order_detail' => 'pending',
         ]);
     }
 }

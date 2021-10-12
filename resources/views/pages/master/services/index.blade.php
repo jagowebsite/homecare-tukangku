@@ -1,7 +1,7 @@
 @extends('layouts.main', [
-  'title' => 'Data Jasa - Tukangku',
-  'menu' => 'master',
-  'submenu' => 'services'
+'title' => 'Data Jasa - Tukangku',
+'menu' => 'master',
+'submenu' => 'services'
 ])
 
 @section('style')
@@ -126,8 +126,8 @@
                         name: 'type_quantity'
                     },
                     {
-                        data: 'status',
-                        name: 'status'
+                        data: 'status_service',
+                        name: 'status_service'
                     },
                     {
                         data: 'action',

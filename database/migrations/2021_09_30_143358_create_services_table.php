@@ -21,7 +21,7 @@ class CreateServicesTable extends Migration
             $table->unsignedBigInteger('price')->nullable();
             $table->text('images')->nullable();
             $table->text('description')->nullable();
-            $table->string('status')->nullable();
+            $table->string('status_service')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
