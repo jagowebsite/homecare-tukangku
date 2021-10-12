@@ -34,14 +34,14 @@
                             {{-- <p class="tx-sm tx-inverse tx-medium mg-b-0">
                                 <a href="">Bebersih Rumah Cepat Mewah</a>
                             </p> --}}
-                            <div class="row align-items-center">
+                            <div class="row align-items-center mb-3">
                                 <div class="col-5 tx-sm tx-inverse tx-medium mg-b-0">
                                     Daftar Pesanan
                                 </div>
-                                <div class="col-4 tx-sm tx-inverse tx-medium mg-b-0 text-center">
+                                <div class="col-2 tx-sm tx-inverse tx-medium mg-b-0 text-center">
                                     Status
                                 </div>
-                                <div class="col-3 tx-sm tx-inverse tx-medium mg-b-0">
+                                <div class="col-5 tx-sm tx-inverse tx-medium mg-b-0">
                                     Action
                                 </div>
                             </div>
@@ -50,10 +50,10 @@
                                     <div class="col-5 tx-12">{{ @$orderDetail->service->serviceCategory->name }} -
                                         {{ @$orderDetail->service->name }}</div>
                                     <!-- col-4 -->
-                                    <div class="col-4 text-center text-capitalize">
+                                    <div class="col-2 text-center text-capitalize">
                                         {{ @$orderDetail->status_order_detail }}
                                     </div><!-- col-8 -->
-                                    <div class="col-3 ">
+                                    <div class="col-5 ">
                                         @if (@$orderDetail->status_order_detail == 'pending')
                                             <a href="{{ route('transactions_confirmation', $orderDetail->id) }}"
                                                 class="btn btn-sm btn-success mt-3">Konfirmasi</a>
@@ -85,6 +85,7 @@
                                 <tr class="tx-10">
                                     <th class="wd-10p pd-y-5">&nbsp;</th>
                                     <th class="pd-y-5">Nama Konsumen</th>
+                                    <th class="pd-y-5">Tipe</th>
                                     <th class="pd-y-5">Status</th>
                                     <th class="pd-y-5">Tanggal</th>
                                 </tr>
@@ -102,14 +103,16 @@
                                             <span class="tx-11 d-block">Kode: {{ $payment->payment_code }}</span>
                                         </td>
                                         <td class="tx-12">
-                                            @if ($payment->type == 'lunas')
+                                            {{ strtoupper($payment->type) }}
+                                        </td>
+                                        <td>
+                                            @if ($payment->status_payment == 'success')
                                                 <span class="square-8 bg-success mg-r-5 rounded-circle"></span>
-                                                {{ $payment->type }}
+                                                {{strtoupper($payment->status_payment)}}
                                             @else
                                                 <span class="square-8 bg-warning mg-r-5 rounded-circle"></span>
-                                                {{ $payment->type }}
+                                                {{strtoupper($payment->status_payment)}}
                                             @endif
-
                                         </td>
                                         @php
                                             $date = date_create($payment->created_at);
