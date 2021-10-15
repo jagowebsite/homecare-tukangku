@@ -120,6 +120,7 @@ class UserController extends Controller
             'date_of_birth' => $request->date_of_birth,
             // 'address' => $request->address,
             'number' => $request->number,
+            'address' => $request->address,
             'images' => @$user_image,
             'ktp_image' => @$user_ktp,
         ]);
@@ -162,7 +163,7 @@ class UserController extends Controller
                 'user_image' => 'image|file|max:8192',
                 'user_ktp' => 'image|file|max:8192',
                 'date_of_birth' => 'required',
-                'user_number' => 'required',
+                'number' => 'required',
             ],
             $messages = [
                 'required' => 'The :attribute field is required.',
@@ -194,7 +195,8 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->name = $request->user_name;
         $user->date_of_birth = $request->date_of_birth;
-        $user->number = $request->user_number;
+        $user->number = $request->number;
+        $user->address = $request->address;
         $user->save();
 
         $role = Role::find($request->role);

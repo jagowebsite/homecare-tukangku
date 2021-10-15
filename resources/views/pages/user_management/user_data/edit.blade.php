@@ -49,7 +49,7 @@
                 <div class="row">
                     <div class="form-group col-xs-12 col-md-6">
                         <label for="">No Telp</label>
-                        <input type="text" name="user_number" id="user_number" class="form-control" placeholder=""
+                        <input type="text" name="number" id="user_number" class="form-control" placeholder=""
                             value="{{ old('user_number') ?? $user->number }}">
                     </div>
                 </div>
@@ -63,6 +63,13 @@
                     <div class="form-group col-xs-12 col-md-6">
                         <label for="">KTP</label>
                         <input type="file" name="user_ktp" id="user_ktp" class="form-control" placeholder="">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-md-6">
+                        <label for="address">Alamat</label>
+                        <textarea class="form-control" name="address" id="address"
+                            rows="3">{{ old('address') ?? $user->address }}</textarea>
                     </div>
                 </div>
                 <div class="row">

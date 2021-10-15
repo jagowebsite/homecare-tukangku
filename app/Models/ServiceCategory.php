@@ -16,7 +16,7 @@ class ServiceCategory extends Model
      * @var string[]
      */
     protected $fillable = [
-        'name',
+        'name','images',
     ];
     public function employees()
     {

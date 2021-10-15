@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ServiceCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class ServiceCategoryController extends Controller
@@ -34,7 +36,20 @@ class ServiceCategoryController extends Controller
                         '"><i class="fa fa-trash"></i></a>';
                     return $action;
                 })
-                ->rawColumns(['action'])
+                ->addColumn('images', function (ServiceCategory $category) {
+                    $images = $category->images
+                        ? asset('storage/' . $category->images)
+                        : 'https://picsum.photos/64';
+
+                    $image =
+                        '<img src="' .
+                        $images .
+                        '" class="wd-50 rounded" alt="">';
+                    // $image =
+                    //     '<img src="https://picsum.photos/64" class="wd-100 rounded" alt="">';
+                    return $image;
+                })
+                ->rawColumns(['action', 'images'])
                 // ->make(true);
                 ->toJson();
         }
@@ -49,8 +64,34 @@ class ServiceCategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required',
+                'images' => 'image|file|max:8192',
+            ],
+            $messages = [
+                'required' => 'The :attribute field is required.',
+                'email' => 'Email is not valid.',
+                'unique' => 'Email has been registered.',
+                'digits' => 'your :attribute is to long',
+                'image' =>
+                    'File upload must be an image (jpg, jpeg, png, bmp, gif, svg, or webp).',
+                'max' =>
+                    'Maximum file size to upload is 8MB (8192 KB). If you are uploading a photo, try to reduce its resolution to make it under 8MB',
+            ]
+        );
+        if ($validator->fails()) {
+            $error = $validator->errors()->first();
+            session()->flash('danger', $error);
+            return back()->withInput();
+        }
+        if ($request->file('images')) {
+            $images = @$request->file('images')->store('category');
+        }
         ServiceCategory::create([
             'name' => $request->name,
+            'images' => @$images,
         ]);
         session()->flash('success', 'Service Category has been added');
         return back();
@@ -67,6 +108,11 @@ class ServiceCategoryController extends Controller
     {
         // dd($request);
         $category = ServiceCategory::find($id);
+        if ($request->file('images')) {
+            Storage::delete(@$category->images);
+            $images = @$request->file('images')->store('category');
+            $category->images = $images;
+        }
         $category->name = $request->name;
         $category->save();
 

@@ -1,8 +1,8 @@
 @extends('layouts.main', [
-    'title' => 'Tambah User Data - Tukangku',
-    'menu' => 'users',
-    'submenu' => 'user_datas'
-  ])
+'title' => 'Tambah User Data - Tukangku',
+'menu' => 'users',
+'submenu' => 'user_datas'
+])
 
 @section('content')
     @include('layouts.alert')
@@ -77,6 +77,13 @@
                     <div class="form-group col-xs-12 col-md-6">
                         <label for="">KTP</label>
                         <input type="file" name="user_ktp" id="user_ktp" class="form-control" placeholder="">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12 col-md-6">
+                        <label for="address">Alamat</label>
+                        <textarea class="form-control" name="address" id="address"
+                            rows="3">{{ old('address') }}</textarea>
                     </div>
                 </div>
 

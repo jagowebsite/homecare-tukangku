@@ -153,6 +153,7 @@ class CostumerController extends Controller
         $user->name = $request->user_name;
         $user->date_of_birth = $request->date_of_birth;
         $user->number = $request->user_number;
+        $user->address = $request->address;
         $user->save();
         session()->flash('success', 'Data berhasil diupdate');
         return redirect()->route('consumen_users');

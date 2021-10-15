@@ -14,9 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
+// Auth::routes();
+Route::get('/verified', function () {
+    return view('auth.userverify');
+})->name('user_verified');
+Auth::routes(['verify' => true]);
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [
         App\Http\Controllers\HomeController::class,
         'index',
@@ -319,12 +323,14 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::group(['prefix' => 'history'], function () {
-        Route::get('/employee', function () {
-            return view('pages.history.history_employee');
-        })->name('history_employee');
-        Route::get('/transaction', function () {
-            return view('pages.history.history_transaction');
-        })->name('history_transaction');
+        Route::get('/employee', [
+            App\Http\Controllers\Admin\HistoryEmployeeController::class,
+            'index',
+        ])->name('history_employee');
+        Route::get('/transaction', [
+            App\Http\Controllers\Admin\HistoryOrderController::class,
+            'index',
+        ])->name('history_transaction');
     });
 
     // Route User Logs

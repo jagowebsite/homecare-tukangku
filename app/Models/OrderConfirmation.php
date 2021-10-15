@@ -24,6 +24,7 @@ class OrderConfirmation extends Model
         'description',
         'salary_employee',
     ];
+
     public function orderDetail()
     {
         return $this->belongsTo(OrderDetail::class, 'order_detail_id');

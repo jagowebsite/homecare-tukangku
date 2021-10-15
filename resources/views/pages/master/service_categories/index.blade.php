@@ -35,6 +35,7 @@
                     <thead>
                         <tr>
                             <th class="wd-5p">ID</th>
+                            <th class="wd-5p">Image</th>
                             <th class="wd-15p">Nama Kategori</th>
                             <th class="wd-5p">Action</th>
                         </tr>
@@ -67,13 +68,19 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="form_add-category" method="POST" action="{{ route('categories_store') }}">
+                <form id="form_add-category" method="POST" enctype="multipart/form-data"
+                    action="{{ route('categories_store') }}">
                     @csrf
                     <div class="modal-body pd-25">
                         <h4 class="lh-3 mg-b-20">Tambah Kategori</h4>
                         <div class="form-group">
                             <label for="">Nama Kategori</label>
-                            <input type="text" name="name" class="form-control" placeholder="">
+                            <input type="text" name="name" class="form-control" placeholder=""
+                                value="{{ old('name') }}">
+                        </div>
+                        <div class="form-group ">
+                            <label for="images">Image</label>
+                            <input type="file" name="images" class="form-control" placeholder="">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -98,13 +105,17 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="form_edit-category" method="POST" action="">
+                <form id="form_edit-category" enctype="multipart/form-data" method="POST" action="">
                     @csrf
                     <div class="modal-body pd-25">
                         <h4 class="lh-3 mg-b-20">Edit Kategori</h4>
                         <div class="form-group">
                             <label for="">Nama Kategori</label>
                             <input type="text" name="name" id="name_edit" class="form-control" placeholder="">
+                        </div>
+                        <div class="form-group ">
+                            <label for="images">Image</label>
+                            <input type="file" name="images" class="form-control" placeholder="">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -160,6 +171,12 @@
                 columns: [{
                         data: 'id',
                         name: 'id'
+                    },
+                    {
+                        data: 'images',
+                        name: 'images',
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'name',
