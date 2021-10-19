@@ -87,7 +87,7 @@
                     <div class="form-check col-xs-12 col-md-6">
                         <label class="form-check-label">
                             <input type="checkbox" class="form-check-input" name="status" id="status" value="1"
-                                {{ $service->status == '1' ? 'checked' : '' }}>
+                                {{ $service->status_service == '1' ? 'checked' : '' }}>
                             Is Active
                         </label>
                     </div>

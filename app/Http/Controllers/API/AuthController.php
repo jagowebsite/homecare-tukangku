@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -374,7 +375,7 @@ class AuthController extends Controller
                         'images' => $user->images
                             ? asset('storage/' . $user->images)
                             : url('/') . '/assets/icon/user_default.png',
-                        'ktp_images' => $user->ktp_image
+                        'ktp_image' => $user->ktp_image
                             ? asset('storage/' . $user->ktp_image)
                             : '',
                     ],
@@ -388,5 +389,158 @@ class AuthController extends Controller
                 'data' => null,
             ]);
         }
+    }
+
+    /**
+     * Handle a logout request to the api.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required',
+                'address' => 'required',
+                'date_of_birth' => 'required',
+                'number' => 'required',
+            ],
+            $messages = [
+                'required' => 'The :attribute field is required.',
+                'email' => 'Email is not valid.',
+                'unique' => 'Email has been registered.',
+            ]
+        );
+        if ($validator->fails()) {
+            $error = $validator->errors()->first();
+            return response()->json(
+                [
+                    'status' => 'failed',
+                    'message' => $error,
+                ],
+                200
+            );
+        }
+        $user_id = @$request->user()->id;
+        $user = User::find($user_id);
+        $user->name = $request->name;
+        $user->address = $request->address;
+        $user->date_of_birth = $request->date_of_birth;
+        $user->number = $request->number;
+        $user->save();
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' => 'Your profile has been updated.',
+            ],
+            201
+        );
+    }
+
+    /**
+     * Handle a logout request to the api.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateImage(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'images' => 'image|file|max:8192',
+            ],
+            $messages = [
+                'required' => 'The :attribute field is required.',
+                'email' => 'Email is not valid.',
+                'unique' => 'Email has been registered.',
+                'image' =>
+                    'File upload must be an image (jpg, jpeg, png, bmp, gif, svg, or webp).',
+                'max' =>
+                    'Maximum file size to upload is 8MB (8192 KB). If you are uploading a photo, try to reduce its resolution to make it under 8MB',
+                'confirmed' => 'The password confirmation does not match',
+            ]
+        );
+        if ($validator->fails()) {
+            $error = $validator->errors()->first();
+            return response()->json(
+                [
+                    'status' => 'failed',
+                    'message' => $error,
+                ],
+                200
+            );
+        }
+        $user_id = @$request->user()->id;
+        $user = User::find($user_id);
+        if ($request->file('images')) {
+            if ($user->images) {
+                Storage::delete(@$user->images);
+            }
+            $user_image = @$request->file('images')->store('user_image');
+            $user->images = $user_image;
+        }
+        $user->save();
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' => 'Your profile image has been updated.',
+            ],
+            200
+        );
+    }
+    /**
+     * Handle a logout request to the api.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateKtpImage(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'ktp_image' => 'image|file|max:8192',
+            ],
+            $messages = [
+                'required' => 'The :attribute field is required.',
+                'email' => 'Email is not valid.',
+                'unique' => 'Email has been registered.',
+                'image' =>
+                    'File upload must be an image (jpg, jpeg, png, bmp, gif, svg, or webp).',
+                'max' =>
+                    'Maximum file size to upload is 8MB (8192 KB). If you are uploading a photo, try to reduce its resolution to make it under 8MB',
+                'confirmed' => 'The password confirmation does not match',
+            ]
+        );
+        if ($validator->fails()) {
+            $error = $validator->errors()->first();
+            return response()->json(
+                [
+                    'status' => 'failed',
+                    'message' => $error,
+                ],
+                200
+            );
+        }
+        $user_id = @$request->user()->id;
+        $user = User::find($user_id);
+        if ($request->file('ktp_image')) {
+            if ($user->ktp_image) {
+                Storage::delete(@$user->ktp_image);
+            }
+            $user_ktp = @$request->file('ktp_image')->store('user_image');
+            $user->ktp_image = $user_ktp;
+        }
+        $user->save();
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' => 'Your ktp image has been updated.',
+            ],
+            200
+        );
     }
 }

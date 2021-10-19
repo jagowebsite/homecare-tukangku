@@ -76,7 +76,7 @@ class AssetBannerController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        // dd($request);
         $validator = Validator::make(
             $request->all(),
             [

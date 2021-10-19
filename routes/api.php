@@ -34,10 +34,19 @@ Route::group(['prefix' => 'auth'], function () {
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+Route::get('/services', [
+    App\Http\Controllers\API\ServiceController::class,
+    'index',
+]);
+Route::get('/banners', [
+    App\Http\Controllers\API\BannerController::class,
+    'index',
+]);
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::post('/logout', [
-            App\Http\Controllers\API\AuthController::class,
+            App\Http\Controllers\API\ServiceController::class,
             'login',
         ]);
         Route::post('/change-password', [
@@ -47,6 +56,58 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/user', [
             App\Http\Controllers\API\AuthController::class,
             'getUser',
+        ]);
+        Route::patch('/update-user', [
+            App\Http\Controllers\API\AuthController::class,
+            'update',
+        ]);
+        Route::post('/change-image', [
+            App\Http\Controllers\API\AuthController::class,
+            'updateImage',
+        ]);
+        Route::post('/change-image', [
+            App\Http\Controllers\API\AuthController::class,
+            'updateImage',
+        ]);
+        Route::post('/change-ktp-image', [
+            App\Http\Controllers\API\AuthController::class,
+            'updateKtpImage',
+        ]);
+    });
+    Route::group(['prefix' => 'service'], function () {
+        Route::post('/create', [
+            App\Http\Controllers\API\ServiceController::class,
+            'store',
+        ]);
+        Route::get('/detail/{id}', [
+            App\Http\Controllers\API\ServiceController::class,
+            'show',
+        ]);
+        Route::get('/update/{id}', [
+            App\Http\Controllers\API\ServiceController::class,
+            'update',
+        ]);
+        Route::post('/delete/{id}', [
+            App\Http\Controllers\API\ServiceController::class,
+            'destroy',
+        ]);
+    });
+    Route::group(['prefix' => 'banner'], function () {
+        Route::post('/create', [
+            App\Http\Controllers\API\BannerController::class,
+            'store',
+        ]);
+        Route::get('/detail/{id}', [
+            App\Http\Controllers\API\BannerController::class,
+            'show',
+        ]);
+        Route::get('/update/{id}', [
+            App\Http\Controllers\API\BannerController::class,
+            'update',
+        ]);
+        Route::post('/delete/{id}', [
+            App\Http\Controllers\API\BannerController::class,
+            'destroy',
         ]);
     });
 });
