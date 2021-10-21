@@ -3,43 +3,55 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\AssetBanner;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-class BannerController extends Controller
+class EmployeeController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $banners = AssetBanner::all();
+        $limit = $request->limit ?? 6;
+        $employees = Employee::with(['serviceCategory']);
+        if ($request->q) {
+            $employees->where('name', 'like', '%' . $request->q . '%');
+        }
+        $employees->latest();
+        $employees = $employees->paginate($limit);
         $data = [];
-        foreach ($banners as $banner) {
-            $image = $banner->images
-                ? asset('storage/' . $banner->images)
+        foreach ($employees as $employee) {
+            $image = $employee->images
+                ? asset('storage/' . $employee->images)
                 : 'https://picsum.photos/64';
-            if ($banner->is_active == 1) {
-                $is_active = true;
+            if ($employee->is_ready == 1) {
+                $is_ready = true;
             } else {
-                $is_active = false;
+                $is_ready = false;
             }
             $data[] = [
-                'id' => $banner->id,
-                'name' => $banner->name,
+                'id' => $employee->id,
+                'category_service' => [
+                    'id' => @$employee->service_category_id,
+                    'name' => @$employee->servicecategory->name,
+                ],
+                'name' => $employee->name,
+                'address' => $employee->address,
+                'number' => $employee->number,
+                'is_ready' => $is_ready,
+                'status' => $employee->status_employee,
                 'images' => $image,
-                'url_asset' => $banner->url_asset,
-                'is_active' => $is_active,
             ];
         }
         return response()->json(
             [
                 'status' => 'success',
-                'message' => 'Get data asset banners success.',
+                'message' => 'Get data services success.',
                 'data' => $data,
             ],
             200
@@ -58,7 +70,10 @@ class BannerController extends Controller
             $request->all(),
             [
                 'name' => 'required',
-                'images' => 'required|image|file|max:8192',
+                'service_category_id' => 'required',
+                'number' => 'required',
+                'address' => 'required',
+                'images' => 'image|file|max:8192',
             ],
             $messages = [
                 'required' => 'The :attribute field is required.',
@@ -82,23 +97,26 @@ class BannerController extends Controller
             );
         }
         if ($request->file('images')) {
-            $images = @$request->file('images')->store('asset_banners');
+            $images = @$request->file('images')->store('employees');
         }
-        if ($request->is_active == true) {
-            $is_active = 1;
+        if ($request->is_ready == true) {
+            $is_ready = 1;
         } else {
-            $is_active = 0;
+            $is_ready = 0;
         }
-        AssetBanner::create([
+        Employee::create([
+            'service_category_id' => $request->category_service_id,
             'name' => $request->name,
-            'url_asset' => $request->url_asset,
-            'is_active' => $is_active,
-            'images' => $images,
+            'address' => $request->address,
+            'number' => $request->number,
+            'is_ready' => @$is_ready,
+            'status_employee' => $request->status,
+            'images' => @$images,
         ]);
         return response()->json(
             [
                 'status' => 'success',
-                'message' => 'Insert banner succesfully',
+                'message' => 'Insert employee succesfully',
             ],
             200
         );
@@ -112,26 +130,32 @@ class BannerController extends Controller
      */
     public function show($id)
     {
-        $banner = AssetBanner::find($id);
-        $image = $banner->images
-            ? asset('storage/' . $banner->images)
+        $employee = Employee::with(['serviceCategory'])->find($id);
+        $image = $employee->images
+            ? asset('storage/' . $employee->images)
             : 'https://picsum.photos/64';
-        if ($banner->is_active == 1) {
-            $is_active = true;
+        if ($employee->is_ready == 1) {
+            $is_ready = true;
         } else {
-            $is_active = false;
+            $is_ready = false;
         }
         $data = [
-            'id' => $banner->id,
-            'name' => $banner->name,
+            'id' => $employee->id,
+            'category_service' => [
+                'id' => @$employee->service_category_id,
+                'name' => @$employee->servicecategory->name,
+            ],
+            'name' => $employee->name,
+            'address' => $employee->address,
+            'number' => $employee->number,
+            'is_ready' => $is_ready,
+            'status' => $employee->status_employee,
             'images' => $image,
-            'url_asset' => $banner->url_asset,
-            'is_active' => $is_active,
         ];
         return response()->json(
             [
                 'status' => 'success',
-                'message' => 'Get data asset banners success.',
+                'message' => 'Get data service success.',
                 'data' => @$data,
             ],
             200
@@ -147,12 +171,14 @@ class BannerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $banner = AssetBanner::find($id);
         $validator = Validator::make(
             $request->all(),
             [
                 'name' => 'required',
-                'images' => 'required|image|file|max:8192',
+                'service_category_id' => 'required',
+                'number' => 'required',
+                'address' => 'required',
+                'images' => 'image|file|max:8192',
             ],
             $messages = [
                 'required' => 'The :attribute field is required.',
@@ -175,24 +201,28 @@ class BannerController extends Controller
                 200
             );
         }
+        $employee = Employee::find($id);
         if ($request->file('images')) {
-            Storage::delete(@$banner->images);
-            $images = @$request->file('images')->store('asset_banners');
-            $banner->images = $images;
+            Storage::delete(@$employee->images);
+            $images = @$request->file('images')->store('employees');
+            $employee->images = $images;
         }
-        if ($request->is_active == true) {
-            $is_active = 1;
+        if ($request->is_ready == true) {
+            $is_ready = 1;
         } else {
-            $is_active = 0;
+            $is_ready = 0;
         }
-        $banner->name = $request->name;
-        $banner->url_asset = $request->url_asset;
-        $banner->is_active = $is_active;
-        $banner->save();
+        $employee->service_category_id = $request->category_service_id;
+        $employee->name = $request->name;
+        $employee->address = $request->address;
+        $employee->number = $request->number;
+        $employee->is_ready = $is_ready;
+        $employee->status_employee = $request->status;
+        $employee->save();
         return response()->json(
             [
                 'status' => 'success',
-                'message' => 'Updated banner succesfully',
+                'message' => 'Updated employee succesfully',
             ],
             200
         );
@@ -206,11 +236,11 @@ class BannerController extends Controller
      */
     public function destroy($id)
     {
-        AssetBanner::destroy($id);
+        Employee::destroy($id);
         return response()->json(
             [
                 'status' => 'success',
-                'message' => 'Delete asset banner succesfully',
+                'message' => 'Delete employee succesfully',
             ],
             201
         );

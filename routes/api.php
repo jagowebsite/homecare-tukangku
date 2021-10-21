@@ -42,6 +42,10 @@ Route::get('/banners', [
     App\Http\Controllers\API\BannerController::class,
     'index',
 ]);
+Route::get('/category-services', [
+    App\Http\Controllers\API\CategoryController::class,
+    'index',
+]);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::group(['prefix' => 'auth'], function () {
@@ -107,6 +111,46 @@ Route::middleware(['auth:sanctum'])->group(function () {
         ]);
         Route::post('/delete/{id}', [
             App\Http\Controllers\API\BannerController::class,
+            'destroy',
+        ]);
+    });
+    Route::group(['prefix' => 'category-service'], function () {
+        Route::post('/create', [
+            App\Http\Controllers\API\CategoryController::class,
+            'store',
+        ]);
+        Route::get('/detail/{id}', [
+            App\Http\Controllers\API\CategoryController::class,
+            'show',
+        ]);
+        Route::get('/update/{id}', [
+            App\Http\Controllers\API\CategoryController::class,
+            'update',
+        ]);
+        Route::post('/delete/{id}', [
+            App\Http\Controllers\API\CategoryController::class,
+            'destroy',
+        ]);
+    });
+    Route::get('/employees', [
+        App\Http\Controllers\API\EmployeeController::class,
+        'index',
+    ]);
+    Route::group(['prefix' => 'employee'], function () {
+        Route::post('/create', [
+            App\Http\Controllers\API\EmployeeController::class,
+            'store',
+        ]);
+        Route::get('/detail/{id}', [
+            App\Http\Controllers\API\EmployeeController::class,
+            'show',
+        ]);
+        Route::get('/update/{id}', [
+            App\Http\Controllers\API\EmployeeController::class,
+            'update',
+        ]);
+        Route::post('/delete/{id}', [
+            App\Http\Controllers\API\EmployeeController::class,
             'destroy',
         ]);
     });

@@ -3,43 +3,36 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\AssetBanner;
+use App\Models\ServiceCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-class BannerController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $banners = AssetBanner::all();
+        $categories = ServiceCategory::all();
         $data = [];
-        foreach ($banners as $banner) {
-            $image = $banner->images
-                ? asset('storage/' . $banner->images)
+        foreach ($categories as $category) {
+            $image = $category->images
+                ? asset('storage/' . $category->images)
                 : 'https://picsum.photos/64';
-            if ($banner->is_active == 1) {
-                $is_active = true;
-            } else {
-                $is_active = false;
-            }
             $data[] = [
-                'id' => $banner->id,
-                'name' => $banner->name,
+                'id' => $category->id,
+                'name' => $category->name,
                 'images' => $image,
-                'url_asset' => $banner->url_asset,
-                'is_active' => $is_active,
             ];
         }
         return response()->json(
             [
                 'status' => 'success',
-                'message' => 'Get data asset banners success.',
+                'message' => 'Get data category services success.',
                 'data' => $data,
             ],
             200
@@ -58,7 +51,7 @@ class BannerController extends Controller
             $request->all(),
             [
                 'name' => 'required',
-                'images' => 'required|image|file|max:8192',
+                'images' => 'image|file|max:8192',
             ],
             $messages = [
                 'required' => 'The :attribute field is required.',
@@ -82,23 +75,17 @@ class BannerController extends Controller
             );
         }
         if ($request->file('images')) {
-            $images = @$request->file('images')->store('asset_banners');
+            $images = @$request->file('images')->store('category');
         }
-        if ($request->is_active == true) {
-            $is_active = 1;
-        } else {
-            $is_active = 0;
-        }
-        AssetBanner::create([
+
+        ServiceCategory::create([
             'name' => $request->name,
-            'url_asset' => $request->url_asset,
-            'is_active' => $is_active,
             'images' => $images,
         ]);
         return response()->json(
             [
                 'status' => 'success',
-                'message' => 'Insert banner succesfully',
+                'message' => 'Insert category service succesfully',
             ],
             200
         );
@@ -112,26 +99,20 @@ class BannerController extends Controller
      */
     public function show($id)
     {
-        $banner = AssetBanner::find($id);
-        $image = $banner->images
-            ? asset('storage/' . $banner->images)
+        $category = ServiceCategory::find($id);
+        $image = $category->images
+            ? asset('storage/' . $category->images)
             : 'https://picsum.photos/64';
-        if ($banner->is_active == 1) {
-            $is_active = true;
-        } else {
-            $is_active = false;
-        }
+
         $data = [
-            'id' => $banner->id,
-            'name' => $banner->name,
+            'id' => $category->id,
+            'name' => $category->name,
             'images' => $image,
-            'url_asset' => $banner->url_asset,
-            'is_active' => $is_active,
         ];
         return response()->json(
             [
                 'status' => 'success',
-                'message' => 'Get data asset banners success.',
+                'message' => 'Get data category service success.',
                 'data' => @$data,
             ],
             200
@@ -147,12 +128,12 @@ class BannerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $banner = AssetBanner::find($id);
+        $category = ServiceCategory::find($id);
         $validator = Validator::make(
             $request->all(),
             [
                 'name' => 'required',
-                'images' => 'required|image|file|max:8192',
+                'images' => 'image|file|max:8192',
             ],
             $messages = [
                 'required' => 'The :attribute field is required.',
@@ -176,23 +157,16 @@ class BannerController extends Controller
             );
         }
         if ($request->file('images')) {
-            Storage::delete(@$banner->images);
-            $images = @$request->file('images')->store('asset_banners');
-            $banner->images = $images;
+            Storage::delete(@$category->images);
+            $images = @$request->file('images')->store('category');
+            $category->images = $images;
         }
-        if ($request->is_active == true) {
-            $is_active = 1;
-        } else {
-            $is_active = 0;
-        }
-        $banner->name = $request->name;
-        $banner->url_asset = $request->url_asset;
-        $banner->is_active = $is_active;
-        $banner->save();
+        $category->name = $request->name;
+        $category->save();
         return response()->json(
             [
                 'status' => 'success',
-                'message' => 'Updated banner succesfully',
+                'message' => 'Updated category service succesfully',
             ],
             200
         );
@@ -206,11 +180,11 @@ class BannerController extends Controller
      */
     public function destroy($id)
     {
-        AssetBanner::destroy($id);
+        ServiceCategory::destroy($id);
         return response()->json(
             [
                 'status' => 'success',
-                'message' => 'Delete asset banner succesfully',
+                'message' => 'Delete category service succesfully',
             ],
             201
         );
