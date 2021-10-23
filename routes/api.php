@@ -154,4 +154,18 @@ Route::middleware(['auth:sanctum'])->group(function () {
             'destroy',
         ]);
     });
+    Route::get('/complains', [
+        App\Http\Controllers\API\ComplainController::class,
+        'index',
+    ]);
+    Route::group(['prefix' => 'complain'], function () {
+        Route::post('/create', [
+            App\Http\Controllers\API\ComplainController::class,
+            'store',
+        ]);
+        Route::get('/status/{id}', [
+            App\Http\Controllers\API\ComplainController::class,
+            'update',
+        ]);
+    });
 });
