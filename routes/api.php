@@ -50,8 +50,8 @@ Route::get('/category-services', [
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::post('/logout', [
-            App\Http\Controllers\API\ServiceController::class,
-            'login',
+            App\Http\Controllers\API\AuthController::class,
+            'logout',
         ]);
         Route::post('/change-password', [
             App\Http\Controllers\API\AuthController::class,
