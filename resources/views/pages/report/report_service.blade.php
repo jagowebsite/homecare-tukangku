@@ -39,7 +39,7 @@
                             <th class="wd-5p">Harga Total</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    {{-- <tbody>
                         <tr>
                             <td>
                                 <a href="">1</a>
@@ -52,7 +52,7 @@
                             <td>Selesai</td>
                             <td>Rp 100.000</td>
                         </tr>
-                    </tbody>
+                    </tbody> --}}
                 </table>
             </div><!-- table-wrapper -->
         </div><!-- br-section-wrapper -->
@@ -70,7 +70,43 @@
                     searchPlaceholder: 'Search...',
                     sSearch: '',
                     lengthMenu: '_MENU_ items/page',
-                }
+                },
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('report_service') }}",
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'order.user.name',
+                        name: 'order.user.name',
+                    },
+                    {
+                        data: 'order.user.email',
+                        name: 'order.user.email'
+                    },
+                    {
+                        data: 'order.user.number',
+                        name: 'order.user.number',
+                    },
+                    {
+                        data: 'order.user.address',
+                        name: 'order.user.address'
+                    },
+                    {
+                        data: 'service.name',
+                        name: 'service.name'
+                    },
+                    {
+                        data: 'status_order_detail',
+                        name: 'status_order_detail'
+                    },
+                    {
+                        data: 'total_price',
+                        name: 'total_price'
+                    },
+                ]
             });
 
             // Select2

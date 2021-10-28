@@ -188,6 +188,20 @@ class OrderController extends Controller
         $orderdetail->status_order_detail = 'process';
         $orderdetail->verified_at = now();
         $orderdetail->save();
+
+        $countorderdetail = OrderDetail::where(
+            'order_id',
+            $orderdetail->order_id
+        )
+            ->where('status_order_detail', 'pending')
+            ->get()
+            ->count();
+        if (!$countorderdetail) {
+            $order = Order::find($orderdetail->order_id);
+            $order->status_order = 'process';
+            $order->verified_at = now();
+            $order->save();
+        }
         DB::commit();
         session()->flash('success', 'Order Confirmation has been added');
         return redirect()->route('transactions_detail', $orderdetail->order_id);
@@ -201,11 +215,25 @@ class OrderController extends Controller
      */
     public function cancelDetailOrder($id)
     {
+        DB::beginTransaction();
         $orderdetail = OrderDetail::find($id);
         $orderdetail->status_order_detail = 'cancel';
         $orderdetail->verified_at = now();
         $orderdetail->save();
-
+        $countorderdetail = OrderDetail::where(
+            'order_id',
+            $orderdetail->order_id
+        )
+            ->where('status_order_detail', 'pending')
+            ->get()
+            ->count();
+        if (!$countorderdetail) {
+            $order = Order::find($orderdetail->order_id);
+            $order->status_order = 'process';
+            $order->verified_at = now();
+            $order->save();
+        }
+        DB::commit();
         session()->flash('danger', 'Order Confirmation has been canceled');
         return redirect()->route('transactions_detail', $orderdetail->order_id);
     }
@@ -235,11 +263,20 @@ class OrderController extends Controller
     }
     public function confirmOrder($id)
     {
+        DB::beginTransaction();
         $order = Order::find($id);
         $order->status_order = 'done';
         $order->verified_at = now();
         $order->save();
-
+        $orderdetails = OrderDetail::where('order_id', $id)->get();
+        foreach ($orderdetails as $orderdetail) {
+            if ($orderdetail->status_order_detail = 'process') {
+                $orderdetail->status_order_detail = 'done';
+                $orderdetail->verified_at = now();
+                $orderdetail->save();
+            }
+        }
+        DB::commit();
         session()->flash('success', 'Order has been approved');
         return back();
     }

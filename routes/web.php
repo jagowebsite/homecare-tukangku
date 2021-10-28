@@ -314,12 +314,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::group(['prefix' => 'report'], function () {
-        Route::get('/service', function () {
-            return view('pages.report.report_service');
-        })->name('report_service');
-        Route::get('/consumen', function () {
-            return view('pages.report.report_consumen');
-        })->name('report_consumen');
+        Route::get('/service', [
+            App\Http\Controllers\Admin\ReportController::class,
+            'index',
+        ])->name('report_service');
+        Route::get('/consumen', [
+            App\Http\Controllers\Admin\ReportController::class,
+            'indexAllOrder',
+        ])->name('report_consumen');
     });
 
     Route::group(['prefix' => 'history'], function () {

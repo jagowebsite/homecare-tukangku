@@ -38,7 +38,7 @@ class ServiceController extends Controller
                     $images[] = asset('storage/' . $image);
                 }
             } else {
-                $images[] = ' https://picsum.photos/64';
+                $images[] = 'https://picsum.photos/64';
             }
             $data[] = [
                 'id' => $service->id,

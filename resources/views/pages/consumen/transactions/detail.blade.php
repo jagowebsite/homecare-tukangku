@@ -64,15 +64,19 @@
                                             <i class="fa fa-times-circle text-danger"></i>
                                             Dibatalkan
                                         @else
-                                            <a href="#" data-toggle="modal" data-target="#confirmDetail">Lihat</a> | <i
-                                                class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
+                                            <a href="#" data-toggle="modal" data-target="#confirmDetail"
+                                                class="detailconfirmmodal"
+                                                data-employee="{{ @$orderDetail->orderconfirmation->employee->name }}"
+                                                data-salary="Rp. {{ number_format(@$orderDetail->orderconfirmation->salary_employee) }}"
+                                                data-duration="{{ @$orderDetail->orderconfirmation->work_duration }}"
+                                                data-type_duration="{{ @$orderDetail->orderconfirmation->type_work_duration }}"
+                                                data-description="{{ @$orderDetail->orderconfirmation->description }}">Lihat</a>
+                                            | <i class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
                                             Terkonfirmasi
                                         @endif
                                     </div><!-- col-8 -->
                                 </div>
                             @endforeach
-
-
 
                         </div><!-- card-body -->
                     </div><!-- card -->
@@ -108,10 +112,10 @@
                                         <td>
                                             @if ($payment->status_payment == 'success')
                                                 <span class="square-8 bg-success mg-r-5 rounded-circle"></span>
-                                                {{strtoupper($payment->status_payment)}}
+                                                {{ strtoupper($payment->status_payment) }}
                                             @else
                                                 <span class="square-8 bg-warning mg-r-5 rounded-circle"></span>
-                                                {{strtoupper($payment->status_payment)}}
+                                                {{ strtoupper($payment->status_payment) }}
                                             @endif
                                         </td>
                                         @php
@@ -200,7 +204,7 @@
                 </div>
 
                 <div class="col-md-12 col-xs-12 mt-3">
-                    @if ($order->status_order == 'pending')
+                    @if ($order->status_order != 'done' && $order->status_order != 'cancel')
                         <a href="{{ route('transactions_cancel', $order->id) }}" class="btn btn-danger btn-with-icon">
                             <div class="ht-40 justify-content-between">
                                 <span class="icon wd-40"><i class="fa fa-times"></i></span>
@@ -241,49 +245,59 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div> --}}
-                <form id="form_add-category" method="POST" action="{{ route('categories_store') }}">
-                    @csrf
-                    <div class="modal-body">
-                        <table class="table table-valign-middle">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <b>Tukang</b>
-                                    </td>
-                                    <td>Pak Budiono</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <b>Upah</b>
-                                    </td>
-                                    <td>Rp 25.000</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <b>Jumlah/Durasi Kerja</b>
-                                    </td>
-                                    <td>3 Jam</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <b>Deskripsi</b>
-                                    </td>
-                                    <td>Layanan Selesai Secepat Kilat</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button type="button"
-                            class="btn btn-secondary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium"
-                            data-dismiss="modal">Close</button>
-                    </div>
-                </form>
+                {{-- <form id="form_add-category" method="POST" action="{{ route('categories_store') }}">
+                    @csrf --}}
+                <div class="modal-body">
+                    <table class="table table-valign-middle">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <b>Tukang</b>
+                                </td>
+                                <td id="employee-detail_confirm"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Upah</b>
+                                </td>
+                                <td id="salary-detail_confirm"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Jumlah/Durasi Kerja</b>
+                                </td>
+                                <td id="duration-detail_confirm"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Deskripsi</b>
+                                </td>
+                                <td id="description-detail_confirm"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-secondary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium"
+                        data-dismiss="modal">Close</button>
+                </div>
+                {{-- </form> --}}
             </div>
         </div><!-- modal-dialog -->
     </div><!-- modal -->
 @endsection
 @section('scripts')
-
     <script>
+        $(document).on("click", ".detailconfirmmodal", function() {
+            let employee = $(this).data('employee');
+            let salary = $(this).data('salary');
+            let duration = $(this).data('duration');
+            let type_duration = $(this).data('type_duration');
+            let description = $(this).data('description');
+            $(".modal-body #employee-detail_confirm").html(employee);
+            $(".modal-body #salary-detail_confirm").html(salary);
+            $(".modal-body #duration-detail_confirm").html(duration + ' ' + type_duration);
+            $(".modal-body #description-detail_confirm").html(description);
+
+        });
         $(function() {
 
             var table = $('#table-payment').DataTable({
