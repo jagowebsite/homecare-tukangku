@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/verified', function () {
     return view('auth.userverify');
 })->name('user_verified');
+
 Auth::routes(['verify' => true]);
 
 Route::middleware(['auth', 'verified'])->group(function () {
