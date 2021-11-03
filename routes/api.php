@@ -69,10 +69,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
             App\Http\Controllers\API\AuthController::class,
             'updateImage',
         ]);
-        Route::post('/change-image', [
-            App\Http\Controllers\API\AuthController::class,
-            'updateImage',
-        ]);
         Route::post('/change-ktp-image', [
             App\Http\Controllers\API\AuthController::class,
             'updateKtpImage',
@@ -83,15 +79,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
             App\Http\Controllers\API\ServiceController::class,
             'store',
         ]);
-        Route::get('/detail/{id}', [
+        Route::get('/show/{id}', [
             App\Http\Controllers\API\ServiceController::class,
             'show',
         ]);
-        Route::get('/update/{id}', [
+        Route::post('/update/{id}', [
             App\Http\Controllers\API\ServiceController::class,
             'update',
         ]);
-        Route::post('/delete/{id}', [
+        Route::delete('/delete/{id}', [
             App\Http\Controllers\API\ServiceController::class,
             'destroy',
         ]);
@@ -101,15 +97,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
             App\Http\Controllers\API\BannerController::class,
             'store',
         ]);
-        Route::get('/detail/{id}', [
+        Route::get('/show/{id}', [
             App\Http\Controllers\API\BannerController::class,
             'show',
         ]);
-        Route::get('/update/{id}', [
+        Route::post('/update/{id}', [
             App\Http\Controllers\API\BannerController::class,
             'update',
         ]);
-        Route::post('/delete/{id}', [
+        Route::delete('/delete/{id}', [
             App\Http\Controllers\API\BannerController::class,
             'destroy',
         ]);
@@ -119,15 +115,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
             App\Http\Controllers\API\CategoryController::class,
             'store',
         ]);
-        Route::get('/detail/{id}', [
+        Route::get('/show/{id}', [
             App\Http\Controllers\API\CategoryController::class,
             'show',
         ]);
-        Route::get('/update/{id}', [
+        Route::post('/update/{id}', [
             App\Http\Controllers\API\CategoryController::class,
             'update',
         ]);
-        Route::post('/delete/{id}', [
+        Route::delete('/delete/{id}', [
             App\Http\Controllers\API\CategoryController::class,
             'destroy',
         ]);
@@ -141,15 +137,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
             App\Http\Controllers\API\EmployeeController::class,
             'store',
         ]);
-        Route::get('/detail/{id}', [
+        Route::get('/show/{id}', [
             App\Http\Controllers\API\EmployeeController::class,
             'show',
         ]);
-        Route::get('/update/{id}', [
+        Route::post('/update/{id}', [
             App\Http\Controllers\API\EmployeeController::class,
             'update',
         ]);
-        Route::post('/delete/{id}', [
+        Route::delete('/delete/{id}', [
             App\Http\Controllers\API\EmployeeController::class,
             'destroy',
         ]);
@@ -163,7 +159,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
             App\Http\Controllers\API\ComplainController::class,
             'store',
         ]);
-        Route::get('/status/{id}', [
+        Route::post('/status/{id}', [
             App\Http\Controllers\API\ComplainController::class,
             'update',
         ]);
