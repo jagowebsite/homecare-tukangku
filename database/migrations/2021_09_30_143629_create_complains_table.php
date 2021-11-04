@@ -15,8 +15,14 @@ class CreateComplainsTable extends Migration
     {
         Schema::create('complains', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->index();
-            $table->unsignedBigInteger('order_id')->index();
+            $table
+                ->unsignedBigInteger('user_id')
+                ->index()
+                ->nullable();
+            $table
+                ->unsignedBigInteger('order_id')
+                ->index()
+                ->nullable();
             $table->text('description')->nullable();
             $table->string('status_complain')->nullable();
             $table->timestamp('verified_at')->nullable();

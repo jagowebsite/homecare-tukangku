@@ -15,8 +15,14 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->index();
-            $table->unsignedBigInteger('order_id')->index();
+            $table
+                ->unsignedBigInteger('user_id')
+                ->index()
+                ->nullable();
+            $table
+                ->unsignedBigInteger('order_id')
+                ->index()
+                ->nullable();
             $table->string('payment_code')->unique();
             $table->string('type')->nullable();
             $table->string('type_transfer')->nullable();

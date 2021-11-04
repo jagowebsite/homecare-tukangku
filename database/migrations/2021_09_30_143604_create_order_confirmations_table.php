@@ -15,9 +15,18 @@ class CreateOrderConfirmationsTable extends Migration
     {
         Schema::create('order_confirmations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('employee_id')->index();
-            $table->unsignedBigInteger('order_detail_id')->index();
-            $table->unsignedBigInteger('service_id')->index();
+            $table
+                ->unsignedBigInteger('employee_id')
+                ->index()
+                ->nullable();
+            $table
+                ->unsignedBigInteger('order_detail_id')
+                ->index()
+                ->nullable();
+            $table
+                ->unsignedBigInteger('service_id')
+                ->index()
+                ->nullable();
             $table->unsignedDouble('work_duration')->nullable();
             $table->string('type_work_duration')->nullable();
             $table->text('description')->nullable();

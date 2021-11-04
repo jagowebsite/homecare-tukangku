@@ -15,7 +15,10 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->index();
+            $table
+                ->unsignedBigInteger('user_id')
+                ->index()
+                ->nullable();
             $table->string('invoice_code')->nullable();
             $table->string('status_order')->nullable();
             $table->timestamp('verified_at')->nullable();

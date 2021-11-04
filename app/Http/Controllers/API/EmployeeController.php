@@ -70,7 +70,7 @@ class EmployeeController extends Controller
             $request->all(),
             [
                 'name' => 'required',
-                'service_category_id' => 'required',
+                'category_service_id' => 'required',
                 'number' => 'required',
                 'address' => 'required',
                 'images' => 'image|file|max:8192',
@@ -175,7 +175,7 @@ class EmployeeController extends Controller
             $request->all(),
             [
                 'name' => 'required',
-                'service_category_id' => 'required',
+                'category_service_id' => 'required',
                 'number' => 'required',
                 'address' => 'required',
                 'images' => 'image|file|max:8192',
