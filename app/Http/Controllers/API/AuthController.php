@@ -488,7 +488,7 @@ class AuthController extends Controller
                 'status' => 'success',
                 'message' => 'Your profile image has been updated.',
             ],
-            200
+            201
         );
     }
     /**
@@ -540,7 +540,7 @@ class AuthController extends Controller
                 'status' => 'success',
                 'message' => 'Your ktp image has been updated.',
             ],
-            200
+            201
         );
     }
 }

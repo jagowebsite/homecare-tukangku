@@ -194,7 +194,7 @@ class BannerController extends Controller
                 'status' => 'success',
                 'message' => 'Updated banner succesfully',
             ],
-            200
+            201
         );
     }
 

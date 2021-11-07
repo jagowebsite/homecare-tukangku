@@ -133,7 +133,7 @@ class ComplainController extends Controller
                 'status' => 'success',
                 'message' => 'Update status complain succesfully',
             ],
-            200
+            201
         );
     }
 

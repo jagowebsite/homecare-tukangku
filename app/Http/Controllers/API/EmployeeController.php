@@ -224,7 +224,7 @@ class EmployeeController extends Controller
                 'status' => 'success',
                 'message' => 'Updated employee succesfully',
             ],
-            200
+            201
         );
     }
 

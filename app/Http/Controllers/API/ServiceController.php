@@ -251,7 +251,7 @@ class ServiceController extends Controller
                 'status' => 'success',
                 'message' => 'Updated service succesfully',
             ],
-            200
+            201
         );
     }
 

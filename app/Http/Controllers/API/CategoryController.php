@@ -168,7 +168,7 @@ class CategoryController extends Controller
                 'status' => 'success',
                 'message' => 'Updated category service succesfully',
             ],
-            200
+            201
         );
     }
 
