@@ -147,6 +147,16 @@ class RoleController extends Controller
             );
         }
         $role = Role::find($id);
+        if (!$role) {
+            return response()->json(
+                [
+                    'status' => 'failed',
+                    'message' => 'please check your id',
+                ],
+                200
+            );
+        }
+
         $role->name = $request->name;
         $role->guard_name = $request->guard_name;
         $role->save();

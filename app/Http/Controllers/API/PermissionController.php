@@ -99,6 +99,15 @@ class PermissionController extends Controller
             );
         }
         $permission = Permission::find($id);
+        if (!$permission) {
+            return response()->json(
+                [
+                    'status' => 'failed',
+                    'message' => 'please check your id',
+                ],
+                200
+            );
+        }
         $permission->name = $request->name;
         $permission->guard_name = $request->guard_name;
         $permission->save();
