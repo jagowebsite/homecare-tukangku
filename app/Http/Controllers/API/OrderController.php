@@ -21,6 +21,7 @@ class OrderController extends Controller
     {
         $limit = $request->limit ?? 6;
         $orders = Order::with(['user', 'orderDetails'])->paginate($limit);
+
         foreach ($orders as $order) {
             $user = [
                 'id' => $order->user->id,
@@ -82,7 +83,7 @@ class OrderController extends Controller
             }
             $data[] = [
                 'id' => $order->id,
-                'user' => $user,
+                'user' => @$user,
                 'invoice_id' => $order->invoice_code,
                 'status_order' => $order->status_order,
                 'transaction_detail' => $order_detail,
@@ -92,7 +93,7 @@ class OrderController extends Controller
             [
                 'status' => 'success',
                 'message' => 'Get data all transaction success.',
-                'data' => $data,
+                'data' => @$data,
             ],
             200
         );

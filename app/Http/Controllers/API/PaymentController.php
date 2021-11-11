@@ -95,8 +95,8 @@ class PaymentController extends Controller
             ];
             $data[] = [
                 'id' => $payment->id,
-                'user' => $user,
-                'transaction' => $order,
+                'user' => @$user,
+                'transaction' => @$order,
                 'payment_code' => $payment->payment_code,
                 'type' => $payment->type,
                 'type_transfer' => $payment->type_transfer,
@@ -121,7 +121,7 @@ class PaymentController extends Controller
             [
                 'status' => 'success',
                 'message' => 'Get data all payments success.',
-                'data' => $data,
+                'data' => @$data,
             ],
             200
         );

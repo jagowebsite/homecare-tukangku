@@ -19,6 +19,7 @@ class GpsController extends Controller
         $payments = Payment::with(['user', 'order'])
             ->latest()
             ->paginate($limit);
+        $data = [];
         foreach ($payments as $payment) {
             $date = date_format(
                 date_create($payment->created_at),
@@ -38,7 +39,7 @@ class GpsController extends Controller
             [
                 'status' => 'success',
                 'message' => 'Get data gps logs success',
-                'data' => $data,
+                'data' => @$data,
             ],
             200
         );

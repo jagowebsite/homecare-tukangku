@@ -46,7 +46,7 @@ class UserController extends Controller
             [
                 'status' => 'success',
                 'message' => 'Get user data success.',
-                'data' => $data,
+                'data' => @$data,
             ],
             200
         );

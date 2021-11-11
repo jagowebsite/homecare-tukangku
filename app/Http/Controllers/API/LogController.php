@@ -19,6 +19,7 @@ class LogController extends Controller
         $logs = Log::with(['user'])
             ->latest()
             ->paginate($limit);
+
         foreach ($logs as $log) {
             $user = [
                 'id' => $log->user->id,
@@ -37,7 +38,7 @@ class LogController extends Controller
             $date = date_format(date_create($log->created_at), 'Y-m-d H:i:s');
             $data[] = [
                 'id' => $log->id,
-                'user' => $user,
+                'user' => @$user,
                 'type' => $log->type,
                 'description' => $log->description,
                 'created_at' => $date,
@@ -47,7 +48,7 @@ class LogController extends Controller
             [
                 'status' => 'success',
                 'message' => 'Get data logs success.',
-                'data' => $data,
+                'data' => @$data,
             ],
             200
         );
