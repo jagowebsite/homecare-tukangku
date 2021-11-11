@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
@@ -61,6 +62,42 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if ($id) {
+            return response()->json(
+                [
+                    'status' => 'failed',
+                    'message' => 'please input id role',
+                ],
+                201
+            );
+        }
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required',
+                'guard_name' => 'required',
+            ],
+            $messages = [
+                'required' => 'The :attribute field is required.',
+                'email' => 'Email is not valid.',
+                'unique' => 'Email has been registered.',
+                'digits' => 'your :attribute is to long',
+                'image' =>
+                    'File upload must be an image (jpg, jpeg, png, bmp, gif, svg, or webp).',
+                'max' =>
+                    'Maximum file size to upload is 8MB (8192 KB). If you are uploading a photo, try to reduce its resolution to make it under 8MB',
+            ]
+        );
+        if ($validator->fails()) {
+            $error = $validator->errors()->first();
+            return response()->json(
+                [
+                    'status' => 'failed',
+                    'message' => $error,
+                ],
+                200
+            );
+        }
         $permission = Permission::find($id);
         $permission->name = $request->name;
         $permission->guard_name = $request->guard_name;

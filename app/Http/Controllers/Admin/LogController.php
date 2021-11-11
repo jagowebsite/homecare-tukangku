@@ -50,6 +50,12 @@ class LogController extends Controller
      */
     public function store($data)
     {
+        $log = Log::create([
+            'user_id' => $data['user_id'],
+            'type' => $data['type'],
+            'description' => $data['description'],
+        ]);
+        return $log;
     }
 
     /**
