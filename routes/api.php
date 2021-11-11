@@ -189,7 +189,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
             App\Http\Controllers\API\RoleController::class,
             'revokePermission',
         ]);
-        Route::patch('/update/{id}', [
+        Route::post('/update/{id}', [
             App\Http\Controllers\API\RoleController::class,
             'update',
         ]);
@@ -207,7 +207,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
             App\Http\Controllers\API\PermissionController::class,
             'store',
         ]);
-        Route::patch('/update/{id}', [
+        Route::post('/update/{id}', [
             App\Http\Controllers\API\PermissionController::class,
             'update',
         ]);

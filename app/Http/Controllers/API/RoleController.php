@@ -156,7 +156,6 @@ class RoleController extends Controller
                 200
             );
         }
-
         $role->name = $request->name;
         $role->guard_name = $request->guard_name;
         $role->save();
