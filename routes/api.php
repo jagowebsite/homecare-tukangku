@@ -226,17 +226,62 @@ Route::middleware(['auth:sanctum'])->group(function () {
             App\Http\Controllers\API\UserController::class,
             'store',
         ]);
-        Route::patch('/update/{id}', [
+        Route::post('/update/{id}', [
             App\Http\Controllers\API\UserController::class,
             'update',
         ]);
-        Route::patch('/change-password/{id}', [
+        Route::post('/change-password/{id}', [
             App\Http\Controllers\API\UserController::class,
             'changePassword',
         ]);
         Route::delete('/delete/{id}', [
             App\Http\Controllers\API\UserController::class,
             'destroy',
+        ]);
+    });
+
+    Route::get('/transactions', [
+        App\Http\Controllers\API\OrderController::class,
+        'index',
+    ]);
+    Route::group(['prefix' => 'transaction'], function () {
+        Route::post('/detail/confirm/{id}', [
+            App\Http\Controllers\API\OrderController::class,
+            'storeConfirmation',
+        ]);
+        Route::post('/detail/cancel/{id}', [
+            App\Http\Controllers\API\OrderController::class,
+            'cancelDetailOrder',
+        ]);
+        Route::post('/confirm/{id}', [
+            App\Http\Controllers\API\OrderController::class,
+            'confirmOrder',
+        ]);
+        Route::post('/cancel/{id}', [
+            App\Http\Controllers\API\OrderController::class,
+            'cancelOrder',
+        ]);
+    });
+    Route::get('/payments', [
+        App\Http\Controllers\API\PaymentController::class,
+        'index',
+    ]);
+    Route::group(['prefix' => 'payment'], function () {
+        Route::post('/create', [
+            App\Http\Controllers\API\PaymentController::class,
+            'store',
+        ]);
+        Route::post('/update/{id}', [
+            App\Http\Controllers\API\PaymentController::class,
+            'update',
+        ]);
+        Route::post('/confirm/{id}', [
+            App\Http\Controllers\API\PaymentController::class,
+            'confirmPayment',
+        ]);
+        Route::post('/cancel/{id}', [
+            App\Http\Controllers\API\PaymentController::class,
+            'cancelPayment',
         ]);
     });
 });

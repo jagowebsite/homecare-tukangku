@@ -34,11 +34,13 @@ class LogController extends Controller
                     ? asset('storage/' . $log->user->ktp_image)
                     : '',
             ];
+            $date = date_format(date_create($log->created_at), 'Y-m-d H:i:s');
             $data[] = [
                 'id' => $log->id,
                 'user' => $user,
                 'type' => $log->type,
                 'description' => $log->description,
+                'created_at' => $date,
             ];
         }
         return response()->json(

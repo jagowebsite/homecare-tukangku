@@ -20,6 +20,10 @@ class GpsController extends Controller
             ->latest()
             ->paginate($limit);
         foreach ($payments as $payment) {
+            $date = date_format(
+                date_create($payment->created_at),
+                'Y-m-d H:i:s'
+            );
             $data[] = [
                 'id' => $payment->id,
                 'invoice_id' => $payment->order->invoice_code,
@@ -27,6 +31,7 @@ class GpsController extends Controller
                 'address' => $payment->address,
                 'latitude' => $payment->latitude,
                 'longitude' => $payment->longitude,
+                'created_at' => $date,
             ];
         }
         return response()->json(
