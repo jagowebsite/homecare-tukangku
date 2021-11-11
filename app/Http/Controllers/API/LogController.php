@@ -19,7 +19,7 @@ class LogController extends Controller
         $logs = Log::with(['user'])
             ->latest()
             ->paginate($limit);
-
+        $data = [];
         foreach ($logs as $log) {
             $user = [
                 'id' => $log->user->id,

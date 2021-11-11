@@ -26,6 +26,7 @@ class UserController extends Controller
                 $query->where('name', $notation, 'user');
             })
             ->paginate($limit);
+        $data = [];
         foreach ($users as $user) {
             $data[] = [
                 'id' => $user->id,

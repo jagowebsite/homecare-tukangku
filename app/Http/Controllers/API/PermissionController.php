@@ -18,6 +18,7 @@ class PermissionController extends Controller
     {
         $limit = $request->limit ?? 6;
         $permissions = Permission::paginate($limit);
+        $data = [];
         foreach ($permissions as $permission) {
             $data[] = [
                 'id' => $permission->id,

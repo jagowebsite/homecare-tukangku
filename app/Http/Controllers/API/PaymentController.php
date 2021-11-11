@@ -20,6 +20,7 @@ class PaymentController extends Controller
     {
         $limit = $request->limit ?? 6;
         $payments = Payment::with(['user', 'order'])->paginate($limit);
+        $data = [];
         foreach ($payments as $payment) {
             $user = [
                 'id' => $payment->user->id,

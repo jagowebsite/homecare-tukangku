@@ -21,7 +21,7 @@ class OrderController extends Controller
     {
         $limit = $request->limit ?? 6;
         $orders = Order::with(['user', 'orderDetails'])->paginate($limit);
-
+        $data = [];
         foreach ($orders as $order) {
             $user = [
                 'id' => $order->user->id,
