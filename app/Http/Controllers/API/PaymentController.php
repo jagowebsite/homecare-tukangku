@@ -185,6 +185,7 @@ class PaymentController extends Controller
         Payment::create([
             'user_id' => $request->user_id,
             'order_id' => $request->transaction_id,
+            'payment_code' => 'INVHMC-' . strtotime('now'),
             'type' => $request->type,
             'type_transfer' => $request->type_transfer,
             'images_payment' => @$images_payment,
