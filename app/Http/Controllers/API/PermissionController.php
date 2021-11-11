@@ -62,11 +62,11 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if ($id) {
+        if (!$id) {
             return response()->json(
                 [
                     'status' => 'failed',
-                    'message' => 'please input id role',
+                    'message' => 'please input id permission',
                 ],
                 201
             );

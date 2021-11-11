@@ -110,13 +110,13 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if ($id) {
+        if (!$id) {
             return response()->json(
                 [
                     'status' => 'failed',
                     'message' => 'please input id role',
                 ],
-                201
+                200
             );
         }
         $validator = Validator::make(
