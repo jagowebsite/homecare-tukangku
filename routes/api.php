@@ -46,6 +46,14 @@ Route::get('/category-services', [
     App\Http\Controllers\API\CategoryController::class,
     'index',
 ]);
+Route::get('/user-logs', [
+    App\Http\Controllers\API\LogController::class,
+    'index',
+]);
+Route::get('/gps-logs', [
+    App\Http\Controllers\API\GpsController::class,
+    'index',
+]);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::group(['prefix' => 'auth'], function () {
@@ -162,6 +170,73 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/status/{id}', [
             App\Http\Controllers\API\ComplainController::class,
             'update',
+        ]);
+    });
+    Route::get('/role-access', [
+        App\Http\Controllers\API\RoleController::class,
+        'index',
+    ]);
+    Route::group(['prefix' => 'role-access'], function () {
+        Route::post('/create', [
+            App\Http\Controllers\API\RoleController::class,
+            'store',
+        ]);
+        Route::post('/add-permission/{id}', [
+            App\Http\Controllers\API\RoleController::class,
+            'rolePermission',
+        ]);
+        Route::delete('/delete-permission/{id}', [
+            App\Http\Controllers\API\RoleController::class,
+            'revokePermission',
+        ]);
+        Route::patch('/update/{id}', [
+            App\Http\Controllers\API\RoleController::class,
+            'update',
+        ]);
+        Route::delete('/delete/{id}', [
+            App\Http\Controllers\API\RoleController::class,
+            'destroy',
+        ]);
+    });
+    Route::get('/role-permission', [
+        App\Http\Controllers\API\PermissionController::class,
+        'index',
+    ]);
+    Route::group(['prefix' => 'role-permission'], function () {
+        Route::post('/create', [
+            App\Http\Controllers\API\PermissionController::class,
+            'store',
+        ]);
+        Route::patch('/update/{id}', [
+            App\Http\Controllers\API\PermissionController::class,
+            'update',
+        ]);
+        Route::delete('/delete/{id}', [
+            App\Http\Controllers\API\PermissionController::class,
+            'destroy',
+        ]);
+    });
+
+    Route::get('/user-data', [
+        App\Http\Controllers\API\UserController::class,
+        'index',
+    ]);
+    Route::group(['prefix' => 'user-data'], function () {
+        Route::post('/create', [
+            App\Http\Controllers\API\UserController::class,
+            'store',
+        ]);
+        Route::patch('/update/{id}', [
+            App\Http\Controllers\API\UserController::class,
+            'update',
+        ]);
+        Route::patch('/change-password/{id}', [
+            App\Http\Controllers\API\UserController::class,
+            'changePassword',
+        ]);
+        Route::delete('/delete/{id}', [
+            App\Http\Controllers\API\UserController::class,
+            'destroy',
         ]);
     });
 });

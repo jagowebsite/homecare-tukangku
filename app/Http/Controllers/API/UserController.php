@@ -1,75 +1,55 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
-use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
 {
     /**
-     * Display a user management of a resources.
+     * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        $users = User::with(['roles'])->whereHas('roles', function ($query) {
-            $query->where('name', '<>', 'user');
-        });
-        if ($request->ajax()) {
-            return DataTables::eloquent($users)
-                ->addIndexColumn()
-                ->addColumn('user_date', function (User $user) {
-                    $date = date_create($user->created_at);
-                    $created_at = date_format($date, 'd-m-Y ');
-                    return $created_at;
-                })
-                ->addColumn('user_images', function (User $user) {
-                    $img_url = $user->images
-                        ? asset('storage/' . $user->images)
-                        : 'https://picsum.photos/64';
-                    $image =
-                        '<img src="' .
-                        $img_url .
-                        '" class="wd-40 rounded-circle" alt="">';
-                    return $image;
-                })
-                ->addColumn('action', function (User $user) {
-                    $action =
-                        '<div class="btn-group" role="group" aria-label="Basic example">
-                <a href="' .
-                        route('users_edit', ['id' => $user->id]) .
-                        '"  class="btn btn-secondary active"><i class="fa fa-edit"></i></a>
-                <a href=""  type="button" class="btn btn-secondary btn-delete" data-user_id="' .
-                        $user->id .
-                        '"><i class="fa fa-trash"></i></a>
-              </div>';
-                    return $action;
-                })
-                ->rawColumns(['action', 'user_images', 'user_date'])
-                // ->make(true);
-                ->toJson();
+        $limit = $request->limit ?? 6;
+        $notation = $request->is_consumen ? '<>' : '=';
+        $users = User::with(['roles'])
+            ->whereHas('roles', function ($query) use ($notation) {
+                $query->where('name', $notation, 'user');
+            })
+            ->paginate($limit);
+        foreach ($users as $user) {
+            $data[] = [
+                'id' => $user->id,
+                'email' => $user->email,
+                'name' => $user->name,
+                'date_of_birth' => $user->date_of_birth,
+                'address' => $user->address,
+                'number' => $user->number,
+                'images' => $user->images
+                    ? asset('storage/' . $user->images)
+                    : url('/') . '/assets/icon/user_default.png',
+                'ktp_image' => $user->ktp_image
+                    ? asset('storage/' . $user->ktp_image)
+                    : '',
+            ];
         }
-        return view('pages.user_management.user_data.index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $roles = Role::whereNotIn('name', ['user'])->get();
-        return view('pages.user_management.user_data.create', compact('roles'));
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' => 'Get user data success.',
+                'data' => $data,
+            ],
+            200
+        );
     }
 
     /**
@@ -85,8 +65,8 @@ class UserController extends Controller
             [
                 'email' => 'required|email|unique:users',
                 'name' => 'required',
-                'user_image' => 'image|file|max:8192',
-                'user_ktp' => 'image|file|max:8192',
+                'images' => 'image|file|max:8192',
+                'ktp_image' => 'image|file|max:8192',
                 'date_of_birth' => 'required',
                 'number' => 'required',
                 'password' => 'required|confirmed',
@@ -104,44 +84,40 @@ class UserController extends Controller
         );
         if ($validator->fails()) {
             $error = $validator->errors()->first();
-            session()->flash('danger', $error);
-            return back()->withInput();
+            return response()->json(
+                [
+                    'status' => 'failed',
+                    'message' => $error,
+                ],
+                200
+            );
         }
-        if ($request->file('user_image')) {
-            $user_image = @$request->file('user_image')->store('user_image');
+        DB::beginTransaction();
+        if ($request->file('images')) {
+            $images = @$request->file('images')->store('user_image');
         }
-        if ($request->file('user_ktp')) {
-            $user_ktp = @$request->file('user_ktp')->store('user_image');
+        if ($request->file('ktp_image')) {
+            $ktp_image = @$request->file('ktp_image')->store('user_image');
         }
         $user = User::create([
             'email' => $request->email,
-            'name' => $request->name,
             'password' => bcrypt($request->password),
+            'name' => $request->name,
             'date_of_birth' => $request->date_of_birth,
             'number' => $request->number,
             'address' => $request->address,
-            'images' => @$user_image,
-            'ktp_image' => @$user_ktp,
+            'images' => @$images,
+            'ktp_image' => @$ktp_image,
         ]);
-        $user->assignRole($request->role);
-        session()->flash('success', 'User has been added');
-        return redirect()->route('users');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $user = User::with(['roles'])->find($id);
-
-        $roles = Role::whereNotIn('name', ['user'])->get();
-        return view(
-            'pages.user_management.user_data.edit',
-            compact('user', 'roles')
+        $role = Role::find($request->user_role_id);
+        $user->assignRole($role->name);
+        DB::commit();
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' => 'Create user data success.',
+            ],
+            201
         );
     }
 
@@ -157,10 +133,10 @@ class UserController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'email' => 'required|email',
-                'user_name' => 'required',
-                'user_image' => 'image|file|max:8192',
-                'user_ktp' => 'image|file|max:8192',
+                'email' => 'required|email|unique:users',
+                'name' => 'required',
+                'images' => 'image|file|max:8192',
+                'ktp_image' => 'image|file|max:8192',
                 'date_of_birth' => 'required',
                 'number' => 'required',
             ],
@@ -172,23 +148,29 @@ class UserController extends Controller
                     'File upload must be an image (jpg, jpeg, png, bmp, gif, svg, or webp).',
                 'max' =>
                     'Maximum file size to upload is 8MB (8192 KB). If you are uploading a photo, try to reduce its resolution to make it under 8MB',
+                'confirmed' => 'The password confirmation does not match',
             ]
         );
         if ($validator->fails()) {
             $error = $validator->errors()->first();
-            session()->flash('danger', $error);
-            return back()->withInput();
+            return response()->json(
+                [
+                    'status' => 'failed',
+                    'message' => $error,
+                ],
+                200
+            );
         }
-
+        DB::beginTransaction();
         $user = User::find($id);
-        if ($request->file('user_image')) {
+        if ($request->file('images')) {
             Storage::delete(@$user->images);
-            $user_image = @$request->file('user_image')->store('user_image');
+            $user_image = @$request->file('images')->store('user_image');
             $user->images = $user_image;
         }
-        if ($request->file('user_ktp')) {
+        if ($request->file('ktp_image')) {
             Storage::delete(@$user->ktp_image);
-            $user_ktp = @$request->file('user_ktp')->store('user_image');
+            $user_ktp = @$request->file('ktp_image')->store('user_image');
             $user->ktp_image = $user_ktp;
         }
         $user->email = $request->email;
@@ -197,15 +179,19 @@ class UserController extends Controller
         $user->number = $request->number;
         $user->address = $request->address;
         $user->save();
-
-        $role = Role::find($request->role);
+        $role = Role::find($request->user_role_id);
         if ($user && $role) {
             $user->syncRoles($role);
         }
-        session()->flash('success', 'Data berhasil diupdate');
-        return redirect()->route('users');
+        DB::commit();
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' => 'Update user data success.',
+            ],
+            201
+        );
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -234,25 +220,40 @@ class UserController extends Controller
         );
         if ($validator->fails()) {
             $error = $validator->errors()->first();
-            session()->flash('danger', $error);
-            return back()->withInput();
+            return response()->json(
+                [
+                    'status' => 'failed',
+                    'message' => $error,
+                ],
+                200
+            );
         }
         $user->password = bcrypt($request->password);
         $user->save();
-
-        session()->flash('success', 'Password has been updated');
-        return back();
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' => 'Change password user data success.',
+            ],
+            201
+        );
     }
+
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        User::destroy($request->user_id);
-        session()->flash('danger', 'User has been deleted');
-        return back();
+        User::destroy($id);
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' => 'Delete user data success.',
+            ],
+            201
+        );
     }
 }

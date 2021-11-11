@@ -100,13 +100,13 @@
 
                 <div class="row">
                     <div class="form-group col-xs-12 col-md-6">
-                        <label for="">Password</label>
+                        <label for="">New Password</label>
                         <input type="password" name="password" id="password" class="form-control" placeholder="">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-xs-12 col-md-6">
-                        <label for="">New Password</label>
+                        <label for="">Password Confirmation</label>
                         <input type="password" name="password_confirmation" id="password-confirm" class="form-control"
                             placeho>
                     </div>
