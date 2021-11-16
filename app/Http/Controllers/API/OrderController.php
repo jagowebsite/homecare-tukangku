@@ -134,7 +134,7 @@ class OrderController extends Controller
                     'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                201
             );
         }
         DB::beginTransaction();

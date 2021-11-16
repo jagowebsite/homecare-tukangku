@@ -22,7 +22,11 @@ class RoleController extends Controller
         foreach ($roles as $role) {
             $role_permission = [];
             foreach ($role->permissions as $permission) {
-                $role_permission[] = $permission->name;
+                $role_permission[] = [
+                    'id' => $permission->id,
+                    'name' => $permission->name,
+                    'guard_name' => $permission->guard_name,
+                ];
             }
             $data[] = [
                 'id' => $role->id,
