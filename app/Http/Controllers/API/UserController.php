@@ -20,7 +20,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $limit = $request->limit ?? 6;
-        $notation = $request->is_consumen ? '<>' : '=';
+        $notation = $request->is_consumen ? '=' : '<>';
         $users = User::with(['roles'])
             ->whereHas('roles', function ($query) use ($notation) {
                 $query->where('name', $notation, 'user');
@@ -41,6 +41,11 @@ class UserController extends Controller
                 'ktp_image' => $user->ktp_image
                     ? asset('storage/' . $user->ktp_image)
                     : '',
+                'role' => [
+                    'id' => @$user->roles[0]->id,
+                    'name' => @$user->roles[0]->name,
+                    'guard_name' => @$user->roles[0]->guard_name
+                ]
             ];
         }
         return response()->json(
@@ -134,7 +139,7 @@ class UserController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'email' => 'required|email|unique:users',
+                // 'email' => 'required|email|unique:users',
                 'name' => 'required',
                 'images' => 'image|file|max:8192',
                 'ktp_image' => 'image|file|max:8192',
@@ -143,8 +148,8 @@ class UserController extends Controller
             ],
             $messages = [
                 'required' => 'The :attribute field is required.',
-                'email' => 'Email is not valid.',
-                'unique' => 'Email has been registered.',
+                // 'email' => 'Email is not valid.',
+                // 'unique' => 'Email has been registered.',
                 'image' =>
                     'File upload must be an image (jpg, jpeg, png, bmp, gif, svg, or webp).',
                 'max' =>
@@ -174,8 +179,8 @@ class UserController extends Controller
             $user_ktp = @$request->file('ktp_image')->store('user_image');
             $user->ktp_image = $user_ktp;
         }
-        $user->email = $request->email;
-        $user->name = $request->user_name;
+        // $user->email = $request->email;
+        $user->name = $request->name;
         $user->date_of_birth = $request->date_of_birth;
         $user->number = $request->number;
         $user->address = $request->address;
