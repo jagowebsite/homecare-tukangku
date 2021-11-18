@@ -38,6 +38,8 @@ class OrderController extends Controller
                     : '',
             ];
             $order_detail = [];
+
+            $total_all_price = 0;
             foreach ($order->orderdetails as $orderdetail) {
                 $images_service = [];
                 if (@$orderdetail->service->status_service == '1') {
@@ -80,6 +82,8 @@ class OrderController extends Controller
                     'description' => @$orderdetail->description,
                     'status_order_detail' => @$orderdetail->status_order_detail,
                 ];
+
+                $total_all_price = $total_all_price + @$orderdetail->total_price;
             }
             $data[] = [
                 'id' => $order->id,
@@ -87,6 +91,8 @@ class OrderController extends Controller
                 'invoice_id' => $order->invoice_code,
                 'status_order' => $order->status_order,
                 'transaction_detail' => $order_detail,
+                'total_all_price' => $total_all_price,
+                'created_at' => date_format(date_create($order->created_at), 'Y-m-d H:i:s')
             ];
         }
         return response()->json(

@@ -116,6 +116,7 @@ class PaymentController extends Controller
                 'status' => $payment->status_payment,
                 'description' => $payment->description,
                 'address' => $payment->address,
+                'created_at' => date_format(date_create($payment->created_at), 'Y-m-d H:i:s')
             ];
         }
         return response()->json(
