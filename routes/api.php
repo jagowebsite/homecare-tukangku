@@ -245,6 +245,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         'index',
     ]);
     Route::group(['prefix' => 'transaction'], function () {
+        Route::get('/detail/{id}', [
+            App\Http\Controllers\API\OrderController::class,
+            'show',
+        ]);
         Route::post('/detail/confirm/{id}', [
             App\Http\Controllers\API\OrderController::class,
             'storeConfirmation',
