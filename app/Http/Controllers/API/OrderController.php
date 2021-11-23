@@ -141,6 +141,68 @@ class OrderController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'user_id' => 'required',
+            ],
+            $messages = [
+                'required' => 'The :attribute field is required.',
+                'email' => 'Email is not valid.',
+                'unique' => 'Email has been registered.',
+                'digits' => 'your :attribute is to long',
+                'image' =>
+                    'File upload must be an image (jpg, jpeg, png, bmp, gif, svg, or webp).',
+                'max' =>
+                    'Maximum file size to upload is 8MB (8192 KB). If you are uploading a photo, try to reduce its resolution to make it under 8MB',
+            ]
+        );
+        if ($validator->fails()) {
+            $error = $validator->errors()->first();
+            return response()->json(
+                [
+                    'status' => 'failed',
+                    'message' => $error,
+                ],
+                200
+            );
+        }
+        DB::beginTransaction();
+        $order = Order::create([
+            'user_id' => $request->user_id,
+            'invoice_code' => 'TRHMC' . strtotime('now'),
+            'status_order' => 'pending',
+        ]);
+        foreach ($request->transaction_detail as $order_detail) {
+            OrderDetail::create([
+                'order_id' => $order->id,
+                'service_id' => $order_detail['service_id'],
+                'quantity' => $order_detail['quantity'],
+                'price' => $order_detail['price'],
+                'total_price' => $order_detail['total_price'],
+                'description' => $order_detail['description'],
+                'status_order_detail' => 'pending',
+            ]);
+        }
+        DB::commit();
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' =>
+                    'Pesanan berhasil ditambahkan, silahkan lakukan pembayaran.',
+            ],
+            200
+        );
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -274,6 +336,83 @@ class OrderController extends Controller
             200
         );
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showConfirmation($id)
+    {
+        $order = OrderConfirmation::with(['employee', 'orderDetail', 'service'])
+            ->where('order_detail_id', $id)
+            ->first();
+        if ($order) {
+            $data = [];
+            $employee = [
+                'id' => $order->employee_id,
+                'name' => $order->user->name,
+            ];
+            if ($order->service->status_service == '1') {
+                $status_service = 'active';
+            } else {
+                $status_service = 'nonactive';
+            }
+            if (@count(@json_decode($order->service->images, true))) {
+                foreach (
+                    @json_decode($order->service->images, true)
+                    as $image
+                ) {
+                    $images[] = asset('storage/' . $image);
+                }
+            } else {
+                $images[] = ' https://picsum.photos/64';
+            }
+            $service = [
+                'id' => @$order->service->id,
+                'name' => @$order->service->name,
+                'category' => [
+                    'id' => @$order->service->service_category_id,
+                    'name' => @$order->service->servicecategory->name,
+                ],
+                'type_quantity' => @$order->service->type_quantity,
+                'price' => @$order->service->price,
+                'images' => $images,
+                'description' => $order->service->description,
+                'status' => $status_service,
+            ];
+            $data = [
+                'id' => $order->order_detail_id,
+                'employee' => @$employee,
+                'service' => @$service,
+                'work_duration' => $order->work_duration,
+                'type_work_duration' => $order->type_work_duration,
+                'description' => $order->description,
+                'salary_employee' => $order->salary_employee,
+                'created_at' => date_format(
+                    date_create($order->created_at),
+                    'Y-m-d H:i:s'
+                ),
+            ];
+            return response()->json(
+                [
+                    'status' => 'success',
+                    'message' => 'Get confirm transaction detail info success.',
+                    'data' => @$data,
+                ],
+                200
+            );
+        }
+        return response()->json(
+            [
+                'status' => 'failed',
+                'message' => 'Get confirm transaction detail infofailed.',
+            ],
+            200
+        );
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

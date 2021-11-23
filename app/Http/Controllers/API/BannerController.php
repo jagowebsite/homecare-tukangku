@@ -15,9 +15,10 @@ class BannerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $banners = AssetBanner::all();
+        $limit = $request->limit ?? 6;
+        $banners = AssetBanner::latest()->paginate($limit);
         $data = [];
         foreach ($banners as $banner) {
             $image = $banner->images

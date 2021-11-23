@@ -23,6 +23,9 @@ class ServiceController extends Controller
         if ($request->q) {
             $services->where('name', 'like', '%' . $request->q . '%');
         }
+        if ($request->category_id) {
+            $services->where('service_category_id',  $request->category_id);
+        }
         $services->latest();
         $services = $services->paginate($limit);
         $data = [];
