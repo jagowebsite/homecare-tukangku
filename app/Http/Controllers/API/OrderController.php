@@ -148,35 +148,35 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'user_id' => 'required',
-            ],
-            $messages = [
-                'required' => 'The :attribute field is required.',
-                'email' => 'Email is not valid.',
-                'unique' => 'Email has been registered.',
-                'digits' => 'your :attribute is to long',
-                'image' =>
-                    'File upload must be an image (jpg, jpeg, png, bmp, gif, svg, or webp).',
-                'max' =>
-                    'Maximum file size to upload is 8MB (8192 KB). If you are uploading a photo, try to reduce its resolution to make it under 8MB',
-            ]
-        );
-        if ($validator->fails()) {
-            $error = $validator->errors()->first();
-            return response()->json(
-                [
-                    'status' => 'failed',
-                    'message' => $error,
-                ],
-                201
-            );
-        }
+        // $validator = Validator::make(
+        //     $request->all(),
+        //     [
+        //         'user_id' => 'required',
+        //     ],
+        //     $messages = [
+        //         'required' => 'The :attribute field is required.',
+        //         'email' => 'Email is not valid.',
+        //         'unique' => 'Email has been registered.',
+        //         'digits' => 'your :attribute is to long',
+        //         'image' =>
+        //             'File upload must be an image (jpg, jpeg, png, bmp, gif, svg, or webp).',
+        //         'max' =>
+        //             'Maximum file size to upload is 8MB (8192 KB). If you are uploading a photo, try to reduce its resolution to make it under 8MB',
+        //     ]
+        // );
+        // if ($validator->fails()) {
+        //     $error = $validator->errors()->first();
+        //     return response()->json(
+        //         [
+        //             'status' => 'failed',
+        //             'message' => $error,
+        //         ],
+        //         201
+        //     );
+        // }
         DB::beginTransaction();
         $order = Order::create([
-            'user_id' => $request->user_id,
+            'user_id' => @$request->user()->id,
             'invoice_code' => 'TRHMC' . strtotime('now'),
             'status_order' => 'pending',
         ]);
