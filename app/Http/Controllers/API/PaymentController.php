@@ -172,7 +172,7 @@ class PaymentController extends Controller
                     'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                201
             );
         }
         DB::beginTransaction();
@@ -257,7 +257,7 @@ class PaymentController extends Controller
                     'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                201
             );
         }
         DB::beginTransaction();

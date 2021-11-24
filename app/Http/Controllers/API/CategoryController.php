@@ -71,7 +71,7 @@ class CategoryController extends Controller
                     'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                201
             );
         }
         if ($request->file('images')) {
@@ -87,7 +87,7 @@ class CategoryController extends Controller
                 'status' => 'success',
                 'message' => 'Insert category service succesfully',
             ],
-            200
+            201
         );
     }
 
@@ -153,7 +153,7 @@ class CategoryController extends Controller
                     'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                201
             );
         }
         if ($request->file('images')) {

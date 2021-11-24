@@ -95,7 +95,7 @@ class UserController extends Controller
                     'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                201
             );
         }
         DB::beginTransaction();
@@ -164,7 +164,7 @@ class UserController extends Controller
                     'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                201
             );
         }
         DB::beginTransaction();
@@ -231,7 +231,7 @@ class UserController extends Controller
                     'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                201
             );
         }
         $user->password = bcrypt($request->password);

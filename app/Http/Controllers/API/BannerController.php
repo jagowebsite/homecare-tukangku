@@ -79,7 +79,7 @@ class BannerController extends Controller
                     'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                201
             );
         }
         if ($request->file('images')) {
@@ -101,7 +101,7 @@ class BannerController extends Controller
                 'status' => 'success',
                 'message' => 'Insert banner succesfully',
             ],
-            200
+            201
         );
     }
 
@@ -173,7 +173,7 @@ class BannerController extends Controller
                     'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                201
             );
         }
         if ($request->file('images')) {

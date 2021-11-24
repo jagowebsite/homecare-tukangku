@@ -93,7 +93,7 @@ class EmployeeController extends Controller
                     'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                201
             );
         }
         if ($request->file('images')) {
@@ -118,7 +118,7 @@ class EmployeeController extends Controller
                 'status' => 'success',
                 'message' => 'Insert employee succesfully',
             ],
-            200
+            201
         );
     }
 
@@ -198,7 +198,7 @@ class EmployeeController extends Controller
                     'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                201
             );
         }
         $employee = Employee::find($id);

@@ -104,7 +104,7 @@ class ServiceController extends Controller
                     'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                201
             );
         }
         $pathimage = [];
@@ -134,7 +134,7 @@ class ServiceController extends Controller
                 'status' => 'success',
                 'message' => 'Insert service succesfully',
             ],
-            200
+            201
         );
     }
 
@@ -221,7 +221,7 @@ class ServiceController extends Controller
                     'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                201
             );
         }
         $service = Service::find($id);

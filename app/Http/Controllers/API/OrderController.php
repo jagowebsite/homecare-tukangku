@@ -171,7 +171,7 @@ class OrderController extends Controller
                     'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                201
             );
         }
         DB::beginTransaction();
@@ -198,7 +198,7 @@ class OrderController extends Controller
                 'message' =>
                     'Pesanan berhasil ditambahkan, silahkan lakukan pembayaran.',
             ],
-            200
+            201
         );
     }
 

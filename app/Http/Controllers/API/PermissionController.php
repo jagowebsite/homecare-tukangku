@@ -96,7 +96,7 @@ class PermissionController extends Controller
                     'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                201
             );
         }
         $permission = Permission::find($id);
@@ -106,7 +106,7 @@ class PermissionController extends Controller
                     'status' => 'failed',
                     'message' => 'please check your id',
                 ],
-                200
+                201
             );
         }
         $permission->name = $request->name;

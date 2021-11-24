@@ -84,7 +84,7 @@ class ComplainController extends Controller
                     'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                201
             );
         }
         $user_id = @$request->user()->id;
@@ -100,7 +100,7 @@ class ComplainController extends Controller
                 'status' => 'success',
                 'message' => 'Insert complain succesfully',
             ],
-            200
+            201
         );
     }
 

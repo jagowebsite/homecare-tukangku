@@ -120,7 +120,7 @@ class RoleController extends Controller
                     'status' => 'failed',
                     'message' => 'please input id role',
                 ],
-                200
+                201
             );
         }
         $validator = Validator::make(
@@ -147,7 +147,7 @@ class RoleController extends Controller
                     'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                201
             );
         }
         $role = Role::find($id);
@@ -157,7 +157,7 @@ class RoleController extends Controller
                     'status' => 'failed',
                     'message' => 'please check your id',
                 ],
-                200
+                201
             );
         }
         $role->name = $request->name;
