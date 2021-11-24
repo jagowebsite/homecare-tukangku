@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ServiceReport;
 use App\Http\Controllers\Controller;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
@@ -59,6 +61,10 @@ class ReportController extends Controller
         return view('pages.report.report_consumen');
     }
 
+    public function exportServiceReport(Request $request)
+    {
+        return Excel::download(new ServiceReport($request), 'service_report.xlsx');
+    }
     /**
      * Show the form for creating a new resource.
      *

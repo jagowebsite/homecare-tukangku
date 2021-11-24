@@ -297,4 +297,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
             'cancelPayment',
         ]);
     });
+    Route::group(['prefix' => 'report'], function () {
+        Route::get('/export/service', [
+            App\Http\Controllers\Admin\ReportController::class,
+            'exportServiceReport',
+        ]);
+    });
 });

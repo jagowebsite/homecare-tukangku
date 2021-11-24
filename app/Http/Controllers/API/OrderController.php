@@ -534,7 +534,7 @@ class OrderController extends Controller
         $order->save();
         $orderdetails = OrderDetail::where('order_id', $id)->get();
         foreach ($orderdetails as $orderdetail) {
-            if ($orderdetail->status_order_detail = 'process') {
+            if ($orderdetail->status_order_detail == 'process') {
                 $orderdetail->status_order_detail = 'done';
                 $orderdetail->verified_at = now();
                 $orderdetail->save();
