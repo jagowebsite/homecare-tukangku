@@ -17,12 +17,12 @@ class OrderDetail extends Model
      */
     protected $fillable = [
         'order_id',
-        'services_id',
+        'service_id',
         'quantity',
         'price',
         'total_price',
         'description',
-        'status',
+        'status_order_detail',
         'verified_at',
     ];
 
