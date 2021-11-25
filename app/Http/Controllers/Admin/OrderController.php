@@ -52,7 +52,9 @@ class OrderController extends Controller
                         <a href="' .
                         route('transactions_detail', $order->id) .
                         '" class="btn btn-secondary"><i class="fa fa-eye"></i></a>
-                        <a href=""  type="button" class="btn btn-secondary"><i class="fa fa-trash"></i></a>
+                        <a href=""  type="button" class="btn btn-secondary" data-order_id="' .
+                        $order->id .
+                        '"><i class="fa fa-trash"></i></a>
                       </div>
                ';
                     return $action;
@@ -296,11 +298,16 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        DB::beginTransaction();
+        Order::destroy($request->order_id);
+        OrderDetail::where('order_id', $request->order_id)->delete();
+        DB::commit();
+        session()->flash('danger', 'Order has been deleted');
+        return back();
     }
 }

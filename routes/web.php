@@ -264,7 +264,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 App\Http\Controllers\Admin\OrderController::class,
                 'cancelDetailOrder',
             ])->name('cancel_confirmation');
-
+            Route::delete('/destroy', [
+                App\Http\Controllers\Admin\OrderController::class,
+                'destroy',
+            ])->name('order_destroy');
             // Route::get('/edit', function(){return view('pages.master.services.edit');})->name('services_edit');
         });
 

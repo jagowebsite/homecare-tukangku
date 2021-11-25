@@ -68,11 +68,24 @@
             </div><!-- table-wrapper -->
         </div><!-- br-section-wrapper -->
     </div><!-- br-pagebody -->
+    <form id="form_delete" action="{{ route('order_destroy') }}" method="POST" hidden>
+        @method('delete')
+        @csrf
+        <input type="text" name="order_id" id="order_id" placeholder="" value="">
+    </form>
 @endsection
 
 @section('scripts')
 
     <script>
+         $(document).on("click", ".btn-delete", function(e) {
+            e.preventDefault()
+            let order_id = $(this).data('order_id');
+            $("#form_delete #order_id").val(order_id);
+            if (order_id) {
+                document.getElementById('form_delete').submit();
+            }
+        });
         $(function() {
 
             $('#datatable2').DataTable({
