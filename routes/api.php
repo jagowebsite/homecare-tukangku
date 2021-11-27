@@ -244,6 +244,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         App\Http\Controllers\API\OrderController::class,
         'index',
     ]);
+    Route::get('/my-transactions', [
+        App\Http\Controllers\API\OrderController::class,
+        'indexMyTransaction',
+    ]);
     Route::group(['prefix' => 'transaction'], function () {
         Route::post('/create', [
             App\Http\Controllers\API\OrderController::class,
@@ -298,9 +302,22 @@ Route::middleware(['auth:sanctum'])->group(function () {
         ]);
     });
     Route::group(['prefix' => 'report'], function () {
+
         Route::get('/export/service', [
-            App\Http\Controllers\Admin\ReportController::class,
+            App\Http\Controllers\API\ReportController::class,
             'exportServiceReport',
+        ]);
+        Route::get('/all', [
+            App\Http\Controllers\API\ReportController::class,
+            'index',
+        ]);
+        Route::get('/service', [
+            App\Http\Controllers\API\ReportController::class,
+            'indexService',
+        ]);
+        Route::get('/export/all', [
+            App\Http\Controllers\API\ReportController::class,
+            'exportAllReport',
         ]);
     });
 });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\AllReport;
 use App\Exports\ServiceReport;
 use App\Http\Controllers\Controller;
 use App\Models\OrderDetail;
@@ -64,6 +65,10 @@ class ReportController extends Controller
     public function exportServiceReport(Request $request)
     {
         return Excel::download(new ServiceReport($request), 'service_report.xlsx');
+    }
+    public function exportAllReport(Request $request)
+    {
+        return Excel::download(new AllReport($request), 'all_report.xlsx');
     }
     /**
      * Show the form for creating a new resource.

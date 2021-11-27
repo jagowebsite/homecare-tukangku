@@ -331,6 +331,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             App\Http\Controllers\Admin\ReportController::class,
             'exportServiceReport',
         ])->name('export_report_service');
+        Route::get('/export/all', [
+            App\Http\Controllers\Admin\ReportController::class,
+            'exportAllReport',
+        ])->name('export_report_service');
     });
 
     Route::group(['prefix' => 'history'], function () {
