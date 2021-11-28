@@ -140,7 +140,7 @@ class PaymentController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'user_id' => 'required',
+               
                 'transaction_id' => 'required',
                 'type' => 'required',
                 'type_transfer' => 'required',
@@ -184,8 +184,9 @@ class PaymentController extends Controller
         if ($request->file('images_user')) {
             $images_user = @$request->file('images_user')->store('payments');
         }
+        $user_id = $request->user()->id;
         Payment::create([
-            'user_id' => $request->user_id,
+            'user_id' => $user_id,
             'order_id' => $request->transaction_id,
             'payment_code' => 'INVHMC-' . strtotime('now'),
             'type' => $request->type,
@@ -225,7 +226,7 @@ class PaymentController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'user_id' => 'required',
+                
                 'transaction_id' => 'required',
                 'type' => 'required',
                 'type_transfer' => 'required',
@@ -273,7 +274,8 @@ class PaymentController extends Controller
             $images_user = @$request->file('images_user')->store('payments');
             $payment->images_user = $images_user;
         }
-        $payment->user_id = $request->user_id;
+        $user_id = $request->user()->id;
+        $payment->user_id = $user_id;
         $payment->order_id = $request->transaction_id;
         $payment->type = $request->type;
         $payment->type_transfer = $request->type_transfer;
