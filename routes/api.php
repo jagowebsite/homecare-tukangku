@@ -320,4 +320,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
             'exportAllReport',
         ]);
     });
+    Route::group(['prefix' => 'history'], function () {
+        Route::get('/employee', [
+            App\Http\Controllers\API\HistoryController::class,
+            'indexEmployee',
+        ])->name('history_employee');
+        Route::get('/transaction', [
+            App\Http\Controllers\API\HistoryController::class,
+            'index',
+        ])->name('history_transaction');
+    });
 });

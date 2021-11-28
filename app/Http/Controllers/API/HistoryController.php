@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Exports\AllReport;
-use App\Exports\ServiceReport;
 use App\Http\Controllers\Controller;
+use App\Models\OrderConfirmation;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 
-class ReportController extends Controller
+class HistoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,7 +21,7 @@ class ReportController extends Controller
             'order',
             'service',
             'order.user',
-        ])->where('status_order_detail', 'done')->paginate($limit);
+        ])->paginate($limit);
         $data = [];
         foreach($orderdetails as $item){
             $user = [
@@ -89,57 +87,55 @@ class ReportController extends Controller
                         'description'=>@$item->description,
                         'status_order_detail'=>@$item->status_order_detail,
                         'verified_at' => date_format(
-                            date_create($item->verified_at),
+                            date_create(@$item->verified_at),
                             'Y-m-d H:i:s'
                         ),
                         'created_at' => date_format(
                             date_create($item->created_at),
                             'Y-m-d H:i:s'
                         ),
-
                     ];
         }
         return response()->json(
             [
                 'status' => 'success',
-                'message' => 'Get data all report success.',
+                'message' => 'Get data history consumen success.',
                 'data' => @$data,
             ],
             200
         );
     }
 
-    public function indexService(Request $request)
+    public function indexEmployee(Request $request)
     {
         $limit = $request->limit ?? 6;
-        $orderdetails = OrderDetail::with([
-            'order',
+        $orderconfirmations = OrderConfirmation::with([
+            'employee',
+            'orderdetail',
             'service',
-            'order.user',
-        ])->where('status_order_detail', 'done')->whereHas('service', function ($query) {
-            $query->whereNotIn('service_category_id', [2, 7]);
-        })->paginate($limit);
+        ])->paginate($limit);
         $data = [];
-        foreach($orderdetails as $item){
-            $user = [
-                'id' => @$item->order->user->id,
-                'email' => @$item->order->user->email,
-                'name' => @$item->order->user->name,
-                'date_of_birth' => @$item->order->user->date_of_birth,
-                'address' => @$item->order->user->address,
-                'number' => @$item->order->user->number,
-                'images' => @$item->order->user->images
-                    ? asset('storage/' . @$item->order->user->images)
-                    : url('/') . '/assets/icon/user_default.png',
-                'ktp_image' => @$item->order->user->ktp_image
-                    ? asset('storage/' . @$item->order->user->ktp_image)
-                    : '',
-            ];
-            $order = [
-                'id' => @$item->order->id,
-                'invoice_id' => @$item->order->invoice_code,
-                'user' => @$user,
-                'status_order' => @$item->order->status_order,
+        foreach ($orderconfirmations as $item) {
+            $image_employee = @$item->employee->images
+                ? asset('storage/' . @$item->employee->images)
+                : 'https://picsum.photos/64';
+            if (@$item->employee->is_ready == 1) {
+                $is_ready = true;
+            } else {
+                $is_ready = false;
+            }
+            $employee = [
+                'id' => @$item->employee->id,
+                'category_service' => [
+                    'id' => @$item->employee->service_category_id,
+                    'name' => @$item->employee->servicecategory->name,
+                ],
+                'name' => @$item->employee->name,
+                'address' => @$item->employee->address,
+                'number' => @$item->employee->number,
+                'is_ready' => $is_ready,
+                'status' => @$item->employee->status_employee,
+                'images' => $image_employee,
             ];
             $images_service = [];
             if (@$item->service->status_service == '1') {
@@ -174,41 +170,68 @@ class ReportController extends Controller
                         'description' => @$item->service->description,
                         'status' => @$status_service,
                     ];
-                    $data[]=[
-                        'id'=> $item->id,
+                    $user = [
+                        'id' => @$item->orderdetail->order->user->id,
+                        'email' => @$item->orderdetail->order->user->email,
+                        'name' => @$item->orderdetail->order->user->name,
+                        'date_of_birth' => @$item->orderdetail->order->user->date_of_birth,
+                        'address' => @$item->orderdetail->order->user->address,
+                        'number' => @$item->orderdetail->order->user->number,
+                        'images' => @$item->orderdetail->order->user->images
+                            ? asset('storage/' . @$item->orderdetail->order->user->images)
+                            : url('/') . '/assets/icon/user_default.png',
+                        'ktp_image' => @$item->orderdetail->order->user->ktp_image
+                            ? asset('storage/' . @$item->orderdetail->order->user->ktp_image)
+                            : '',
+                    ];
+                    $order = [
+                        'id' => @$item->orderdetail->order->id,
+                        'invoice_id' => @$item->orderdetail->order->invoice_code,
+                        'user' => @$user,
+                        'status_order' => @$item->orderdetail->order->status_order,
+                    ];
+                    $order_detail=[
+                        'id'=> $item->order_detail_id,
                         'order'=>@$order,
                         'service'=>@$service,
-                        'quantity'=>@$item->quantity,
-                        'price'=>@$item->price,
-                        'total_price'=>@$item->total_price,
-                        'description'=>@$item->description,
-                        'status_order_detail'=>@$item->status_order_detail,
-                        'created_at' => date_format(
-                            date_create($item->verified_at),
+                        'quantity'=>@$item->orderdetail->quantity,
+                        'price'=>@$item->orderdetail->price,
+                        'total_price'=>@$item->orderdetail->total_price,
+                        'description'=>@$item->orderdetail->description,
+                        'status_order_detail'=>@$item->orderdetail->status_order_detail,
+                        'verified_at' => date_format(
+                            date_create(@$item->orderdetail->verified_at),
                             'Y-m-d H:i:s'
                         ),
-
+                        'created_at' => date_format(
+                            date_create(@$item->orderdetail->created_at),
+                            'Y-m-d H:i:s'
+                        ),
+                    ];
+                    $data[]=[
+                        'id'=>$item->id,
+                        'employee'=>$employee,
+                        'order_detail'=>$order_detail,
+                        'work_duration'=>$item->work_duration,
+                        'type_work_duration'=>$item->type_work_duration,
+                        'description'=>$item->description,
+                        'salary_employee'=>$item->salary_employee,
+                        'created_at' => date_format(
+                            date_create(@$item->create_at),
+                            'Y-m-d H:i:s'
+                        ),
                     ];
         }
         return response()->json(
             [
                 'status' => 'success',
-                'message' => 'Get data all report success.',
+                'message' => 'Get data history employee success.',
                 'data' => @$data,
             ],
             200
         );
     }
 
-    public function exportServiceReport(Request $request)
-    {
-        return Excel::download(new ServiceReport($request), 'service_report.xlsx');
-    }
-    public function exportAllReport(Request $request)
-    {
-        return Excel::download(new AllReport($request), 'all_report.xlsx');
-    }
-    
     /**
      * Show the form for creating a new resource.
      *
