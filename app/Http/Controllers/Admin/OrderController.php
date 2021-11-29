@@ -92,8 +92,19 @@ class OrderController extends Controller
     public function getInvoice($id)
     {
         $pdf = new PDF();
-        $pdf = PDF::loadview('exports.invoice');
-    	return $pdf->download('invoice-pdf');
+        $data = [];
+        $pdf = PDF::loadview('exports.invoice', $data);
+        $options = [
+            'dpi' => 96,
+            'defaultFont' => 'Nunito',
+            'isRemoteEnabled' => true
+        ];
+        
+        $pdf->setOptions($options);
+        $pdf->setPaper('a4', 'landscape');
+        return $pdf->stream('inovice-pdf');
+    	// return $pdf->download('invoice-pdf');
+
     }
 
     /**
