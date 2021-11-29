@@ -54,6 +54,18 @@ Route::get('/gps-logs', [
     App\Http\Controllers\API\GpsController::class,
     'index',
 ]);
+Route::group(['prefix' => 'report'], function () {
+
+    Route::get('/export/service', [
+        App\Http\Controllers\API\ReportController::class,
+        'exportServiceReport',
+    ]);
+   
+    Route::get('/export/all', [
+        App\Http\Controllers\API\ReportController::class,
+        'exportAllReport',
+    ]);
+});
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::group(['prefix' => 'auth'], function () {
@@ -303,10 +315,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
     Route::group(['prefix' => 'report'], function () {
 
-        Route::get('/export/service', [
-            App\Http\Controllers\API\ReportController::class,
-            'exportServiceReport',
-        ]);
         Route::get('/all', [
             App\Http\Controllers\API\ReportController::class,
             'index',
@@ -315,10 +323,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
             App\Http\Controllers\API\ReportController::class,
             'indexService',
         ]);
-        Route::get('/export/all', [
-            App\Http\Controllers\API\ReportController::class,
-            'exportAllReport',
-        ]);
+       
     });
     Route::group(['prefix' => 'history'], function () {
         Route::get('/employee', [

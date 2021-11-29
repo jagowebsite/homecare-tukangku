@@ -8,11 +8,13 @@ use App\Models\Order;
 use App\Models\OrderConfirmation;
 use App\Models\OrderDetail;
 use App\Models\Service;
+// use Barryvdh\DomPDF\PDF; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use PHPUnit\Framework\Constraint\Count;
 use Yajra\DataTables\Facades\DataTables;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class OrderController extends Controller
 {
@@ -87,9 +89,11 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function getInvoice($id)
     {
-        //
+        $pdf = new PDF();
+        $pdf = PDF::loadview('exports.invoice');
+    	return $pdf->download('invoice-pdf');
     }
 
     /**

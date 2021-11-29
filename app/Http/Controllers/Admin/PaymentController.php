@@ -16,7 +16,7 @@ class PaymentController extends Controller
      */
     public function index(Request $request)
     {
-        $payments = Payment::with(['user', 'order'])->latest();
+        $payments = Payment::with(['user', 'order']);
         // dd($payment);
         if ($request->ajax()) {
             return DataTables::eloquent($payments)

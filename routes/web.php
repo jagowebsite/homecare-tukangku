@@ -239,6 +239,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 App\Http\Controllers\Admin\OrderController::class,
                 'index',
             ])->name('transactions');
+            Route::get('/get-invoice/{id}',  [
+                App\Http\Controllers\Admin\OrderController::class,
+                'getInvoice',
+            ])->name('get-invoice');
             Route::get('/detail/{id}', [
                 App\Http\Controllers\Admin\OrderController::class,
                 'show',
