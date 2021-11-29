@@ -16,7 +16,7 @@ class HistoryOrderController extends Controller
      */
     public function index(Request $request)
     {
-        $orderdetails = OrderDetail::with(['order', 'service', 'order.user']);
+        $orderdetails = OrderDetail::with(['order', 'service', 'order.user'])->latest();
         // dd($orderdetails);
         if ($request->ajax()) {
             return DataTables::eloquent($orderdetails)

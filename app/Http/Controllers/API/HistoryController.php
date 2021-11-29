@@ -21,7 +21,7 @@ class HistoryController extends Controller
             'order',
             'service',
             'order.user',
-        ])->paginate($limit);
+        ])->latest()->paginate($limit);
         $data = [];
         foreach($orderdetails as $item){
             $user = [
@@ -113,7 +113,7 @@ class HistoryController extends Controller
             'employee',
             'orderdetail',
             'service',
-        ])->paginate($limit);
+        ])->latest()->paginate($limit);
         $data = [];
         foreach ($orderconfirmations as $item) {
             $image_employee = @$item->employee->images

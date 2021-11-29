@@ -19,7 +19,7 @@ class ServiceCategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = ServiceCategory::query();
+        $categories = ServiceCategory::query()->latest();
         if ($request->ajax()) {
             return DataTables::eloquent($categories)
                 ->addIndexColumn()

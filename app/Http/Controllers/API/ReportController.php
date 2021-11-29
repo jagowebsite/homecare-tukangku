@@ -23,7 +23,7 @@ class ReportController extends Controller
             'order',
             'service',
             'order.user',
-        ])->where('status_order_detail', 'done')->paginate($limit);
+        ])->where('status_order_detail', 'done')->latest()->paginate($limit);
         $data = [];
         foreach($orderdetails as $item){
             $user = [
@@ -118,7 +118,7 @@ class ReportController extends Controller
             'order.user',
         ])->where('status_order_detail', 'done')->whereHas('service', function ($query) {
             $query->whereNotIn('service_category_id', [2, 7]);
-        })->paginate($limit);
+        })->latest()->paginate($limit);
         $data = [];
         foreach($orderdetails as $item){
             $user = [

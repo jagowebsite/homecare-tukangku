@@ -20,7 +20,7 @@ class ServiceController extends Controller
      */
     public function index(Request $request)
     {
-        $services = Service::with(['serviceCategory']);
+        $services = Service::with(['serviceCategory'])->latest();
         // dd($services);
         if ($request->ajax()) {
             return DataTables::eloquent($services)

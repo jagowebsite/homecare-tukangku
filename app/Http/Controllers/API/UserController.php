@@ -24,7 +24,7 @@ class UserController extends Controller
         $users = User::with(['roles'])
             ->whereHas('roles', function ($query) use ($notation) {
                 $query->where('name', $notation, 'user');
-            })
+            })->latest()
             ->paginate($limit);
         $data = [];
         foreach ($users as $user) {

@@ -20,7 +20,7 @@ class HistoryEmployeeController extends Controller
             'employee',
             'orderdetail',
             'service',
-        ]);
+        ])->latest();
         // dd($orderconfirmations);
         if ($request->ajax()) {
             return DataTables::eloquent($orderconfirmations)

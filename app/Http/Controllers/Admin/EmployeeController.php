@@ -20,7 +20,7 @@ class EmployeeController extends Controller
      */
     public function index(Request $request)
     {
-        $employees = Employee::with(['serviceCategory']);
+        $employees = Employee::with(['serviceCategory'])->latest();
         // dd($employees);
         if ($request->ajax()) {
             return DataTables::eloquent($employees)

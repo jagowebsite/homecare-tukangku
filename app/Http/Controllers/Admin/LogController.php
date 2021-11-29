@@ -17,7 +17,7 @@ class LogController extends Controller
      */
     public function index(Request $request)
     {
-        $logs = Log::with(['user']);
+        $logs = Log::with(['user'])->latest();
         // dd($logs);
         if ($request->ajax()) {
             return DataTables::eloquent($logs)

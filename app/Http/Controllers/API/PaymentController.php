@@ -19,7 +19,7 @@ class PaymentController extends Controller
     public function index(Request $request)
     {
         $limit = $request->limit ?? 6;
-        $payments = Payment::with(['user', 'order'])->paginate($limit);
+        $payments = Payment::with(['user', 'order'])->latest()->paginate($limit);
         $data = [];
         foreach ($payments as $payment) {
             $user = [

@@ -23,7 +23,7 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $orders = Order::with(['user', 'orderDetails', 'orderDetails.service']);
+        $orders = Order::with(['user', 'orderDetails', 'orderDetails.service'])->latest();
         // dd($orders);
         if ($request->ajax()) {
             return DataTables::eloquent($orders)

@@ -46,7 +46,7 @@ class ReportController extends Controller
             'order',
             'service',
             'order.user',
-        ])->where('status_order_detail', 'done');
+        ])->where('status_order_detail', 'done')->latest();
         // ->whereHas('service', function ($query) {
         //     $query->whereNotIn('service_category_id', [2, 7]);
         // });

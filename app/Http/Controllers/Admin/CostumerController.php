@@ -21,7 +21,7 @@ class CostumerController extends Controller
     {
         $users = User::with(['roles'])->whereHas('roles', function ($query) {
             $query->where('name', 'user');
-        });
+        })->latest();
         if ($request->ajax()) {
             return DataTables::eloquent($users)
                 ->addIndexColumn()

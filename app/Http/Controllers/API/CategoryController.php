@@ -17,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = ServiceCategory::all();
+        $categories = ServiceCategory::latest()->get();
         $data = [];
         foreach ($categories as $category) {
             $image = $category->images

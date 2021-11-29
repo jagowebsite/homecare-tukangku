@@ -17,7 +17,7 @@ class PermissionController extends Controller
      */
     public function index(Request $request)
     {
-        $permissions = Permission::query();
+        $permissions = Permission::query()->latest();
         return DataTables::eloquent($permissions)
             ->addIndexColumn()
             ->addColumn('action', function (Permission $permission) {

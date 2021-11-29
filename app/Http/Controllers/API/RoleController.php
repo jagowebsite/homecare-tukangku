@@ -18,7 +18,7 @@ class RoleController extends Controller
     public function index(Request $request)
     {
         $limit = $request->limit ?? 6;
-        $roles = Role::with('permissions')->paginate($limit);
+        $roles = Role::with('permissions')->latest()->paginate($limit);
         foreach ($roles as $role) {
             $role_permission = [];
             foreach ($role->permissions as $permission) {

@@ -16,16 +16,16 @@ class PaymentController extends Controller
      */
     public function index(Request $request)
     {
-        $payment = Payment::with(['user', 'order']);
+        $payments = Payment::with(['user', 'order'])->latest();
         // dd($payment);
         if ($request->ajax()) {
-            return DataTables::eloquent($payment)
+            return DataTables::eloquent($payments)
                 ->addIndexColumn()
                 ->addColumn('invoice', function (Payment $payment) {
                     $invoice =
                         '<p>
                             <a class="" href="' .
-                        route('transactions_detail', $payment->order->id) .
+                        route('transactions_detail', $payment->order_id) .
                         '">' .
                         $payment->order->invoice_code .
                         ' </a>

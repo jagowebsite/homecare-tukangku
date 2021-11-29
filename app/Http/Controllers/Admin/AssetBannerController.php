@@ -19,7 +19,7 @@ class AssetBannerController extends Controller
      */
     public function index(Request $request)
     {
-        $assets = AssetBanner::query();
+        $assets = AssetBanner::query()->latest();
         // dd($assets);
         if ($request->ajax()) {
             return DataTables::eloquent($assets)

@@ -16,7 +16,7 @@ class GpsController extends Controller
      */
     public function index(Request $request)
     {
-        $payment = Payment::with(['user', 'order']);
+        $payment = Payment::with(['user', 'order'])->latest();
         // dd($payment);
         if ($request->ajax()) {
             return DataTables::eloquent($payment)

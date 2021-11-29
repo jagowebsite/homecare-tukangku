@@ -145,7 +145,7 @@ class OrderController extends Controller
         $user_id = $request->user()->id;
         $limit = $request->limit ?? 6;
         $orders = Order::with(['user', 'orderDetails', 'payments'])
-        ->where('user_id', $user_id)->paginate(
+        ->where('user_id', $user_id)->latest()->paginate(
             $limit
         );
         $data = [];

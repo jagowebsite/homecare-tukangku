@@ -28,7 +28,7 @@ class AllReport implements FromView
             $orderdetails->where('created_at', '>=', $this->request->start_date . ' 00:00:00')
             ->where('created_at', '<=', $this->request->end_date . ' 23:59:59');
         }
-        $orderdetails= $orderdetails->get();
+        $orderdetails= $orderdetails->latest()->get();
         return view('exports.report_consumen', [
             'orderdetails' => $orderdetails,
         ]);

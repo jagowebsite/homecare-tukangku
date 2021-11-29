@@ -22,7 +22,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::with(['roles'])->whereHas('roles', function ($query) {
-            $query->where('name', '<>', 'user');
+            $query->where('name', '<>', 'user')->latest();
         });
         if ($request->ajax()) {
             return DataTables::eloquent($users)

@@ -17,7 +17,7 @@ class PermissionController extends Controller
     public function index(Request $request)
     {
         $limit = $request->limit ?? 6;
-        $permissions = Permission::paginate($limit);
+        $permissions = Permission::latest()->paginate($limit);
         $data = [];
         foreach ($permissions as $permission) {
             $data[] = [
