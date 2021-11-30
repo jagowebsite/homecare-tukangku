@@ -141,15 +141,15 @@
                 ajax: "{{ route('payments') }}",
                 columns: [{
                         data: 'invoice',
-                        name: 'order.invoice_code'
+                        name: 'invoice_code'
                     },
                     {
                         data: 'payment_code',
                         name: 'payment_code',
                     },
                     {
-                        data: 'user.name',
-                        name: 'user.name'
+                        data: 'name',
+                        name: 'name'
                     },
                     {
                         data: 'total_payment',

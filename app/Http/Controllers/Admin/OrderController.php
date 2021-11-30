@@ -92,8 +92,9 @@ class OrderController extends Controller
     public function getInvoice($id)
     {
         $pdf = new PDF();
+        $order = Order::with(['user', 'orderdetails', 'payments'])->find($id);
         $data = [];
-        $pdf = PDF::loadview('exports.invoice', $data);
+        $pdf = PDF::loadview('exports.invoice', ['order'=>$order]);
         $options = [
             'dpi' => 96,
             'defaultFont' => 'Nunito',
@@ -102,7 +103,7 @@ class OrderController extends Controller
         
         $pdf->setOptions($options);
         $pdf->setPaper('a4', 'landscape');
-        return $pdf->stream('inovice-pdf');
+        return $pdf->stream('invoice-pdf');
     	// return $pdf->download('invoice-pdf');
 
     }

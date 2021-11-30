@@ -9,6 +9,7 @@ use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class OrderController extends Controller
 {
@@ -139,7 +140,24 @@ class OrderController extends Controller
             200
         );
     }
+    public function getInvoice($id)
+    {
+        $pdf = new PDF();
+        $order = Order::with(['user', 'orderdetails', 'payments'])->find($id);
+        $data = [];
+        $pdf = PDF::loadview('exports.invoice', ['order'=>$order]);
+        $options = [
+            'dpi' => 96,
+            'defaultFont' => 'Nunito',
+            'isRemoteEnabled' => true
+        ];
+        
+        $pdf->setOptions($options);
+        $pdf->setPaper('a4', 'landscape');
+        return $pdf->stream('invoice-pdf');
+    	// return $pdf->download('invoice-pdf');
 
+    }
     public function indexMyTransaction(Request $request)
     {
         $user_id = $request->user()->id;

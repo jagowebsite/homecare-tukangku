@@ -66,7 +66,10 @@ Route::group(['prefix' => 'report'], function () {
         'exportAllReport',
     ]);
 });
-
+Route::get('/transaction/get-invoice/{id}', [
+    App\Http\Controllers\API\OrderController::class,
+    'getInvoice',
+]);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::post('/logout', [

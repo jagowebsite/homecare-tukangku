@@ -1,149 +1,150 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
+<html lang="en">
 <head>
-    @include('layouts.header', ['title' => @$title ?? config('app.name', 'Homecare - Tukangku')])
+<meta charset="UTF-8">
+<title>Aloha!</title>
 
-   
+<style type="text/css">
+    * {
+        font-family: Verdana, Arial, sans-serif;
+    }
+    table{
+        font-size: 16px;
+    }
+    tfoot tr td{
+        font-weight: bold;
+        font-size: 16px;
+    }
+    .gray {
+        background-color: lightgray
+    }
+</style>
+
 </head>
-
 <body>
-    <div class="container">
-        <div class="card">
-            <div class="card-header">
-                Invoice
-                <strong>01/01/01/2018</strong>
-                <span class="float-right"> <strong>Status:</strong> Pending</span>
 
-            </div>
-            <div class="card-body">
-                <div class="row mb-4">
-                    <div class="col-sm-6">
-                        <h6 class="mb-3">From:</h6>
-                        <div>
-                            <strong>Webz Poland</strong>
-                        </div>
-                        <div>Madalinskiego 8</div>
-                        <div>71-101 Szczecin, Poland</div>
-                        <div>Email: info@webz.com.pl</div>
-                        <div>Phone: +48 444 666 3333</div>
-                    </div>
+  <table width="100%">
+    <tr>
+        <td valign="top"><img src="https://jatenglive.com/images/news/4-Logo-Ini-Punya-Arti-Tersembunyi-news20180823-cutting%20stickers%20shop.jpg" alt="" width="150"/></td>
+        <td align="right">
+            <h3>{{$order->invoice_code}} - @if ($order->status_order=='done')
+              <span style="color: green">SELESAI</span>
+              @elseif($order->status_order=='cancel')
+              <span style="color: red">BATAL</span>
+              @else
+              <span style="color: orange">DIPROSES</span>
+            @endif
+          </h3>
+          <p>{{date_format(date_create(@$order->created_at), 'Y-m-d H:i:s')}}</p>
+            <pre>
+                Tukang Kita
+                Jalan HR Muhammad
+                08511111111111
+                tukangku@gmail.com
+            </pre>
+        </td>
+    </tr>
 
-                    <div class="col-sm-6">
-                        <h6 class="mb-3">To:</h6>
-                        <div>
-                            <strong>Bob Mart</strong>
-                        </div>
-                        <div>Attn: Daniel Marek</div>
-                        <div>43-190 Mikolow, Poland</div>
-                        <div>Email: marek@daniel.com</div>
-                        <div>Phone: +48 123 456 789</div>
-                    </div>
+  </table>
+@isset($order->user)
+<table width="100%">
+  <tr>
+      <td>{{@$order->user->name}}</td>
+  </tr>
+  <tr>
+      <td>{{@$order->user->address}}</td>
+  </tr>
+  <tr>
+      <td>{{@$order->user->number}}</td>
+  </tr>
 
+</table>
+@endisset
 
+  <br/>
 
-                </div>
+<table width="100%">
+  <thead style="background-color: lightgray;">
+    <tr>
+      <th>#</th>
+      <th>Nama Layanan</th>
+      <th>Durasi Layanan</th>
+      <th>Harga</th>
+      <th>Total Harga</th>
+    </tr>
+  </thead>
+  <tbody>
+    @if (count($order->orderdetails))
+    @foreach (@$order->orderdetails as $item)
+        <tr>
+          <th scope="row">{{$loop->iteration}}</th>
+          <td>{{@$item->service->name}}</td>
+          <td align="right">{{@$item->quantity}} {{@$item->service->type_quantity}}</td>
+          <td align="right">Rp. {{number_format(@$item->price)}}</td>
+          <td align="right">Rp. {{number_format(@$item->total_price)}}</td>
+        </tr>
+        {{-- <tr>
+            <th scope="row">2</th>
+            <td>Service AC</td>
+            <td align="right">1 Layanan</td>
+            <td align="right">Rp. 50.000,00</td>
+            <td align="right">Rp. 50.000,00</td>
+        </tr>
+         --}}
+    @endforeach
+  </tbody>
+  <tfoot>
+      <tr>
+          <td colspan="3"></td>
+          <td align="right">Total Bayar</td>
+          <td align="right" class="gray">Rp. {{number_format($order->orderdetails->sum('total_price'))}}</td>
+      </tr>
+  </tfoot>
+</table> 
+@endif
+  <br/>
+<div style="margin-top: 25px;"> </div>
+@if (count($order->payments))
+<table width="100%">
+  <tr>
+      <td>Detail Pembayaran Layanan</td>
+  </tr>
+  
 
-                <div class="table-responsive-sm">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th class="center">#</th>
-                                <th>Item</th>
-                                <th>Description</th>
+</table>
+  <table width="100%">
+    <thead style="background-color: lightgray;">
+      <tr>
+        <th>Tanggal Pembayaran</th>
+        <th>Kode Pembayaran</th>
+        <th>Jenis Pembayaran</th>
+        <th>Tipe Pembayaran</th>
+        <th>Status Pembayaran</th>
+        <th>Total Bayar</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach ($order->payments as $item)
+      <tr>
+        <td scope="row">{{date_format(date_create(@$item->created_at), 'Y-m-d H:i:s')}}</td>
+        <td>{{$item->payment_code}}</td>
+        <td align="right">{{$item->type}}</td>
+        <td align="right">{{$item->type_transfer}}</td>
+        <td align="right">{{$item->status_payment}}</td>
+        <td align="right">Rp. {{number_format($item->total_payment)}}</td>
+      </tr>
+      @endforeach
+      
+    </tbody>
 
-                                <th class="right">Unit Cost</th>
-                                <th class="center">Qty</th>
-                                <th class="right">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="center">1</td>
-                                <td class="left strong">Origin License</td>
-                                <td class="left">Extended License</td>
-
-                                <td class="right">$999,00</td>
-                                <td class="center">1</td>
-                                <td class="right">$999,00</td>
-                            </tr>
-                            <tr>
-                                <td class="center">2</td>
-                                <td class="left">Custom Services</td>
-                                <td class="left">Instalation and Customization (cost per hour)</td>
-
-                                <td class="right">$150,00</td>
-                                <td class="center">20</td>
-                                <td class="right">$3.000,00</td>
-                            </tr>
-                            <tr>
-                                <td class="center">3</td>
-                                <td class="left">Hosting</td>
-                                <td class="left">1 year subcription</td>
-
-                                <td class="right">$499,00</td>
-                                <td class="center">1</td>
-                                <td class="right">$499,00</td>
-                            </tr>
-                            <tr>
-                                <td class="center">4</td>
-                                <td class="left">Platinum Support</td>
-                                <td class="left">1 year subcription 24/7</td>
-
-                                <td class="right">$3.999,00</td>
-                                <td class="center">1</td>
-                                <td class="right">$3.999,00</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="row">
-                    <div class="col-lg-4 col-sm-5">
-
-                    </div>
-
-                    <div class="col-lg-4 col-sm-5 ml-auto">
-                        <table class="table table-clear">
-                            <tbody>
-                                <tr>
-                                    <td class="left">
-                                        <strong>Subtotal</strong>
-                                    </td>
-                                    <td class="right">$8.497,00</td>
-                                </tr>
-                                <tr>
-                                    <td class="left">
-                                        <strong>Discount (20%)</strong>
-                                    </td>
-                                    <td class="right">$1,699,40</td>
-                                </tr>
-                                <tr>
-                                    <td class="left">
-                                        <strong>VAT (10%)</strong>
-                                    </td>
-                                    <td class="right">$679,76</td>
-                                </tr>
-                                <tr>
-                                    <td class="left">
-                                        <strong>Total</strong>
-                                    </td>
-                                    <td class="right">
-                                        <strong>$7.477,36</strong>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    @include('layouts.footer')
-
+    <tfoot>
+        <tr>
+            <td colspan="4"></td>
+            <td align="right">Total Bayar</td>
+            <td align="right" class="gray">Rp. {{number_format($order->payments->sum('total_payment'))}}</td>
+        </tr>
+    </tfoot>
+  </table>
+@endif
 </body>
-
 </html>
