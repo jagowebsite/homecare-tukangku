@@ -114,8 +114,8 @@
                     },
                     {
                         data: 'action',
-                        name: 'action',
-                        orderable: false,
+                        name: 'created_at',
+                        // orderable: false,
                         searchable: false
                     },
                 ]
