@@ -17,12 +17,35 @@
         <h4 class="tx-gray-800 mg-b-5">Laporan Penjual</h4>
         <p class="mg-b-0">Semua Laporan Seluruh</p>
     </div>
+    <div class="br-pagebody">
+        <div class="br-section-wrapper">
+            <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Eksport Laporan Report Penjualan</h6>
+            {{-- <p class="mg-b-25 mb-4">Semua Laporan Seluruh Penjual Homecare - Tukangku.</p> --}}
+            <form id="form-filter" action="{{route('export_report_all')}}" method="GET" target="_blank">
+                <div class="row ml-3 d-flex align-items-end">
+                    <div class="col-4 mt-3 pt-3">
+                        <label for="">Start Date</label>
 
+                        <input class="form-control" type="date" id="start_date" name="start_date"
+                            value="{{ old('start_date')}}">
+                    </div>
+                    <div class="col-4 mt-3 pt-3">
+                        <label for="">End Date</label>
+                        <input class="form-control" type="date" id="end_date" name="end_date"
+                            value="{{ old('end_date')}}">
+                    </div>
+                    <div class="col-3 mt-3 pt-3">
+                        <button  class="btn btn-secondary" type="submit" style="height: 45px;">Eksport</button>
+                    </div>
+                </div>
+            </form>
+
+        </div><!-- br-section-wrapper -->
+    </div><!-- br-pagebody -->
     <div class="br-pagebody">
         <div class="br-section-wrapper">
             <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Semua Data Laporan Penjual</h6>
             <p class="mg-b-25 mb-4">Semua Laporan Seluruh Penjual Homecare - Tukangku.</p>
-
             {{-- <button data-toggle="modal" data-target="#addCategory" class="btn btn-primary mb-4"><i class="fa fa-plus"></i> Tambah Kategori</button> --}}
 
             <div class="table-wrapper">
@@ -62,6 +85,23 @@
 @section('scripts')
 
     <script>
+        //  $('#btn-exspor').on('click', function() {
+        //     $.ajax({
+        //             url: "{{ route('export_report_service') }}",
+        //             data: {
+        //                 'start_date': $('input[name=start_date]').val(),
+        //                 'end_date': $('input[name=end_date]').val(),
+        //             },
+        //             // data: function(d) {
+        //             //     d.start_date = $('input[name=start_date]').val();
+        //             //     d.end_date = $('input[name=end_date]').val();
+        //             // },
+        //             type: "GET",
+        //             // datatype: "html",
+        //         })
+                
+        // });
+
         $(function() {
 
             $('#datatable2').DataTable({

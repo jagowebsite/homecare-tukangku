@@ -6,10 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Complain;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ComplainController extends Controller
 {
+    public $log;
+    public function __construct(){
+        $this->log = new LogController();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -87,14 +92,22 @@ class ComplainController extends Controller
                 201
             );
         }
+        DB::beginTransaction();
         $user_id = @$request->user()->id;
         // $user = User::find($user_id);
-        Complain::create([
+        $complain = Complain::create([
             'user_id' => $user_id,
             'order_id' => $request->order_id,
             'description' => $request->description,
             'status_complain' => 'pending',
         ]);
+        $datalog = [
+            'user_id' => $user_id,
+            'type' => 'create',
+            'description' => "Create New banner [$complain->id] $complain->description", 
+        ];
+        $this->log->store($datalog);
+        DB::commit();
         return response()->json(
             [
                 'status' => 'success',

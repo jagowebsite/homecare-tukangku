@@ -6,12 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use App\Models\ServiceCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class EmployeeController extends Controller
 {
+    public $log;
+    public function __construct(){
+        $this->log = new LogController();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -107,11 +113,13 @@ class EmployeeController extends Controller
             session()->flash('danger', $error);
             return back()->withInput();
         }
+        DB::beginTransaction();
         if ($request->file('images')) {
             $images = @$request->file('images')->store('employees');
         }
         $is_ready = @$request->is_ready ?? '0';
-        Employee::create([
+        
+        $employee=Employee::create([
             'service_category_id' => $request->service_category_id,
             'name' => $request->name,
             'number' => $request->number,
@@ -119,6 +127,13 @@ class EmployeeController extends Controller
             'images' => @$images,
             'is_ready' => @$is_ready,
         ]);
+        $datalog = [
+            'user_id' => Auth::user()->id??0,
+            'type' => 'create',
+            'description' => "Create New employee [$employee->id] $employee->name", 
+        ];
+        $this->log->store($datalog);
+        DB::commit();
         session()->flash('success', 'Employee has been added');
         return redirect()->route('employees');
     }
@@ -175,6 +190,7 @@ class EmployeeController extends Controller
             session()->flash('danger', $error);
             return back()->withInput();
         }
+        DB::beginTransaction();
         if ($request->file('images')) {
             Storage::delete(@$employee->images);
             $images = @$request->file('images')->store('employees');
@@ -187,6 +203,13 @@ class EmployeeController extends Controller
         $employee->number = $request->number;
         $employee->is_ready = $is_ready;
         $employee->save();
+        $datalog = [
+            'user_id' => Auth::user()->id??0,
+            'type' => 'put',
+            'description' => "Update employee [$id] $employee->name", 
+        ];
+        $this->log->store($datalog);
+        DB::commit();
         session()->flash('success', 'Employee has been updated');
         return redirect()->route('employees');
     }
@@ -200,7 +223,16 @@ class EmployeeController extends Controller
     public function destroy(Request $request)
     {
         // dd($request);
+        DB::beginTransaction();
+        $employee=  Employee::find($request->employee_id);
         Employee::destroy($request->employee_id);
+        $datalog = [
+            'user_id' => Auth::user()->id??0,
+            'type' => 'delete',
+            'description' => "Delete employee [$employee->id] $employee->name", 
+        ];
+        $this->log->store($datalog);
+        DB::commit();
         session()->flash('danger', 'Employee  has been deleted');
         return back();
     }

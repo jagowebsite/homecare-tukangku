@@ -17,7 +17,32 @@
         <h4 class="tx-gray-800 mg-b-5">Laporan Jasa</h4>
         <p class="mg-b-0">Semua data Laporan Jasa</p>
     </div>
+    <div class="br-pagebody">
+        <div class="br-section-wrapper">
+            <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Eksport Laporan Report Penjualan</h6>
+            {{-- <p class="mg-b-25 mb-4">Semua Laporan Seluruh Penjual Homecare - Tukangku.</p> --}}
+            <form id="form-filter" action="{{route('export_report_service')}}" method="GET" target="_blank">
+                <div class="row ml-3 d-flex align-items-end">
+                    <div class="col-4 mt-3 pt-3">
+                        <label for="">Start Date</label>
 
+                        <input class="form-control" type="date" id="start_date" name="start_date"
+                            value="{{ old('start_date')}}">
+                    </div>
+                    <div class="col-4 mt-3 pt-3">
+                        <label for="">End Date</label>
+                        <input class="form-control" type="date" id="end_date" name="end_date"
+                            value="{{ old('end_date')}}">
+                    </div>
+                    <div class="col-3 mt-3 pt-3">
+                        <button  class="btn btn-secondary" type="submit" style="height: 45px;">Eksport</button>
+                    </div>
+                </div>
+            </form>
+
+        </div><!-- br-section-wrapper -->
+    </div><!-- br-pagebody -->
+    
     <div class="br-pagebody">
         <div class="br-section-wrapper">
             <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Semua Data Laporan Jasa</h6>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\RateLimiter;
@@ -286,7 +287,7 @@ class AuthController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function register(Request $request)
-    {
+    {   DB::beginTransaction();
         $validator = Validator::make(
             $request->all(),
             [
@@ -318,8 +319,10 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        
         $user->assignRole('user');
         $user->sendEmailVerificationNotification();
+        DB::commit();
         return response()->json(
             [
                 'status' => 'success',
@@ -378,6 +381,9 @@ class AuthController extends Controller
                         'ktp_image' => $user->ktp_image
                             ? asset('storage/' . $user->ktp_image)
                             : '',
+                        'role' => [
+                            'name' => @$request->user()->getRoleNames()[0],
+                        ]
                     ],
                 ],
                 200

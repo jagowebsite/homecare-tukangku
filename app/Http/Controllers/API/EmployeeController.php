@@ -5,11 +5,16 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller
 {
+    public $log;
+    public function __construct(){
+        $this->log = new LogController();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -96,6 +101,7 @@ class EmployeeController extends Controller
                 201
             );
         }
+        DB::beginTransaction();
         if ($request->file('images')) {
             $images = @$request->file('images')->store('employees');
         }
@@ -104,7 +110,7 @@ class EmployeeController extends Controller
         } else {
             $is_ready = 0;
         }
-        Employee::create([
+        $employee=Employee::create([
             'service_category_id' => $request->category_service_id,
             'name' => $request->name,
             'address' => $request->address,
@@ -113,6 +119,14 @@ class EmployeeController extends Controller
             'status_employee' => $request->status,
             'images' => @$images,
         ]);
+        $user_id = $request->user()->id??0;
+        $datalog = [
+            'user_id' => $user_id,
+            'type' => 'create',
+            'description' => "Create New employee [$employee->id] $employee->name", 
+        ];
+        $this->log->store($datalog);
+        DB::commit();
         return response()->json(
             [
                 'status' => 'success',
@@ -201,6 +215,7 @@ class EmployeeController extends Controller
                 201
             );
         }
+        DB::beginTransaction();
         $employee = Employee::find($id);
         if ($request->file('images')) {
             Storage::delete(@$employee->images);
@@ -219,6 +234,14 @@ class EmployeeController extends Controller
         $employee->is_ready = $is_ready;
         $employee->status_employee = $request->status;
         $employee->save();
+        $user_id = $request->user()->id??0;
+        $datalog = [
+            'user_id' => $user_id,
+            'type' => 'put',
+            'description' => "Update employee [$id] $employee->name", 
+        ];
+        $this->log->store($datalog);
+        DB::commit();
         return response()->json(
             [
                 'status' => 'success',
@@ -234,9 +257,19 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        DB::beginTransaction();
+        $employee=  Employee::find($id);
         Employee::destroy($id);
+        $user_id = $request->user()->id??0;
+        $datalog = [
+            'user_id' => $user_id,
+            'type' => 'delete',
+            'description' => "Delete employee [$employee->id] $employee->name", 
+        ];
+        $this->log->store($datalog);
+        DB::commit();
         return response()->json(
             [
                 'status' => 'success',

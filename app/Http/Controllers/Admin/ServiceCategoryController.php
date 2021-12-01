@@ -5,12 +5,19 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ServiceCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class ServiceCategoryController extends Controller
 {
+    public $log;
+    public function __construct(){
+        $this->log = new LogController();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -89,10 +96,18 @@ class ServiceCategoryController extends Controller
         if ($request->file('images')) {
             $images = @$request->file('images')->store('category');
         }
-        ServiceCategory::create([
+        DB::beginTransaction();
+        $category =ServiceCategory::create([
             'name' => $request->name,
             'images' => @$images,
         ]);
+        $datalog = [
+            'user_id' => Auth::user()->id??0,
+            'type' => 'create',
+            'description' => "Create New service category [$category->id] $category->name", 
+        ];
+        $this->log->store($datalog);
+        DB::commit();
         session()->flash('success', 'Service Category has been added');
         return back();
     }
@@ -107,6 +122,7 @@ class ServiceCategoryController extends Controller
     public function update(Request $request, $id)
     {
         // dd($request);
+        DB::beginTransaction();
         $category = ServiceCategory::find($id);
         if ($request->file('images')) {
             Storage::delete(@$category->images);
@@ -115,7 +131,13 @@ class ServiceCategoryController extends Controller
         }
         $category->name = $request->name;
         $category->save();
-
+        $datalog = [
+            'user_id' => Auth::user()->id??0,
+            'type' => 'put',
+            'description' => "Update service category [$id] $category->name", 
+        ];
+        $this->log->store($datalog);
+        DB::commit();
         session()->flash('success', 'Service Category has been updated');
         return back();
     }
@@ -129,7 +151,16 @@ class ServiceCategoryController extends Controller
     public function destroy(Request $request)
     {
         // dd($request);
+        DB::beginTransaction();
+        $category=ServiceCategory::find($request->category_id);
         ServiceCategory::destroy($request->category_id);
+        $datalog = [
+            'user_id' => Auth::user()->id??0,
+            'type' => 'delete',
+            'description' => "Delete service category [$category->id] $category->name", 
+        ];
+        $this->log->store($datalog);
+        DB::commit();
         session()->flash('danger', 'Service Category has been deleted');
         return back();
     }

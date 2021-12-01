@@ -5,12 +5,18 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AssetBanner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class AssetBannerController extends Controller
 {
+    public $log;
+    public function __construct(){
+        $this->log = new LogController();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -99,16 +105,24 @@ class AssetBannerController extends Controller
             session()->flash('danger', $error);
             return back()->withInput();
         }
+        DB::beginTransaction();
         if ($request->file('images')) {
             $images = @$request->file('images')->store('asset_banners');
         }
         $is_active = @$request->is_active ?? '0';
-        AssetBanner::create([
+        $banner = AssetBanner::create([
             'name' => $request->name,
             'url_asset' => $request->url_asset,
             'is_active' => $is_active,
             'images' => $images,
         ]);
+        $datalog = [
+            'user_id' => Auth::user()->id??0,
+            'type' => 'create',
+            'description' => "Create New banner [$banner->id] $banner->name", 
+        ];
+        $this->log->store($datalog);
+        DB::commit();
         session()->flash('success', 'Asset Banner has been added');
         return redirect()->route('banners');
     }
@@ -157,6 +171,7 @@ class AssetBannerController extends Controller
             session()->flash('danger', $error);
             return back()->withInput();
         }
+        DB::beginTransaction();
         if ($request->file('images')) {
             Storage::delete(@$asset->images);
             $images = @$request->file('images')->store('asset_banners');
@@ -167,6 +182,13 @@ class AssetBannerController extends Controller
         $asset->url_asset = $request->url_asset;
         $asset->is_active = $is_active;
         $asset->save();
+        $datalog = [
+            'user_id' => Auth::user()->id??0,
+            'type' => 'put',
+            'description' => "Update banner [$asset->id] $asset->name", 
+        ];
+        $this->log->store($datalog);
+        DB::commit();
         session()->flash('success', 'Asset Banners has been updated');
         return redirect()->route('banners');
     }
@@ -179,7 +201,16 @@ class AssetBannerController extends Controller
      */
     public function destroy(Request $request)
     {
+        DB::beginTransaction();
+        $asset = AssetBanner::find($request->asset_id);
         AssetBanner::destroy($request->asset_id);
+        $datalog = [
+            'user_id' => Auth::user()->id??0,
+            'type' => 'delete',
+            'description' => "Delete banner [$asset->id] $asset->name", 
+        ];
+        $this->log->store($datalog);
+        DB::commit();
         session()->flash('danger', 'Asset Banner  has been deleted');
         return back();
     }

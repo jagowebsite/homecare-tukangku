@@ -5,11 +5,16 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\ServiceCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
+    public $log;
+    public function __construct(){
+        $this->log = new LogController();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -74,14 +79,25 @@ class CategoryController extends Controller
                 201
             );
         }
+        DB::beginTransaction();
         if ($request->file('images')) {
             $images = @$request->file('images')->store('category');
         }
 
-        ServiceCategory::create([
+        $category=ServiceCategory::create([
             'name' => $request->name,
             'images' => $images,
         ]);
+        $user_id = $request->user()->id??0;
+        $datalog = [
+            'user_id' => $user_id,
+            'type' => 'create',
+            'description' => "Create New service category [$category->id] $category->name", 
+        ];
+        $this->log->store($datalog);
+
+        DB::commit();
+
         return response()->json(
             [
                 'status' => 'success',
@@ -128,6 +144,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
         $category = ServiceCategory::find($id);
         $validator = Validator::make(
             $request->all(),
@@ -156,6 +173,7 @@ class CategoryController extends Controller
                 201
             );
         }
+        DB::beginTransaction();
         if ($request->file('images')) {
             Storage::delete(@$category->images);
             $images = @$request->file('images')->store('category');
@@ -163,6 +181,14 @@ class CategoryController extends Controller
         }
         $category->name = $request->name;
         $category->save();
+        $user_id = $request->user()->id??0;
+        $datalog = [
+            'user_id' => $user_id,
+            'type' => 'put',
+            'description' => "Update service category [$id] $category->name", 
+        ];
+        $this->log->store($datalog);
+        DB::commit();
         return response()->json(
             [
                 'status' => 'success',
@@ -178,9 +204,19 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        DB::beginTransaction();
+        $category=ServiceCategory::find($id);
         ServiceCategory::destroy($id);
+        $user_id = $request->user()->id??0;
+        $datalog = [
+            'user_id' => $user_id,
+            'type' => 'delete',
+            'description' => "Delete service category [$category->id] $category->name", 
+        ];
+        $this->log->store($datalog);
+        DB::commit();
         return response()->json(
             [
                 'status' => 'success',

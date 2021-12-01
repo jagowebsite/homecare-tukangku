@@ -136,20 +136,23 @@
                     sSearch: '',
                     lengthMenu: '_MENU_ items/page',
                 },
+                "order": [6, 'desc'],
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('payments') }}",
-                columns: [{
-                        data: 'invoice',
-                        name: 'invoice_code'
-                    },
+                columns: [
                     {
                         data: 'payment_code',
                         name: 'payment_code',
                     },
                     {
-                        data: 'name',
-                        name: 'name'
+                        data: 'invoice',
+                        name: 'order.invoice_code'
+                    },
+                    
+                    {
+                        data: 'user.name',
+                        name: 'user.name'
                     },
                     {
                         data: 'total_payment',
@@ -169,8 +172,8 @@
 
                     {
                         data: 'action',
-                        name: 'action',
-                        orderable: false,
+                        name: 'created_at',
+                        // orderable: false,
                         searchable: false
                     },
                 ]

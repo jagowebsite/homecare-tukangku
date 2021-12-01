@@ -5,11 +5,16 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\AssetBanner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class BannerController extends Controller
 {
+    public $log;
+    public function __construct(){
+        $this->log = new LogController();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -82,6 +87,7 @@ class BannerController extends Controller
                 201
             );
         }
+        DB::beginTransaction();
         if ($request->file('images')) {
             $images = @$request->file('images')->store('asset_banners');
         }
@@ -90,12 +96,20 @@ class BannerController extends Controller
         } else {
             $is_active = 0;
         }
-        AssetBanner::create([
+        $banner=AssetBanner::create([
             'name' => $request->name,
             'url_asset' => $request->url_asset,
             'is_active' => $is_active,
             'images' => $images,
         ]);
+        $user_id = $request->user()->id??0;
+        $datalog = [
+            'user_id' => $user_id,
+            'type' => 'create',
+            'description' => "Create New banner [$banner->id] $banner->name", 
+        ];
+        $this->log->store($datalog);
+        DB::commit();
         return response()->json(
             [
                 'status' => 'success',
@@ -176,6 +190,7 @@ class BannerController extends Controller
                 201
             );
         }
+        DB::beginTransaction();
         if ($request->file('images')) {
             Storage::delete(@$banner->images);
             $images = @$request->file('images')->store('asset_banners');
@@ -190,6 +205,14 @@ class BannerController extends Controller
         $banner->url_asset = $request->url_asset;
         $banner->is_active = $is_active;
         $banner->save();
+        $user_id = $request->user()->id??0;
+        $datalog = [
+            'user_id' => $user_id,
+            'type' => 'put',
+            'description' => "Update banner [$banner->id] $banner->name", 
+        ];
+        $this->log->store($datalog);
+        DB::commit();
         return response()->json(
             [
                 'status' => 'success',
@@ -205,9 +228,19 @@ class BannerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        DB::beginTransaction();
+        $banner = AssetBanner::find($id);
         AssetBanner::destroy($id);
+        $user_id = $request->user()->id??0;
+        $datalog = [
+            'user_id' => $user_id,
+            'type' => 'delete',
+            'description' => "Delete banner [$banner->id] $banner->name", 
+        ];
+        $this->log->store($datalog);
+        DB::commit();
         return response()->json(
             [
                 'status' => 'success',
