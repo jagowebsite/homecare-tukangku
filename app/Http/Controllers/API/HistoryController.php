@@ -25,7 +25,7 @@ class HistoryController extends Controller
         $data = [];
         foreach($orderdetails as $item){
             $user = [
-                'id' => @$item->order->user->id,
+                'id' => (int) @$item->order->user->id,
                 'email' => @$item->order->user->email,
                 'name' => @$item->order->user->name,
                 'date_of_birth' => @$item->order->user->date_of_birth,
@@ -39,7 +39,7 @@ class HistoryController extends Controller
                     : '',
             ];
             $order = [
-                'id' => @$item->order->id,
+                'id' => (int) @$item->order->id,
                 'invoice_id' => @$item->order->invoice_code,
                 'user' => @$user,
                 'status_order' => @$item->order->status_order,
@@ -63,27 +63,27 @@ class HistoryController extends Controller
                 $images_service[] = 'https://picsum.photos/64';
             }
             $service = [
-                'id' => @$item->service_id,
+                'id' => (int) @$item->service_id,
                         'name' => @$item->service->name,
                         'category' => [
-                            'id' => @$item->service->service_category_id,
+                            'id' => (int) @$item->service->service_category_id,
                             'name' => @$item->service->servicecategory
                                 ->name,
                         ],
                         'type_quantity' => @$item->service
                             ->type_quantity,
-                        'price' => @$item->service->price,
+                        'price' => (int) @$item->service->price,
                         'images' => @$images_service,
                         'description' => @$item->service->description,
                         'status' => @$status_service,
                     ];
                     $data[]=[
-                        'id'=> $item->id,
+                        'id'=> (int) $item->id,
                         'order'=>@$order,
                         'service'=>@$service,
-                        'quantity'=>@$item->quantity,
-                        'price'=>@$item->price,
-                        'total_price'=>@$item->total_price,
+                        'quantity'=> (int) @$item->quantity,
+                        'price'=> (int) @$item->price,
+                        'total_price'=> (int) @$item->total_price,
                         'description'=>@$item->description,
                         'status_order_detail'=>@$item->status_order_detail,
                         'verified_at' => date_format(
@@ -156,22 +156,22 @@ class HistoryController extends Controller
                 $images_service[] = 'https://picsum.photos/64';
             }
             $service = [
-                'id' => @$item->service_id,
+                'id' => (int) @$item->service_id,
                         'name' => @$item->service->name,
                         'category' => [
-                            'id' => @$item->service->service_category_id,
+                            'id' => (int) @$item->service->service_category_id,
                             'name' => @$item->service->servicecategory
                                 ->name,
                         ],
                         'type_quantity' => @$item->service
                             ->type_quantity,
-                        'price' => @$item->service->price,
+                        'price' => (int) @$item->service->price,
                         'images' => @$images_service,
                         'description' => @$item->service->description,
                         'status' => @$status_service,
                     ];
                     $user = [
-                        'id' => @$item->orderdetail->order->user->id,
+                        'id' => (int) @$item->orderdetail->order->user->id,
                         'email' => @$item->orderdetail->order->user->email,
                         'name' => @$item->orderdetail->order->user->name,
                         'date_of_birth' => @$item->orderdetail->order->user->date_of_birth,
@@ -185,18 +185,18 @@ class HistoryController extends Controller
                             : '',
                     ];
                     $order = [
-                        'id' => @$item->orderdetail->order->id,
+                        'id' => (int) @$item->orderdetail->order->id,
                         'invoice_id' => @$item->orderdetail->order->invoice_code,
                         'user' => @$user,
                         'status_order' => @$item->orderdetail->order->status_order,
                     ];
                     $order_detail=[
-                        'id'=> $item->order_detail_id,
+                        'id'=> (int) $item->order_detail_id,
                         'order'=>@$order,
                         'service'=>@$service,
-                        'quantity'=>@$item->orderdetail->quantity,
-                        'price'=>@$item->orderdetail->price,
-                        'total_price'=>@$item->orderdetail->total_price,
+                        'quantity'=> (int) @$item->orderdetail->quantity,
+                        'price'=> (int) @$item->orderdetail->price,
+                        'total_price'=>(int) @$item->orderdetail->total_price,
                         'description'=>@$item->orderdetail->description,
                         'status_order_detail'=>@$item->orderdetail->status_order_detail,
                         'verified_at' => date_format(
@@ -209,7 +209,7 @@ class HistoryController extends Controller
                         ),
                     ];
                     $data[]=[
-                        'id'=>$item->id,
+                        'id'=> (int) $item->id,
                         'employee'=>$employee,
                         'order_detail'=>$order_detail,
                         'work_duration'=>$item->work_duration,

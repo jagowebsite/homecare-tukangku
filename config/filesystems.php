@@ -70,4 +70,20 @@ return [
         public_path('storage') => storage_path('app/public'),
     ],
 
+    'sftp' => [
+        'driver' => 'sftp',
+        'host' => 'harmonisproperty.com',
+        'username' => 'harmonis',
+        'password' => '!Z.93SlF4peTw9',
+    
+        // Settings for SSH key based authentication...
+        'privateKey' => '/path/to/privateKey',
+        'password' => 'encryption-password',
+    
+        // Optional SFTP Settings...
+        // 'port' => 22,
+        // 'root' => '',
+        // 'timeout' => 30,
+    ],
+
 ];

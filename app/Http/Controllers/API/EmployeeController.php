@@ -40,9 +40,9 @@ class EmployeeController extends Controller
                 $is_ready = false;
             }
             $data[] = [
-                'id' => $employee->id,
+                'id' => (int) $employee->id,
                 'category_service' => [
-                    'id' => @$employee->service_category_id,
+                    'id' => (int) @$employee->service_category_id,
                     'name' => @$employee->servicecategory->name,
                 ],
                 'name' => $employee->name,
@@ -154,9 +154,9 @@ class EmployeeController extends Controller
             $is_ready = false;
         }
         $data = [
-            'id' => $employee->id,
+            'id' => (int) $employee->id,
             'category_service' => [
-                'id' => @$employee->service_category_id,
+                'id' => (int) @$employee->service_category_id,
                 'name' => @$employee->servicecategory->name,
             ],
             'name' => $employee->name,

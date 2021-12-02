@@ -160,22 +160,22 @@ class ReportController extends Controller
                 $images_service[] = 'https://picsum.photos/64';
             }
             $service = [
-                'id' => @$item->service_id,
+                'id' => (int) @$item->service_id,
                         'name' => @$item->service->name,
                         'category' => [
-                            'id' => @$item->service->service_category_id,
+                            'id' => (int) @$item->service->service_category_id,
                             'name' => @$item->service->servicecategory
                                 ->name,
                         ],
                         'type_quantity' => @$item->service
                             ->type_quantity,
-                        'price' => @$item->service->price,
+                        'price' => (int) @$item->service->price,
                         'images' => @$images_service,
                         'description' => @$item->service->description,
                         'status' => @$status_service,
                     ];
                     $data[]=[
-                        'id'=> $item->id,
+                        'id'=> (int) $item->id,
                         'order'=>@$order,
                         'service'=>@$service,
                         'quantity'=>@$item->quantity,

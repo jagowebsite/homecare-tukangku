@@ -205,25 +205,25 @@ class OrderController extends Controller
                     $images_service[] = 'https://picsum.photos/64';
                 }
                 $order_detail[] = [
-                    'id' => @$orderdetail->id,
+                    'id' => (int) @$orderdetail->id,
                     'service' => [
-                        'id' => @$orderdetail->service_id,
+                        'id' => (int) @$orderdetail->service_id,
                         'name' => @$orderdetail->service->name,
                         'category' => [
-                            'id' => @$orderdetail->service->service_category_id,
+                            'id' => (int) @$orderdetail->service->service_category_id,
                             'name' => @$orderdetail->service->servicecategory
                                 ->name,
                         ],
                         'type_quantity' => @$orderdetail->service
                             ->type_quantity,
-                        'price' => @$orderdetail->service->price,
+                        'price' => (int) @$orderdetail->service->price,
                         'images' => @$images_service,
                         'description' => @$orderdetail->service->description,
                         'status' => @$status_service,
                     ],
-                    'quantity' => @$orderdetail->quantity,
-                    'price' => @$orderdetail->price,
-                    'total_price' => @$orderdetail->total_price,
+                    'quantity' => (int) @$orderdetail->quantity,
+                    'price' => (int) @$orderdetail->price,
+                    'total_price' => (int) @$orderdetail->total_price,
                     'description' => @$orderdetail->description,
                     'status_order_detail' => @$orderdetail->status_order_detail,
                 ];
@@ -234,7 +234,7 @@ class OrderController extends Controller
             $payments = [];
             foreach ($order->payments as $payment) {
                 $payments[] = [
-                    'id' => $payment->id,
+                    'id' => (int) $payment->id,
                     'payment_code' => $payment->payment_code,
                     'type' => $payment->type,
                     'type_transfer' => $payment->type_transfer,
@@ -260,7 +260,7 @@ class OrderController extends Controller
                 ];
             }
             $data[] = [
-                'id' => $order->id,
+                'id' => (int) $order->id,
                 'user' => @$user,
                 'invoice_id' => $order->invoice_code,
                 'status_order' => $order->status_order,
@@ -359,7 +359,7 @@ class OrderController extends Controller
 
             $data = [];
             $user = [
-                'id' => $order->user->id,
+                'id' => (int) $order->user->id,
                 'email' => $order->user->email,
                 'name' => $order->user->name,
                 'date_of_birth' => $order->user->date_of_birth,
@@ -395,25 +395,25 @@ class OrderController extends Controller
                     $images_service[] = 'https://picsum.photos/64';
                 }
                 $order_detail[] = [
-                    'id' => @$orderdetail->id,
+                    'id' => (int) @$orderdetail->id,
                     'service' => [
-                        'id' => @$orderdetail->service_id,
+                        'id' => (int) @$orderdetail->service_id,
                         'name' => @$orderdetail->service->name,
                         'category' => [
-                            'id' => @$orderdetail->service->service_category_id,
+                            'id' => (int) @$orderdetail->service->service_category_id,
                             'name' => @$orderdetail->service->servicecategory
                                 ->name,
                         ],
                         'type_quantity' => @$orderdetail->service
                             ->type_quantity,
-                        'price' => @$orderdetail->service->price,
+                        'price' => (int) @$orderdetail->service->price,
                         'images' => @$images_service,
                         'description' => @$orderdetail->service->description,
                         'status' => @$status_service,
                     ],
-                    'quantity' => @$orderdetail->quantity,
-                    'price' => @$orderdetail->price,
-                    'total_price' => @$orderdetail->total_price,
+                    'quantity' => (int) @$orderdetail->quantity,
+                    'price' => (int) @$orderdetail->price,
+                    'total_price' => (int) @$orderdetail->total_price,
                     'description' => @$orderdetail->description,
                     'status_order_detail' => @$orderdetail->status_order_detail,
                 ];
@@ -424,7 +424,7 @@ class OrderController extends Controller
             $payments = [];
             foreach ($order->payments as $payment) {
                 $payments[] = [
-                    'id' => $payment->id,
+                    'id' => (int) $payment->id,
                     'payment_code' => $payment->payment_code,
                     'type' => $payment->type,
                     'type_transfer' => $payment->type_transfer,
@@ -450,7 +450,7 @@ class OrderController extends Controller
                 ];
             }
             $data = [
-                'id' => $order->id,
+                'id' => (int) $order->id,
                 'user' => @$user,
                 'invoice_id' => $order->invoice_code,
                 'status_order' => $order->status_order,
