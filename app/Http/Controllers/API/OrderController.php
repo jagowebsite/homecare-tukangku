@@ -27,149 +27,7 @@ class OrderController extends Controller
         $data = [];
         foreach ($orders as $order) {
             $user = [
-                'id' => $order->user->id,
-                'email' => $order->user->email,
-                'name' => $order->user->name,
-                'date_of_birth' => $order->user->date_of_birth,
-                'address' => $order->user->address,
-                'number' => $order->user->number,
-                'images' => $order->user->images
-                    ? asset('storage/' . $order->user->images)
-                    : url('/') . '/assets/icon/user_default.png',
-                'ktp_image' => $order->user->ktp_image
-                    ? asset('storage/' . $order->user->ktp_image)
-                    : '',
-            ];
-            $order_detail = [];
-
-            $total_all_price = 0;
-            foreach ($order->orderdetails as $orderdetail) {
-                $images_service = [];
-                if (@$orderdetail->service->status_service == '1') {
-                    $status_service = 'active';
-                } else {
-                    $status_service = 'nonactive';
-                }
-                if (
-                    @count(@json_decode(@$orderdetail->service->images, true))
-                ) {
-                    foreach (
-                        @json_decode(@$orderdetail->service->images, true)
-                        as $image
-                    ) {
-                        $images_service[] = asset('storage/' . $image);
-                    }
-                } else {
-                    $images_service[] = 'https://picsum.photos/64';
-                }
-                $order_detail[] = [
-                    'id' => @$orderdetail->id,
-                    'service' => [
-                        'id' => @$orderdetail->service_id,
-                        'name' => @$orderdetail->service->name,
-                        'category' => [
-                            'id' => @$orderdetail->service->service_category_id,
-                            'name' => @$orderdetail->service->servicecategory
-                                ->name,
-                        ],
-                        'type_quantity' => @$orderdetail->service
-                            ->type_quantity,
-                        'price' => @$orderdetail->service->price,
-                        'images' => @$images_service,
-                        'description' => @$orderdetail->service->description,
-                        'status' => @$status_service,
-                    ],
-                    'quantity' => @$orderdetail->quantity,
-                    'price' => @$orderdetail->price,
-                    'total_price' => @$orderdetail->total_price,
-                    'description' => @$orderdetail->description,
-                    'status_order_detail' => @$orderdetail->status_order_detail,
-                ];
-
-                $total_all_price =
-                    $total_all_price + @$orderdetail->total_price;
-            }
-            $payments = [];
-            foreach ($order->payments as $payment) {
-                $payments[] = [
-                    'id' => $payment->id,
-                    'payment_code' => $payment->payment_code,
-                    'type' => $payment->type,
-                    'type_transfer' => $payment->type_transfer,
-                    'images_payment' => $payment->images_payment
-                        ? asset('storage/' . $payment->images_payment)
-                        : '',
-                    'images_user' => $payment->images_user
-                        ? asset('storage/' . $payment->images_user)
-                        : '',
-                    'bank_number' => $payment->bank_number,
-                    'bank_name' => $payment->bank_name,
-                    'account_name' => $payment->account_name,
-                    'longitude' => $payment->longitude,
-                    'latitude' => $payment->latitude,
-                    'total_payment' => (int) $payment->total_payment,
-                    'status' => $payment->status_payment,
-                    'description' => $payment->description,
-                    'address' => $payment->address,
-                    'created_at' => date_format(
-                        date_create($payment->created_at),
-                        'Y-m-d H:i:s'
-                    ),
-                ];
-            }
-            $data[] = [
-                'id' => $order->id,
-                'user' => @$user,
-                'invoice_id' => $order->invoice_code,
-                'status_order' => $order->status_order,
-                'total_all_price' => $total_all_price,
-                'transaction_detail' => $order_detail,
-                'payment' => $payments,
-                'created_at' => date_format(
-                    date_create($order->created_at),
-                    'Y-m-d H:i:s'
-                ),
-            ];
-        }
-        return response()->json(
-            [
-                'status' => 'success',
-                'message' => 'Get data all transaction success.',
-                'data' => @$data,
-            ],
-            200
-        );
-    }
-    public function getInvoice($id)
-    {
-        $pdf = new PDF();
-        $order = Order::with(['user', 'orderdetails', 'payments'])->find($id);
-        $data = [];
-        $pdf = PDF::loadview('exports.invoice', ['order'=>$order]);
-        $options = [
-            'dpi' => 96,
-            'defaultFont' => 'Nunito',
-            'isRemoteEnabled' => true
-        ];
-        
-        $pdf->setOptions($options);
-        $pdf->setPaper('a4', 'landscape');
-        return $pdf->stream('invoice-pdf');
-    	// return $pdf->download('invoice-pdf');
-
-    }
-    public function indexMyTransaction(Request $request)
-    {
-        $user_id = $request->user()->id;
-        $limit = $request->limit ?? 6;
-        $orders = Order::with(['user', 'orderDetails', 'payments'])
-        ->where('user_id', $user_id)->latest()->paginate(
-            $limit
-        );
-        $data = [];
-        foreach ($orders as $order) {
-            $user = [
-                'id' => $order->user->id,
+                'id' => (int) $order->user->id,
                 'email' => $order->user->email,
                 'name' => $order->user->name,
                 'date_of_birth' => $order->user->date_of_birth,
@@ -249,7 +107,7 @@ class OrderController extends Controller
                     'account_name' => $payment->account_name,
                     'longitude' => $payment->longitude,
                     'latitude' => $payment->latitude,
-                    'total_payment' => $payment->total_payment,
+                    'total_payment' => (int) $payment->total_payment,
                     'status' => $payment->status_payment,
                     'description' => $payment->description,
                     'address' => $payment->address,
@@ -264,7 +122,149 @@ class OrderController extends Controller
                 'user' => @$user,
                 'invoice_id' => $order->invoice_code,
                 'status_order' => $order->status_order,
-                'total_all_price' => $total_all_price,
+                'total_all_price' => (int) $total_all_price,
+                'transaction_detail' => $order_detail,
+                'payment' => $payments,
+                'created_at' => date_format(
+                    date_create($order->created_at),
+                    'Y-m-d H:i:s'
+                ),
+            ];
+        }
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' => 'Get data all transaction success.',
+                'data' => @$data,
+            ],
+            200
+        );
+    }
+    public function getInvoice($id)
+    {
+        $pdf = new PDF();
+        $order = Order::with(['user', 'orderdetails', 'payments'])->find($id);
+        $data = [];
+        $pdf = PDF::loadview('exports.invoice', ['order'=>$order]);
+        $options = [
+            'dpi' => 96,
+            'defaultFont' => 'Nunito',
+            'isRemoteEnabled' => true
+        ];
+        
+        $pdf->setOptions($options);
+        $pdf->setPaper('a4', 'landscape');
+        return $pdf->stream('invoice-pdf');
+    	// return $pdf->download('invoice-pdf');
+
+    }
+    public function indexMyTransaction(Request $request)
+    {
+        $user_id = $request->user()->id;
+        $limit = $request->limit ?? 6;
+        $orders = Order::with(['user', 'orderDetails', 'payments'])
+        ->where('user_id', $user_id)->latest()->paginate(
+            $limit
+        );
+        $data = [];
+        foreach ($orders as $order) {
+            $user = [
+                'id' => (int) $order->user->id,
+                'email' => $order->user->email,
+                'name' => $order->user->name,
+                'date_of_birth' => $order->user->date_of_birth,
+                'address' => $order->user->address,
+                'number' => $order->user->number,
+                'images' => $order->user->images
+                    ? asset('storage/' . $order->user->images)
+                    : url('/') . '/assets/icon/user_default.png',
+                'ktp_image' => $order->user->ktp_image
+                    ? asset('storage/' . $order->user->ktp_image)
+                    : '',
+            ];
+            $order_detail = [];
+
+            $total_all_price = 0;
+            foreach ($order->orderdetails as $orderdetail) {
+                $images_service = [];
+                if (@$orderdetail->service->status_service == '1') {
+                    $status_service = 'active';
+                } else {
+                    $status_service = 'nonactive';
+                }
+                if (
+                    @count(@json_decode(@$orderdetail->service->images, true))
+                ) {
+                    foreach (
+                        @json_decode(@$orderdetail->service->images, true)
+                        as $image
+                    ) {
+                        $images_service[] = asset('storage/' . $image);
+                    }
+                } else {
+                    $images_service[] = 'https://picsum.photos/64';
+                }
+                $order_detail[] = [
+                    'id' => (int) @$orderdetail->id,
+                    'service' => [
+                        'id' => (int) @$orderdetail->service_id,
+                        'name' => @$orderdetail->service->name,
+                        'category' => [
+                            'id' => (int) @$orderdetail->service->service_category_id,
+                            'name' => @$orderdetail->service->servicecategory
+                                ->name,
+                        ],
+                        'type_quantity' => @$orderdetail->service
+                            ->type_quantity,
+                        'price' => (int) @$orderdetail->service->price,
+                        'images' => @$images_service,
+                        'description' => @$orderdetail->service->description,
+                        'status' => @$status_service,
+                    ],
+                    'quantity' => (int) @$orderdetail->quantity,
+                    'price' => (int) @$orderdetail->price,
+                    'total_price' => (int) @$orderdetail->total_price,
+                    'description' => @$orderdetail->description,
+                    'status_order_detail' => @$orderdetail->status_order_detail,
+                ];
+
+                $total_all_price =
+                    $total_all_price + @$orderdetail->total_price;
+            }
+            $payments = [];
+            foreach ($order->payments as $payment) {
+                $payments[] = [
+                    'id' => (int) $payment->id,
+                    'payment_code' => $payment->payment_code,
+                    'type' => $payment->type,
+                    'type_transfer' => $payment->type_transfer,
+                    'images_payment' => $payment->images_payment
+                        ? asset('storage/' . $payment->images_payment)
+                        : '',
+                    'images_user' => $payment->images_user
+                        ? asset('storage/' . $payment->images_user)
+                        : '',
+                    'bank_number' => $payment->bank_number,
+                    'bank_name' => $payment->bank_name,
+                    'account_name' => $payment->account_name,
+                    'longitude' => $payment->longitude,
+                    'latitude' => $payment->latitude,
+                    'total_payment' => (int) $payment->total_payment,
+                    'status' => $payment->status_payment,
+                    'description' => $payment->description,
+                    'address' => $payment->address,
+                    'created_at' => date_format(
+                        date_create($payment->created_at),
+                        'Y-m-d H:i:s'
+                    ),
+                ];
+            }
+            $data[] = [
+                'id' => (int) $order->id,
+                'user' => @$user,
+                'invoice_id' => $order->invoice_code,
+                'status_order' => $order->status_order,
+                'total_all_price' => (int) $total_all_price,
                 'transaction_detail' => $order_detail,
                 'payment' => $payments,
                 'created_at' => date_format(
@@ -439,7 +439,7 @@ class OrderController extends Controller
                     'account_name' => $payment->account_name,
                     'longitude' => $payment->longitude,
                     'latitude' => $payment->latitude,
-                    'total_payment' => $payment->total_payment,
+                    'total_payment' => (int) $payment->total_payment,
                     'status' => $payment->status_payment,
                     'description' => $payment->description,
                     'address' => $payment->address,
@@ -454,7 +454,7 @@ class OrderController extends Controller
                 'user' => @$user,
                 'invoice_id' => $order->invoice_code,
                 'status_order' => $order->status_order,
-                'total_all_price' => $total_all_price,
+                'total_all_price' => (int) $total_all_price,
                 'transaction_detail' => $order_detail,
                 'payment' => $payments,
                 'created_at' => date_format(
@@ -513,10 +513,10 @@ class OrderController extends Controller
                 $images[] = ' https://picsum.photos/64';
             }
             $service = [
-                'id' => @$order->service->id,
+                'id' => (int) @$order->service->id,
                 'name' => @$order->service->name,
                 'category' => [
-                    'id' => @$order->service->service_category_id,
+                    'id' => (int) @$order->service->service_category_id,
                     'name' => @$order->service->servicecategory->name,
                 ],
                 'type_quantity' => @$order->service->type_quantity,
@@ -526,7 +526,7 @@ class OrderController extends Controller
                 'status' => $status_service,
             ];
             $data = [
-                'id' => $order->order_detail_id,
+                'id' => (int) $order->order_detail_id,
                 'employee' => @$employee,
                 'service' => @$service,
                 'work_duration' => $order->work_duration,
