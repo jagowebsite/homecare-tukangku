@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Yajra\DataTables\Facades\DataTables;
 
 class GpsController extends Controller
@@ -16,6 +17,7 @@ class GpsController extends Controller
      */
     public function index(Request $request)
     {
+       
         $payment = Payment::with(['user', 'order']);
         // dd($payment);
         if ($request->ajax()) {
@@ -34,12 +36,26 @@ class GpsController extends Controller
                     return $invoice;
                 })
                 ->addColumn('gps_maps', function (Payment $payment) {
+                    $result = null;
+                    try {
+                        $response = Http::get("https://nominatim.openstreetmap.org/reverse?format=json&lat=$payment->latitude&lon=$payment->longitude&zoom=18&addressdetails=1");
+                        $result = $response->json();
+                    } catch (\Throwable $th) {
+                    }
+                    if ($result) {
+                        $display_url =
+                            '<div>' . $result['display_name'] . '</div>';
+                    }
+
                     $invoice =
                         ' <div>' .
                         $payment->latitude .
                         ', ' .
                         $payment->longitude .
                         '</div>
+' .
+                        @$display_url .
+                        '
                     <a href="http://maps.google.com/maps?q=' .
                         $payment->latitude .
                         ',' .
@@ -55,7 +71,16 @@ class GpsController extends Controller
         }
         return view('pages.consumen.gps_logs.index');
     }
+    // function get_CURL($url)
+    // {
+    //     $curl = curl_init();
+    //     curl_setopt($curl, CURLOPT_URL, $url);
+    //     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    //     $result = curl_exec($curl);
+    //     curl_close($curl);
 
+    //     return json_decode($result, true);
+    // }
     /**
      * Show the form for creating a new resource.
      *

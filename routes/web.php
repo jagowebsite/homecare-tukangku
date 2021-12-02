@@ -27,6 +27,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'index',
     ])->name('home');
 
+    Route::get('/chatting-consumen', function () {
+        return view('pages.chat.index');
+    })->name('chatting_consumen');
+
     Route::group(
         ['middleware' => ['permission:superadmin|user_management_access']],
         function () {
@@ -239,7 +243,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 App\Http\Controllers\Admin\OrderController::class,
                 'index',
             ])->name('transactions');
-            Route::get('/get-invoice/{id}',  [
+            Route::get('/get-invoice/{id}', [
                 App\Http\Controllers\Admin\OrderController::class,
                 'getInvoice',
             ])->name('get-invoice');
