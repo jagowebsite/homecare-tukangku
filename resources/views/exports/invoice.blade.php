@@ -39,7 +39,7 @@
             <pre>
                 Tukang Kita
                 Jalan HR Muhammad
-                08511111111111
+                081273328123
                 tukangkita@harmonisproperty.com
             </pre>
         </td>

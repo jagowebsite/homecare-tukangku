@@ -47,7 +47,7 @@ class ServiceController extends Controller
                 'id' => $service->id,
                 'name' => $service->name,
                 'category' => [
-                    'id' => @$service->service_category_id,
+                    'id' => (int) @$service->service_category_id,
                     'name' => @$service->servicecategory->name,
                 ],
                 'type_quantity' => $service->type_quantity,
@@ -164,7 +164,7 @@ class ServiceController extends Controller
             'id' => $service->id,
             'name' => $service->name,
             'category' => [
-                'id' => @$service->service_category_id,
+                'id' => (int) @$service->service_category_id,
                 'name' => @$service->servicecategory->name,
             ],
             'type_quantity' => $service->type_quantity,
