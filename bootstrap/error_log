@@ -1,0 +1,4 @@
+[02-Dec-2021 06:26:14 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Foundation\Application" not found in /home/harmonis/public_html/homecare-tukangku/bootstrap/app.php:14
+Stack trace:
+#0 {main}
+  thrown in /home/harmonis/public_html/homecare-tukangku/bootstrap/app.php on line 14

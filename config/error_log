@@ -1,0 +1,12 @@
+[02-Dec-2021 06:26:13 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/harmonis/public_html/homecare-tukangku/config/app.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/harmonis/public_html/homecare-tukangku/config/app.php on line 16
+[02-Dec-2021 06:26:14 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/harmonis/public_html/homecare-tukangku/config/broadcasting.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/harmonis/public_html/homecare-tukangku/config/broadcasting.php on line 18
+[02-Dec-2021 06:26:14 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/harmonis/public_html/homecare-tukangku/config/cache.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/harmonis/public_html/homecare-tukangku/config/cache.php on line 18
