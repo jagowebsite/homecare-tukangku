@@ -1,5 +1,5 @@
 @extends('layouts.main', [
-'title' => 'Profile - Tukangku',
+'title' => 'Profile - Tukangkita',
 'menu' => 'profile',
 'submenu' => ''
 ])

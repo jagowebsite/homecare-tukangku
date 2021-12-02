@@ -1,5 +1,5 @@
 @extends('layouts.main', [
-'title' => 'Edit Pendaftaran - Tukangku',
+'title' => 'Edit Pendaftaran - Tukangkita',
 'menu' => 'consumen_users',
 'submenu' => ''
 ])
@@ -22,7 +22,7 @@
     <div class="br-pagebody">
         <div class="br-section-wrapper">
             <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Edit User</h6>
-            <p class="mg-b-25 mg-lg-b-50">Edit users homecare - Tukangku.</p>
+            <p class="mg-b-25 mg-lg-b-50">Edit users homecare - Tukangkita.</p>
             <form enctype="multipart/form-data" method="POST"
                 action="{{ route('consumen_users_update', ['id' => @$user->id]) }}">
                 @csrf

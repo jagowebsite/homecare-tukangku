@@ -1,5 +1,5 @@
 @extends('layouts.main', [
-    'title' => 'Tambah Jasa - Tukangku',
+    'title' => 'Tambah Jasa - Tukangkita',
     'menu' => 'master',
     'submenu' => 'services'
   ])
@@ -20,13 +20,13 @@
     </div><!-- br-pageheader -->
     <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
         <h4 class="tx-gray-800 mg-b-5">Tambah Jasa</h4>
-        <p class="mg-b-0">Tambah data jasa layanan Tukangku</p>
+        <p class="mg-b-0">Tambah data jasa layanan Tukangkita</p>
     </div>
 
     <div class="br-pagebody">
         <div class="br-section-wrapper">
             <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Tambah Jasa</h6>
-            <p class="mg-b-25 mg-lg-b-50">Tambah jasa homecare - Tukangku.</p>
+            <p class="mg-b-25 mg-lg-b-50">Tambah jasa homecare - Tukangkita.</p>
 
             <form id="form-create" action="{{ route('services_store') }}" enctype="multipart/form-data" method="POST">
                 @csrf

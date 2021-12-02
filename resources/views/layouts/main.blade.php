@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-  @include('layouts.header', ['title' => @$title ?? config('app.name', 'Homecare - Tukangku')])
+  @include('layouts.header', ['title' => @$title ?? config('app.name', 'Homecare - Tukangkita')])
 
   @yield('style')
 </head>
@@ -20,8 +20,8 @@
 
       <footer class="br-footer">
         <div class="footer-left">
-          <div class="mg-b-2">Copyright &copy; 2021. Tukangku.</div>
-          <div>By MokiKoding.id.</div>
+          <div class="mg-b-2">Copyright &copy; 2020. Tukangkita.</div>
+          <div>By WebsiteJago.</div>
         </div>
         <div class="footer-right d-flex align-items-center">
           <span class="tx-uppercase mg-r-10">Share:</span>
