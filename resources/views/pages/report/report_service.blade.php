@@ -20,7 +20,7 @@
     <div class="br-pagebody">
         <div class="br-section-wrapper">
             <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Eksport Laporan Report Penjualan</h6>
-            {{-- <p class="mg-b-25 mb-4">Semua Laporan Seluruh Penjual Homecare - Tukangku.</p> --}}
+            {{-- <p class="mg-b-25 mb-4">Semua Laporan Seluruh Penjual Homecare - Tukangkita.</p> --}}
             <form id="form-filter" action="{{route('export_report_service')}}" method="GET" target="_blank">
                 <div class="row ml-3 d-flex align-items-end">
                     <div class="col-4 mt-3 pt-3">
@@ -46,7 +46,7 @@
     <div class="br-pagebody">
         <div class="br-section-wrapper">
             <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Semua Data Laporan Jasa</h6>
-            <p class="mg-b-25 mb-4">Semua Laporan Jasa Layanan Homecare - Tukangku.</p>
+            <p class="mg-b-25 mb-4">Semua Laporan Jasa Layanan Homecare - Tukangkita.</p>
 
             {{-- <button data-toggle="modal" data-target="#addCategory" class="btn btn-primary mb-4"><i class="fa fa-plus"></i> Tambah Kategori</button> --}}
 

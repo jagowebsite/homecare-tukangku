@@ -1,5 +1,5 @@
 @extends('layouts.main', [
-'title' => 'View User Pembeli - Tukangku',
+'title' => 'View User Pembeli - Tukangkita',
 'menu' => 'consumen',
 'submenu' => 'transactions'
 ])
@@ -21,7 +21,7 @@
     <div class="br-pagebody">
         <div class="br-section-wrapper">
             <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Semua Data Transaksi Pembeli</h6>
-            <p class="mg-b-25 mb-4">Semua Transaksi Layanan Homecare - Tukangku.</p>
+            <p class="mg-b-25 mb-4">Semua Transaksi Layanan Homecare - Tukangkita.</p>
 
             {{-- <button data-toggle="modal" data-target="#addCategory" class="btn btn-primary mb-4"><i class="fa fa-plus"></i> Tambah Kategori</button> --}}
 

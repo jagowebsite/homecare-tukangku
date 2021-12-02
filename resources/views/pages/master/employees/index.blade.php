@@ -1,5 +1,5 @@
 @extends('layouts.main', [
-  'title' => 'Data Tukang - Tukangku',
+  'title' => 'Data Tukang - Tukangkita',
   'menu' => 'master',
   'submenu' => 'employees'
 ])
@@ -25,7 +25,7 @@
     <div class="br-pagebody">
         <div class="br-section-wrapper">
             <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Semua Data Tukang</h6>
-            <p class="mg-b-25 mb-4">Semua Tukang Homecare - Tukangku.</p>
+            <p class="mg-b-25 mb-4">Semua Tukang Homecare - Tukangkita.</p>
 
             <a href="{{ route('employees_create') }}" class="btn btn-primary mb-4"><i class="fa fa-plus"></i> Tambah
                 Tukang</a>

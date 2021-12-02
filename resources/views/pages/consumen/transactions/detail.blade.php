@@ -1,5 +1,5 @@
 @extends('layouts.main', [
-'title' => 'Detail transaksi User Pembeli - Tukangku',
+'title' => 'Detail transaksi User Pembeli - Tukangkita',
 'menu' => 'consumen',
 'submenu' => 'transactions'
 ])
@@ -21,7 +21,7 @@
     <div class="br-pagebody">
         <div class="br-section-wrapper">
             <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Detail Transaksi Pembeli</h6>
-            <p class="mg-b-25 mb-4">Detail Transaksi Layanan Homecare - Tukangku.</p>
+            <p class="mg-b-25 mb-4">Detail Transaksi Layanan Homecare - Tukangkita.</p>
             <a class="btn btn-secondary mb-4" style="color: white;" href="{{route('get-invoice', ['id'=>$order->id])}}">Cetak Invoice</a>
             <div class="row">
                 <div class="col-md-6 col-xs-12">

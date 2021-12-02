@@ -1,5 +1,5 @@
 @extends('layouts.main', [
-'title' => 'Tambah User Data - Tukangku',
+'title' => 'Tambah User Data - Tukangkita',
 'menu' => 'users',
 'submenu' => 'user_datas'
 ])
@@ -22,7 +22,7 @@
     <div class="br-pagebody">
         <div class="br-section-wrapper">
             <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Tambah User</h6>
-            <p class="mg-b-25 mg-lg-b-50">Tambah users homecare - Tukangku.</p>
+            <p class="mg-b-25 mg-lg-b-50">Tambah users homecare - Tukangkita.</p>
 
             <form action="{{ route('users_store') }}" enctype="multipart/form-data" method="POST">
                 @csrf
