@@ -321,7 +321,7 @@ class AuthController extends Controller
         ]);
         
         $user->assignRole('user');
-        $user->sendEmailVerificationNotification();
+        // $user->sendEmailVerificationNotification();
         DB::commit();
         return response()->json(
             [
