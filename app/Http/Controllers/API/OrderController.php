@@ -107,7 +107,7 @@ class OrderController extends Controller
                     'account_name' => $payment->account_name,
                     'longitude' => $payment->longitude,
                     'latitude' => $payment->latitude,
-                    'total_payment' => $payment->total_payment,
+                    'total_payment' => (int) $payment->total_payment,
                     'status' => $payment->status_payment,
                     'description' => $payment->description,
                     'address' => $payment->address,
