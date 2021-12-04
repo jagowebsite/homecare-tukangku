@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.app',[
+    'title' => 'Login - Tukangku',
+  ])
 
 @section('content')
 <div class="d-flex align-items-center justify-content-center bg-br-primary ht-100v">
