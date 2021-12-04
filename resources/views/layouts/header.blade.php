@@ -3,6 +3,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <link rel="apple-touch-icon" sizes="180x180"
+     href="{{ url('/') }}/assets/img/ic_logo.png">
+ <link rel="icon" type="image/png" sizes="32x32"
+     href="{{ url('/') }}/assets/img/ic_logo.png">
+ <link rel="icon" type="image/png" sizes="16x16"
+     href="{{ url('/') }}/assets/img/ic_logo.png">
+
     <!-- Twitter -->
     <meta name="twitter:site" content="@themepixels">
     <meta name="twitter:creator" content="@themepixels">
