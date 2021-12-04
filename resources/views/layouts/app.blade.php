@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-@include('layouts.header')
+@include('layouts.header', ['title' => @$title ?? config('app.name', 'Homecare - Tukangku')])
 
 <body>
     @yield('content')

@@ -1,5 +1,5 @@
 @extends('layouts.main', [
-    'title' => 'User Roles - Tukangkita',
+    'title' => 'User Roles - Tukangku',
     'menu' => 'users',
     'submenu' => 'user_roles'
   ])

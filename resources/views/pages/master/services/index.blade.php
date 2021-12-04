@@ -1,5 +1,5 @@
 @extends('layouts.main', [
-'title' => 'Data Jasa - Tukangkita',
+'title' => 'Data Jasa - Tukangku',
 'menu' => 'master',
 'submenu' => 'services'
 ])
@@ -19,13 +19,13 @@
     </div><!-- br-pageheader -->
     <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
         <h4 class="tx-gray-800 mg-b-5">Data Jasa</h4>
-        <p class="mg-b-0">Semua data jasa Tukangkita</p>
+        <p class="mg-b-0">Semua data jasa Tukangku</p>
     </div>
 
     <div class="br-pagebody">
         <div class="br-section-wrapper">
             <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Semua Data Jasa</h6>
-            <p class="mg-b-25 mb-4">Semua Jasa Layanan Homecare - Tukangkita.</p>
+            <p class="mg-b-25 mb-4">Semua Jasa Layanan Homecare - Tukangku.</p>
 
             <a href="{{ route('services_create') }}" class="btn btn-primary mb-4"><i class="fa fa-plus"></i> Tambah
                 Jasa</a>

@@ -1,5 +1,5 @@
 @extends('layouts.main', [
-  'title' => 'Tambah Tukang - Tukangkita',
+  'title' => 'Tambah Tukang - Tukangku',
   'menu' => 'master',
   'submenu' => 'employees'
 ])
@@ -24,7 +24,7 @@
             @csrf
             <div class="br-section-wrapper">
                 <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Tambah Tukang</h6>
-                <p class="mg-b-25 mg-lg-b-50">Tambah tukang homecare - Tukangkita.</p>
+                <p class="mg-b-25 mg-lg-b-50">Tambah tukang homecare - Tukangku.</p>
 
                 <div class="row">
                     <div class="form-group col-xs-12 col-md-6">

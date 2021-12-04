@@ -1,5 +1,5 @@
 @extends('layouts.main', [
-'title' => 'User Logs - Tukangkita',
+'title' => 'User Logs - Tukangku',
 'menu' => 'users',
 'submenu' => 'user_logs'
 ])
@@ -21,7 +21,7 @@
     <div class="br-pagebody">
         <div class="br-section-wrapper">
             <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Log User</h6>
-            <p class="mg-b-25 mb-4">Semua logs user Homecare - Tukangkita.</p>
+            <p class="mg-b-25 mb-4">Semua logs user Homecare - Tukangku.</p>
 
             <div class="table-wrapper">
                 <table id="datatable2" class="table display responsive nowrap">

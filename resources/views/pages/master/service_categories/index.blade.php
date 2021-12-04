@@ -1,5 +1,5 @@
 @extends('layouts.main', [
-'title' => 'Kategori Jasa - Tukangkita',
+'title' => 'Kategori Jasa - Tukangku',
 'menu' => 'master',
 'submenu' => 'services_category'
 ])
@@ -25,7 +25,7 @@
     <div class="br-pagebody">
         <div class="br-section-wrapper">
             <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Semua Data Kategori</h6>
-            <p class="mg-b-25 mb-4">Semua Kategori Layanan Homecare - Tukangkita.</p>
+            <p class="mg-b-25 mb-4">Semua Kategori Layanan Homecare - Tukangku.</p>
 
             <button data-toggle="modal" data-target="#addCategory" class="btn btn-primary mb-4"><i
                     class="fa fa-plus"></i> Tambah Kategori</button>

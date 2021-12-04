@@ -1,5 +1,5 @@
 @extends('layouts.main', [
-'title' => 'Konfirmasi Transaksi Pembeli - Tukangkita',
+'title' => 'Konfirmasi Transaksi Pembeli - Tukangku',
 'menu' => 'consumen',
 'submenu' => 'transactions'
 ])
@@ -22,7 +22,7 @@
     <div class="br-pagebody">
         <div class="br-section-wrapper">
             <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Konfirmasi Transaksi Pembeli</h6>
-            <p class="mg-b-25 mb-4">Konfirmasi Transaksi Layanan Homecare - Tukangkita.</p>
+            <p class="mg-b-25 mb-4">Konfirmasi Transaksi Layanan Homecare - Tukangku.</p>
 
             <div class="row">
                 <div class="col-md-6 col-xs-12">

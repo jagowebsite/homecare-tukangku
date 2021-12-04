@@ -1,5 +1,5 @@
 @extends('layouts.main', [
-    'title' => 'User Data - Tukangkita',
+    'title' => 'User Data - Tukangku',
     'menu' => 'users',
     'submenu' => 'user_datas'
   ])
@@ -21,7 +21,7 @@
     <div class="br-pagebody">
         <div class="br-section-wrapper">
             <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Data User</h6>
-            <p class="mg-b-25 mb-4">Semua users homecare - Tukangkita.</p>
+            <p class="mg-b-25 mb-4">Semua users homecare - Tukangku.</p>
 
             <a href="{{ route('users_create') }}" class="btn btn-primary mb-4"><i class="fa fa-plus"></i> Tambah
                 User</a>

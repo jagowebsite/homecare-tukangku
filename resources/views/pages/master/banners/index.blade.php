@@ -1,5 +1,5 @@
 @extends('layouts.main', [
-'title' => 'Data Banners - Tukangkita',
+'title' => 'Data Banners - Tukangku',
 'menu' => 'master',
 'submenu' => 'banners'
 ])
@@ -21,7 +21,7 @@
     <div class="br-pagebody">
         <div class="br-section-wrapper">
             <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Semua Data Banner</h6>
-            <p class="mg-b-25 mb-4">Semua Banner Layanan Homecare - Tukangkita.</p>
+            <p class="mg-b-25 mb-4">Semua Banner Layanan Homecare - Tukangku.</p>
 
             <a href="{{ route('banners_create') }}" class="btn btn-primary mb-4"><i class="fa fa-plus"></i> Tambah
                 Banner</a>

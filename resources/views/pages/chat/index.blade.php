@@ -1,5 +1,5 @@
 @extends('layouts.main', [
-'title' => 'Chat - Tukangkita',
+'title' => 'Chat - Tukangku',
 'menu' => 'chatting',
 'submenu' => 'chat_cunsumen'
 ])
