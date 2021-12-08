@@ -363,7 +363,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     ])->name('user_logs');
 
     // Route Profile Edit
-    Route::get('/profile/edit', function () {
-        return view('pages.profile.edit');
-    })->name('profile_edit');
+    Route::group(['prefix' => 'profile'], function () {
+        Route::get('/edit', [
+            App\Http\Controllers\Admin\UserController::class,
+            'indexProfile',
+        ])->name('profile_edit');
+        Route::post('/update', [
+            App\Http\Controllers\Admin\UserController::class,
+            'updateProfile',
+        ])->name('profile_update');
+    });
 });

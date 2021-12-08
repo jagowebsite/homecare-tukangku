@@ -255,4 +255,60 @@ class UserController extends Controller
         session()->flash('danger', 'User has been deleted');
         return back();
     }
+
+    public function indexProfile(Request $request){
+        $user_id = Auth::user()->id;
+        $user = User::find($user_id);
+        return view('pages.profile.edit', compact('user'));
+    }
+    public function updateProfile(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'email' => 'required|email',
+                'name' => 'required',
+                'user_image' => 'image|file|max:8192',
+                'user_ktp' => 'image|file|max:8192',
+                'date_of_birth' => 'required',
+                // 'number' => 'required',
+            ],
+            $messages = [
+                'required' => 'The :attribute field is required.',
+                'email' => 'Email is not valid.',
+                'unique' => 'Email has been registered.',
+                'image' =>
+                    'File upload must be an image (jpg, jpeg, png, bmp, gif, svg, or webp).',
+                'max' =>
+                    'Maximum file size to upload is 8MB (8192 KB). If you are uploading a photo, try to reduce its resolution to make it under 8MB',
+            ]
+        );
+        if ($validator->fails()) {
+            $error = $validator->errors()->first();
+            session()->flash('danger', $error);
+            return back()->withInput();
+        }
+
+        $user_id = Auth::user()->id;
+        $user = User::find($user_id);
+        if ($request->file('user_image')) {
+            Storage::delete(@$user->images);
+            $user_image = @$request->file('user_image')->store('user_image');
+            $user->images = $user_image;
+        }
+        if ($request->file('user_ktp')) {
+            Storage::delete(@$user->ktp_image);
+            $user_ktp = @$request->file('user_ktp')->store('user_image');
+            $user->ktp_image = $user_ktp;
+        }
+        $user->email = $request->email;
+        $user->name = $request->name;
+        $user->date_of_birth = $request->date_of_birth;
+        $user->number = $request->number;
+        $user->save();
+
+        session()->flash('success', 'Data berhasil diupdate');
+        return redirect()->route('profile_edit');
+    }
+    
 }

@@ -87,7 +87,7 @@
         <div class="dropdown">
           <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
             <span class="logged-name hidden-md-down">{{auth()->user()->name}}</span>
-            <img src="https://picsum.photos/64" class="wd-32 rounded-circle" alt="">
+            <img src="{{ auth()->user()->images ? asset('storage/' . auth()->user()->images) : 'https://picsum.photos/64'}}" class="wd-32 rounded-circle" alt="">
             <span class="square-10 bg-success"></span>
           </a>
           <div class="dropdown-menu dropdown-menu-header wd-200">
