@@ -27,7 +27,7 @@
                 User</a>
 
             <div class="table-wrapper">
-                <table id="datatable2" class="table display responsive">
+                <table id="datatable2" class="table display responsive w-100">
                     <thead>
                         <tr>
                             <th class="wd-5p">ID</th>

@@ -38,7 +38,7 @@
                 Tambah Role</button>
 
             <div class="table-wrapper">
-                <table id="datatable1" class="table display responsive">
+                <table id="datatable1" class="table display responsive w-100">
                     <thead>
                         <tr>
                             <th class="wd-5p">ID</th>
@@ -60,7 +60,7 @@
                 Tambah Akses</button>
 
             <div class="table-wrapper">
-                <table id="datatable2" class="table display responsive nowrap">
+                <table id="datatable2" class="table display responsive w-100">
                     <thead>
                         <tr>
                             <th class="wd-5p">ID</th>

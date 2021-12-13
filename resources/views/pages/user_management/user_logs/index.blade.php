@@ -24,7 +24,7 @@
             <p class="mg-b-25 mb-4">Semua logs user Homecare - Tukangku.</p>
 
             <div class="table-wrapper">
-                <table id="datatable2" class="table display responsive">
+                <table id="datatable2" class="table display responsive w-100">
                     <thead>
                         <tr>
                             <th class="wd-5p">ID</th>
