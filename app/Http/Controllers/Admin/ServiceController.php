@@ -8,6 +8,7 @@ use App\Models\ServiceCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
 class ServiceController extends Controller
@@ -106,7 +107,8 @@ class ServiceController extends Controller
         );
         if ($validator->fails()) {
             $error = $validator->errors()->first();
-            session()->flash('danger', $error);
+            // session()->flash('danger', $error);
+            Alert::error('Danger', $error);
             return back()->withInput();
         }
         $pathimage = [];
@@ -127,7 +129,8 @@ class ServiceController extends Controller
             'status_service' => $status,
             'images' => $images,
         ]);
-        session()->flash('success', 'Services has been added');
+        // session()->flash('success', 'Services has been added');
+        Alert::success('Success', 'Services has been created');
         return redirect()->route('services');
     }
 
@@ -199,7 +202,8 @@ class ServiceController extends Controller
         );
         if ($validator->fails()) {
             $error = $validator->errors()->first();
-            session()->flash('danger', $error);
+            // session()->flash('danger', $error);
+            Alert::error('Danger', $error);
             return back()->withInput();
         }
 
@@ -231,7 +235,8 @@ class ServiceController extends Controller
         $service->status_service = $status;
         $service->images = $images;
         $service->save();
-        session()->flash('success', 'Services has been updated');
+        // session()->flash('success', 'Services has been updated');
+        Alert::success('Success', 'Service has been updated');
         return redirect()->route('services');
     }
 
@@ -245,7 +250,8 @@ class ServiceController extends Controller
     {
         // dd($request);
         Service::destroy($request->service_id);
-        session()->flash('danger', 'Service  has been deleted');
+        Alert::warning('Warning','Service has been deleted');
+        // session()->flash('danger', 'Service  has been deleted');
         return back();
     }
 }

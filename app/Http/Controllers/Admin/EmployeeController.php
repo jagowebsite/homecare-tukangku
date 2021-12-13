@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
 class EmployeeController extends Controller
@@ -110,7 +111,8 @@ class EmployeeController extends Controller
         );
         if ($validator->fails()) {
             $error = $validator->errors()->first();
-            session()->flash('danger', $error);
+            // session()->flash('danger', $error);
+            Alert::error('Danger', $error);
             return back()->withInput();
         }
         DB::beginTransaction();
@@ -134,7 +136,8 @@ class EmployeeController extends Controller
         ];
         $this->log->store($datalog);
         DB::commit();
-        session()->flash('success', 'Employee has been added');
+        // session()->flash('success', 'Employee has been added');
+        Alert::success('Success', 'Employee has been added');
         return redirect()->route('employees');
     }
 
@@ -187,7 +190,8 @@ class EmployeeController extends Controller
         );
         if ($validator->fails()) {
             $error = $validator->errors()->first();
-            session()->flash('danger', $error);
+            // session()->flash('danger', $error);
+            Alert::error('Danger', $error);
             return back()->withInput();
         }
         DB::beginTransaction();
@@ -211,6 +215,7 @@ class EmployeeController extends Controller
         $this->log->store($datalog);
         DB::commit();
         session()->flash('success', 'Employee has been updated');
+        Alert::success('Success', 'Employee has been updated');
         return redirect()->route('employees');
     }
 
@@ -233,7 +238,8 @@ class EmployeeController extends Controller
         ];
         $this->log->store($datalog);
         DB::commit();
-        session()->flash('danger', 'Employee  has been deleted');
+        // session()->flash('danger', 'Employee  has been deleted');
+        Alert::warning('Warning','Employee has been deleted');
         return back();
     }
 }

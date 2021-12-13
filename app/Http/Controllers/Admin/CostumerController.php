@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
 class CostumerController extends Controller
@@ -134,7 +135,8 @@ class CostumerController extends Controller
         );
         if ($validator->fails()) {
             $error = $validator->errors()->first();
-            session()->flash('danger', $error);
+            // session()->flash('danger', $error);
+            Alert::error('Danger', $error);
             return back()->withInput();
         }
 
@@ -155,7 +157,8 @@ class CostumerController extends Controller
         $user->number = $request->user_number;
         $user->address = $request->address;
         $user->save();
-        session()->flash('success', 'Data berhasil diupdate');
+        // session()->flash('success', 'Data berhasil diupdate');
+        Alert::success('Success', 'User Has been Updated');
         return redirect()->route('consumen_users');
     }
 
@@ -168,7 +171,8 @@ class CostumerController extends Controller
     public function destroy(Request $request)
     {
         User::find($request->user_id)->forceDelete();
-        session()->flash('danger', 'User has been deleted');
+        Alert::warning('Warning','User has been deleted');
+        // session()->flash('danger', 'User has been deleted');
         return back();
     }
 }

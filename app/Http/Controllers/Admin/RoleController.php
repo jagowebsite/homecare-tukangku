@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\Facades\DataTables;
@@ -88,7 +89,8 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         Role::findOrCreate($request->name, $request->guard_name);
-        session()->flash('success', 'Role Has been created');
+        Alert::success('Success', 'Roler has been created');
+        // session()->flash('success', 'Role Has been created');
         return back();
     }
 
@@ -107,7 +109,8 @@ class RoleController extends Controller
         $role->guard_name = $request->guard_name;
         $role->save();
 
-        session()->flash('success', 'Role Has been updated');
+        // session()->flash('success', 'Role Has been updated');
+        Alert::success('Success', 'Roler has been updated');
         return back();
     }
 
@@ -120,7 +123,8 @@ class RoleController extends Controller
     public function destroy(Request $request)
     {
         Role::destroy($request->role_id);
-        session()->flash('danger', 'Role has been deleted');
+        Alert::warning('Warning','Role has been deleted');
+        // session()->flash('danger', 'Role has been deleted');
         return back();
     }
 
@@ -137,7 +141,8 @@ class RoleController extends Controller
         if ($permission && $role) {
             $role->revokePermissionTo($permission);
         }
-        session()->flash('success', 'Permission has been removed from a role ');
+        Alert::warning('Warning','Permission has been remove from a role');
+        // session()->flash('success', 'Permission has been removed from a role ');
         return back();
     }
     /**
@@ -153,7 +158,8 @@ class RoleController extends Controller
         if ($permission && $role) {
             $role->givePermissionTo($permission);
         }
-        session()->flash('success', 'Permission has been added to a role');
+        // session()->flash('success', 'Permission has been added to a role');
+        Alert::success('Success', 'Permission has been added to a role');
         return back();
     }
 }

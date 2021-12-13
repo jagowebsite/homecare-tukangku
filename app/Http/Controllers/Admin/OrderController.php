@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use PHPUnit\Framework\Constraint\Count;
 use Yajra\DataTables\Facades\DataTables;
 use Barryvdh\DomPDF\Facade as PDF;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class OrderController extends Controller
 {
@@ -191,7 +192,8 @@ class OrderController extends Controller
         );
         if ($validator->fails()) {
             $error = $validator->errors()->first();
-            session()->flash('danger', $error);
+            // session()->flash('danger', $error);
+            Alert::error('Danger', $error);
             return back()->withInput();
         }
         DB::beginTransaction();
@@ -224,7 +226,8 @@ class OrderController extends Controller
             $order->save();
         }
         DB::commit();
-        session()->flash('success', 'Order Confirmation has been added');
+        // session()->flash('success', 'Order Confirmation has been added');
+        Alert::success('Success', 'Order Confirmation has been added');
         return redirect()->route('transactions_detail', $orderdetail->order_id);
     }
 
@@ -255,7 +258,8 @@ class OrderController extends Controller
             $order->save();
         }
         DB::commit();
-        session()->flash('danger', 'Order Confirmation has been canceled');
+        // session()->flash('danger', 'Order Confirmation has been canceled');
+        Alert::warning('Warning','Order Confirmation has been canceled');
         return redirect()->route('transactions_detail', $orderdetail->order_id);
     }
 
@@ -279,7 +283,8 @@ class OrderController extends Controller
             $orderdetail->save();
         }
 
-        session()->flash('danger', 'Order has been canceled');
+        // session()->flash('danger', 'Order has been canceled');
+        Alert::warning('Warning','Order has been canceled');
         return redirect()->route('transactions_detail', $order->id);
     }
     public function confirmOrder($id)
@@ -298,7 +303,8 @@ class OrderController extends Controller
             }
         }
         DB::commit();
-        session()->flash('success', 'Order has been approved');
+        // session()->flash('success', 'Order has been approved');
+        Alert::success('Success', 'Order has been approved');
         return back();
     }
 
@@ -326,7 +332,8 @@ class OrderController extends Controller
         Order::destroy($request->order_id);
         OrderDetail::where('order_id', $request->order_id)->delete();
         DB::commit();
-        session()->flash('danger', 'Order has been deleted');
+        Alert::warning('Warning','Order has been deleted');
+        // session()->flash('danger', 'Order has been deleted');
         return back();
     }
 }

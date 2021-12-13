@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
 class PaymentController extends Controller
@@ -179,7 +180,8 @@ class PaymentController extends Controller
         $payment->verified_at = now();
         $payment->save();
 
-        session()->flash('success', 'Payment has been confirmed');
+        // session()->flash('success', 'Payment has been confirmed');
+        Alert::success('Success', 'Paymetn has been confirmed');
         return back();
     }
     public function cancelPayment($id)
@@ -189,7 +191,8 @@ class PaymentController extends Controller
         $payment->verified_at = now();
         $payment->save();
 
-        session()->flash('danger', 'Payment has been reject');
+        // session()->flash('danger', 'Payment has been reject');
+        Alert::warning('Warning','Payment has been rejected');
         return back();
     }
 }

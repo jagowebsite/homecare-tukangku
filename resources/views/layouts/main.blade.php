@@ -12,10 +12,10 @@
     ])
 
     @include('layouts.navbar')
-
+    
     <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
-      
+      @include('sweetalert::alert')
         @yield('content')
 
       <footer class="br-footer">
