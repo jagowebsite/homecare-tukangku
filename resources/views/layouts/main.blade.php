@@ -20,8 +20,8 @@
 
       <footer class="br-footer">
         <div class="footer-left">
-          <div class="mg-b-2">Copyright &copy; 2020. Tukangku.</div>
-          <div>By WebsiteJago.</div>
+          <div class="mg-b-2">Copyright &copy; <?=date('Y')?> Tukangku.</div>
+          <div>By Tukangku.</div>
         </div>
         <div class="footer-right d-flex align-items-center">
           <span class="tx-uppercase mg-r-10">Share:</span>
