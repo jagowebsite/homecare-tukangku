@@ -358,7 +358,6 @@ class OrderController extends Controller
     {
         $order = Order::with(['user', 'orderDetails', 'payments'])->find($id);
         if ($order) {
-            # code...
 
             $data = [];
             $user = [

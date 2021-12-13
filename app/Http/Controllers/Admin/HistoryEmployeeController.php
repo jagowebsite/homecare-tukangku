@@ -24,6 +24,10 @@ class HistoryEmployeeController extends Controller
         // dd($orderconfirmations);
         if ($request->ajax()) {
             return DataTables::eloquent($orderconfirmations)
+            ->addColumn('date_order_confirmation', function (OrderConfirmation $orderConfirmation) {
+                $date =$orderConfirmation->created_at;
+                return $date;
+            })
                 // ->addIndexColumn()
                 // ->rawColumns(['service_name', 'total_price'])
                 // ->make(true);

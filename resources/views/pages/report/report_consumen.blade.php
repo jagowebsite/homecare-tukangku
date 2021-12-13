@@ -52,7 +52,7 @@
                 <table id="datatable2" class="table display responsive w-100">
                     <thead>
                         <tr>
-                            <th class="wd-5p">No</th>
+                            <th class="wd-5p">Date</th>
                             <th class="wd-15p">Nama Konsumen</th>
                             <th class="wd-25p">Email</th>
                             <th class="wd-15p">No Hp</th>
@@ -115,8 +115,8 @@
                 serverSide: true,
                 ajax: "{{ route('report_consumen') }}",
                 columns: [{
-                        data: 'id',
-                        name: 'id'
+                    data: 'date_order',
+                        name: 'created_at'
                     },
                     {
                         data: 'order.user.name',

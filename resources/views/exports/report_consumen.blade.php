@@ -6,10 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 </head>
 <body>
+    <div>
+        Report Order Consumen
+    </div>
     <table>
         <thead>
         <tr>
             <th>No</th>
+            <th>Date</th>
             <th>Nama Konsumen</th>
             <th>Email</th>
             <th>No Hp</th>
@@ -23,6 +27,7 @@
         @foreach($orderdetails as $item)
             <tr>
                 <td>{{ $loop->iteration }}</td>
+                <td>{{ @$item->created_at }}</td>
                 <td>{{ @$item->order->user->name }}</td>
                 <td>{{ @$item->order->user->email }}</td>
                 <td>{{ @$item->order->user->number }}</td>

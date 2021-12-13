@@ -23,8 +23,16 @@ class HistoryOrderController extends Controller
         // dd($orderdetails);
         if ($request->ajax()) {
             return DataTables::eloquent($orderdetails)
-                // ->addIndexColumn()
-                // ->rawColumns(['service_name', 'total_price'])
+            ->addIndexColumn()
+            // ->filterColumn('date_search', function ($query, $keyword) {
+            //     $sql = 'order_details.created_at';
+            //     $query->where($sql , 'like', "%{$keyword}%");
+            // })
+            ->addColumn('date_order', function (OrderDetail $orderDetail) {
+                $date =$orderDetail->created_at;
+                return $date;
+            })
+                ->rawColumns(['date_order'])
                 // ->make(true);
                 ->toJson();
         }

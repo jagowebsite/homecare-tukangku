@@ -32,6 +32,10 @@ class ReportController extends Controller
         // dd($orderdetails);
         if ($request->ajax()) {
             return DataTables::eloquent($orderdetails)
+            ->addColumn('date_order', function (OrderDetail $orderDetail) {
+                $date =$orderDetail->created_at;
+                return $date;
+            })
                 // ->addIndexColumn()
                 // ->rawColumns(['service_name', 'total_price'])
                 // ->make(true);
@@ -60,6 +64,10 @@ class ReportController extends Controller
         // dd($orderdetails);
         if ($request->ajax()) {
             return DataTables::eloquent($orderdetails)
+            ->addColumn('date_order', function (OrderDetail $orderDetail) {
+                $date =$orderDetail->created_at;
+                return $date;
+            })
                 // ->addIndexColumn()
                 // ->rawColumns(['service_name', 'total_price'])
                 // ->make(true);

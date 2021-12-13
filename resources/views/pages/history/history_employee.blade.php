@@ -29,7 +29,7 @@
                 <table id="datatable2" class="table display responsive w-100">
                     <thead>
                         <tr>
-                            <th class="wd-5p">No</th>
+                            <th class="wd-5p">Date</th>
                             <th class="wd-15p">Nama Tukang</th>
                             <th class="wd-5p">Jenis Jasa</th>
                             <th class="wd-25p">Durasi/Jumlah Layanan</th>
@@ -74,8 +74,8 @@
                 serverSide: true,
                 ajax: "{{ route('history_employee') }}",
                 columns: [{
-                        data: 'id',
-                        name: 'id'
+                        data: 'date_order_confirmation',
+                        name: 'created_at'
                     },
                     {
                         data: 'employee.name',
