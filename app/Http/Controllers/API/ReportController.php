@@ -6,6 +6,7 @@ use App\Exports\AllReport;
 use App\Exports\ServiceReport;
 use App\Http\Controllers\Controller;
 use App\Models\OrderDetail;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -18,12 +19,14 @@ class ReportController extends Controller
      */
     public function index(Request $request)
     {
+        $users = User::get()->pluck('id');
         $limit = $request->limit ?? 6;
         $orderdetails = OrderDetail::with([
             'order',
             'service',
             'order.user',
-        ])->where('status_order_detail', 'done')->latest()->paginate($limit);
+        ])->where('status_order_detail', 'done')->whereHas('order', function ($query) use ($users){
+            $query->whereIn('user_id', $users); })->latest()->paginate($limit);
         $data = [];
         foreach($orderdetails as $item){
             $user = [
@@ -111,6 +114,7 @@ class ReportController extends Controller
 
     public function indexService(Request $request)
     {
+        $users = User::get()->pluck('id');
         $limit = $request->limit ?? 6;
         $orderdetails = OrderDetail::with([
             'order',
@@ -118,7 +122,8 @@ class ReportController extends Controller
             'order.user',
         ])->where('status_order_detail', 'done')->whereHas('service', function ($query) {
             $query->whereNotIn('service_category_id', [2, 7]);
-        })->latest()->paginate($limit);
+        })->whereHas('order', function ($query) use ($users){
+            $query->whereIn('user_id', $users); })->latest()->paginate($limit);
         $data = [];
         foreach($orderdetails as $item){
             $user = [

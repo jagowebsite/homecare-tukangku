@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -18,8 +19,10 @@ class PaymentController extends Controller
      */
     public function index(Request $request)
     {
+        $users = User::get()->pluck('id');
         $limit = $request->limit ?? 6;
-        $payments = Payment::with(['user', 'order'])->latest()->paginate($limit);
+        $payments = Payment::with(['user', 'order'])->whereHas('user', function ($query) use ($users){
+            $query->whereIn('id', $users);})->latest()->paginate($limit);
         $data = [];
         foreach ($payments as $payment) {
             $user = [

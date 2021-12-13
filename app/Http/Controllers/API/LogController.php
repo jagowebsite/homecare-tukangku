@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Log;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class LogController extends Controller
@@ -15,8 +16,10 @@ class LogController extends Controller
      */
     public function index(Request $request)
     {
+        $users = User::get()->pluck('id');
         $limit = $request->limit ?? 6;
-        $logs = Log::with(['user'])
+        $logs = Log::with(['user'])->whereHas('user', function ($query) use ($users){
+            $query->whereIn('id', $users); })
             ->latest()
             ->paginate($limit);
         $data = [];

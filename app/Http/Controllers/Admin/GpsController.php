@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Yajra\DataTables\Facades\DataTables;
@@ -17,8 +18,9 @@ class GpsController extends Controller
      */
     public function index(Request $request)
     {
-       
-        $payment = Payment::with(['user', 'order']);
+       $users = User::get()->pluck('id');
+        $payment = Payment::with(['user', 'order'])->whereHas('user', function ($query) use ($users){
+            $query->whereIn('id', $users); });
         // dd($payment);
         if ($request->ajax()) {
             return DataTables::eloquent($payment)

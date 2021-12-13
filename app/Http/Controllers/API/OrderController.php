@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderConfirmation;
 use App\Models\OrderDetail;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -20,8 +21,10 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
+        $users = User::get()->pluck('id');
         $limit = $request->limit ?? 6;
-        $orders = Order::with(['user', 'orderDetails', 'payments'])->paginate(
+        $orders = Order::with(['user', 'orderDetails', 'payments'])->whereHas('user', function ($query) use ($users){
+            $query->whereIn('id', $users); })->paginate(
             $limit
         );
         $data = [];

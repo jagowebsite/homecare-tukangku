@@ -22,7 +22,9 @@ class ComplainController extends Controller
      */
     public function index(Request $request)
     {
-        $complains = Complain::with(['user', 'order'])->latest()->get();
+        $users = User::get()->pluck('id');
+        $complains = Complain::with(['user', 'order'])->whereHas('user', function ($query) use ($users){
+            $query->whereIn('id', $users); })->latest()->get();
         $data = [];
         foreach ($complains as $complain) {
             $user = [
@@ -104,7 +106,7 @@ class ComplainController extends Controller
         $datalog = [
             'user_id' => $user_id,
             'type' => 'create',
-            'description' => "Create New banner [$complain->id] $complain->description", 
+            'description' => "Create New complain [$complain->id] $complain->description", 
         ];
         $this->log->store($datalog);
         DB::commit();
@@ -137,10 +139,19 @@ class ComplainController extends Controller
      */
     public function update(Request $request, $id)
     {
+        DB::beginTransaction();
+        $user_id = @$request->user()->id;
         $complain = Complain::find($id);
         $complain->status_complain = $request->status;
         $complain->verified_at = now();
         $complain->save();
+        $datalog = [
+            'user_id' => $user_id,
+            'type' => 'create',
+            'description' => "verify complain [$complain->id] $complain->description", 
+        ];
+        $this->log->store($datalog);
+        DB::commit();
         return response()->json(
             [
                 'status' => 'success',

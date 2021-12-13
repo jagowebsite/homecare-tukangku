@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\OrderConfirmation;
 use App\Models\OrderDetail;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HistoryController extends Controller
@@ -17,11 +18,13 @@ class HistoryController extends Controller
     public function index(Request $request)
     {
         $limit = $request->limit ?? 6;
+        $users = User::get()->pluck('id');
         $orderdetails = OrderDetail::with([
             'order',
             'service',
-            'order.user',
-        ])->latest()->paginate($limit);
+            
+        ])->whereHas('order', function ($query) use ($users){
+            $query->whereIn('user_id', $users); })->latest()->paginate($limit);
         $data = [];
         foreach($orderdetails as $item){
             $user = [

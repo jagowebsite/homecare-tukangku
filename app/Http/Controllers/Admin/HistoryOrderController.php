@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\OrderDetail;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -16,7 +17,9 @@ class HistoryOrderController extends Controller
      */
     public function index(Request $request)
     {
-        $orderdetails = OrderDetail::with(['order', 'service', 'order.user'])->latest();
+        $users = User::get()->pluck('id');
+        $orderdetails = OrderDetail::with(['order', 'service', 'order.user'])->whereHas('order', function ($query) use ($users){
+            $query->whereIn('user_id', $users); })->latest();
         // dd($orderdetails);
         if ($request->ajax()) {
             return DataTables::eloquent($orderdetails)

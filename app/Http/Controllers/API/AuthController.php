@@ -412,11 +412,17 @@ class AuthController extends Controller
                 'address' => 'required',
                 'date_of_birth' => 'required',
                 'number' => 'required',
+                'ktp_image' => 'image|file|max:8192',
             ],
             $messages = [
                 'required' => 'The :attribute field is required.',
                 'email' => 'Email is not valid.',
                 'unique' => 'Email has been registered.',
+                'image' =>
+                    'File upload must be an image (jpg, jpeg, png, bmp, gif, svg, or webp).',
+                'max' =>
+                    'Maximum file size to upload is 8MB (8192 KB). If you are uploading a photo, try to reduce its resolution to make it under 8MB',
+                'confirmed' => 'The password confirmation does not match',
             ]
         );
         if ($validator->fails()) {
@@ -431,6 +437,13 @@ class AuthController extends Controller
         }
         $user_id = @$request->user()->id;
         $user = User::find($user_id);
+        if ($request->file('ktp_image')) {
+            if ($user->ktp_image) {
+                Storage::delete(@$user->ktp_image);
+            }
+            $user_ktp = @$request->file('ktp_image')->store('user_image');
+            $user->ktp_image = $user_ktp;
+        }
         $user->name = $request->name;
         $user->address = $request->address;
         $user->date_of_birth = $request->date_of_birth;

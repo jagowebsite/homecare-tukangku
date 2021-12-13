@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Log;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -17,7 +18,9 @@ class LogController extends Controller
      */
     public function index(Request $request)
     {
-        $logs = Log::with(['user'])->latest();
+        $users = User::get()->pluck('id');
+        $logs = Log::with(['user'])->whereHas('user', function ($query) use ($users){
+            $query->whereIn('id', $users); })->latest();
         // dd($logs);
         if ($request->ajax()) {
             return DataTables::eloquent($logs)

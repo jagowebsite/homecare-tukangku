@@ -6,6 +6,7 @@ use App\Exports\AllReport;
 use App\Exports\ServiceReport;
 use App\Http\Controllers\Controller;
 use App\Models\OrderDetail;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Maatwebsite\Excel\Facades\Excel;
@@ -19,11 +20,14 @@ class ReportController extends Controller
      */
     public function index(Request $request)
     {
+        $users = User::get()->pluck('id');
         $orderdetails = OrderDetail::with(['order', 'service', 'order.user'])
             ->where('status_order_detail', 'done')
             ->whereHas('service', function ($query) {
                 $query->whereNotIn('service_category_id', [2, 7]);
-            });
+            })
+            ->whereHas('order', function ($query) use ($users){
+                $query->whereIn('user_id', $users); });
 
         // dd($orderdetails);
         if ($request->ajax()) {
@@ -42,11 +46,13 @@ class ReportController extends Controller
      */
     public function indexAllOrder(Request $request)
     {
+        $users = User::get()->pluck('id');
         $orderdetails = OrderDetail::with([
             'order',
             'service',
             'order.user',
-        ])->where('status_order_detail', 'done')->latest();
+        ])->where('status_order_detail', 'done')->whereHas('order', function ($query) use ($users){
+            $query->whereIn('user_id', $users); })->latest();
         // ->whereHas('service', function ($query) {
         //     $query->whereNotIn('service_category_id', [2, 7]);
         // });

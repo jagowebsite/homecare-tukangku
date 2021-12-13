@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class GpsController extends Controller
@@ -16,7 +17,9 @@ class GpsController extends Controller
     public function index(Request $request)
     {
         $limit = $request->limit ?? 6;
-        $payments = Payment::with(['user', 'order'])
+        $users = User::get()->pluck('id');
+        $payments = Payment::with(['user', 'order'])->whereHas('user', function ($query) use ($users){
+            $query->whereIn('id', $users); })
             ->latest()
             ->paginate($limit);
         $data = [];

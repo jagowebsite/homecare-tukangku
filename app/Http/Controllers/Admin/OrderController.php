@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderConfirmation;
 use App\Models\OrderDetail;
 use App\Models\Service;
+use App\Models\User;
 // use Barryvdh\DomPDF\PDF; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -25,7 +26,9 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $orders = Order::with(['user', 'orderDetails', 'orderDetails.service'])->latest();
+        $users = User::get()->pluck('id');
+        $orders = Order::with(['user', 'orderDetails', 'orderDetails.service'])->whereHas('user', function ($query) use ($users){
+            $query->whereIn('id', $users); })->latest();
         // dd($orders);
         if ($request->ajax()) {
             return DataTables::eloquent($orders)

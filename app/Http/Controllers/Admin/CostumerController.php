@@ -167,7 +167,7 @@ class CostumerController extends Controller
      */
     public function destroy(Request $request)
     {
-        User::destroy($request->user_id);
+        User::find($request->user_id)->forceDelete();
         session()->flash('danger', 'User has been deleted');
         return back();
     }
