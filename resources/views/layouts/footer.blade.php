@@ -16,6 +16,7 @@
     <script src="{{url('/')}}/assets/lib/rickshaw/rickshaw.min.js"></script>
     <script src="{{url('/')}}/assets/lib/datatables/jquery.dataTables.js"></script>
     <script src="{{url('/')}}/assets/lib/datatables-responsive/dataTables.responsive.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
     <script src="{{url('/')}}/assets/lib/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
     <script src="{{url('/')}}/assets/lib/select2/js/select2.min.js"></script>
 
