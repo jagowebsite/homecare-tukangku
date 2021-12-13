@@ -9,7 +9,7 @@
     
     <table>
         <thead>
-            <tr><th colspan="9">Laporan Penjualan dari tanggal {{date_format(date_create(@$start_date), 'd F Y')}} sampai {{date_format(date_create(@$end_date), 'd F Y')}}</th></tr>
+            <tr><th colspan="9">Laporan Penjualan dari tanggal {{date_format(date_create(@$start_date), 'd-m-Y')}} sampai {{date_format(date_create(@$end_date), 'd-m-Y')}}</th></tr>
         <tr>
             <th>No</th>
             <th>Date</th>
@@ -26,7 +26,7 @@
         @foreach($orderdetails as $item)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{date_format(date_create(@$item->created_at), 'd F Y')}}</td>
+                <td>{{date_format(date_create(@$item->created_at), 'd-m-Y')}}</td>
                 <td>{{ @$item->order->user->name }}</td>
                 <td>{{ @$item->order->user->email }}</td>
                 <td>{{ @$item->order->user->number }}</td>
