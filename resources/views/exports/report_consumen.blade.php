@@ -6,11 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 </head>
 <body>
-    <div>
-        Report Order Consumen
-    </div>
+    
     <table>
         <thead>
+            <tr><th colspan="9">Laporan Penjualan dari tanggal {{@$start_date}} - {{@$end_date}}</th></tr>
         <tr>
             <th>No</th>
             <th>Date</th>

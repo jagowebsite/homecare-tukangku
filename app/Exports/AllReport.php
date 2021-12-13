@@ -31,6 +31,8 @@ class AllReport implements FromView
         $orderdetails= $orderdetails->latest()->get();
         return view('exports.report_consumen', [
             'orderdetails' => $orderdetails,
+            'start_date'=> $this->request->start_date,
+            'end_date'=>$this->request->end_date,
         ]);
     }
 }
