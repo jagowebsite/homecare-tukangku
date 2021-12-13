@@ -214,7 +214,7 @@ class EmployeeController extends Controller
         ];
         $this->log->store($datalog);
         DB::commit();
-        session()->flash('success', 'Employee has been updated');
+        // session()->flash('success', 'Employee has been updated');
         Alert::success('Success', 'Employee has been updated');
         return redirect()->route('employees');
     }
