@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -104,7 +106,8 @@ class UserController extends Controller
         );
         if ($validator->fails()) {
             $error = $validator->errors()->first();
-            session()->flash('danger', $error);
+            // session()->flash('danger', $error);
+            Alert::error('Danger', $error);
             return back()->withInput();
         }
         if ($request->file('user_image')) {
@@ -113,6 +116,7 @@ class UserController extends Controller
         if ($request->file('user_ktp')) {
             $user_ktp = @$request->file('user_ktp')->store('user_image');
         }
+        DB::beginTransaction();
         $user = User::create([
             'email' => $request->email,
             'name' => $request->name,
@@ -124,7 +128,9 @@ class UserController extends Controller
             'ktp_image' => @$user_ktp,
         ]);
         $user->assignRole($request->role);
-        session()->flash('success', 'User has been added');
+        DB::commit();
+        // session()->flash('success', 'User has been added');
+        Alert::success('Success', 'User has been created');
         return redirect()->route('users');
     }
 
@@ -176,7 +182,8 @@ class UserController extends Controller
         );
         if ($validator->fails()) {
             $error = $validator->errors()->first();
-            session()->flash('danger', $error);
+            // session()->flash('danger', $error);
+            Alert::error('Danger', $error);
             return back()->withInput();
         }
 
@@ -202,7 +209,8 @@ class UserController extends Controller
         if ($user && $role) {
             $user->syncRoles($role);
         }
-        session()->flash('success', 'Data berhasil diupdate');
+        // session()->flash('success', 'Data berhasil diupdate');
+        Alert::success('Success', 'User has been updated');
         return redirect()->route('users');
     }
 
@@ -234,13 +242,15 @@ class UserController extends Controller
         );
         if ($validator->fails()) {
             $error = $validator->errors()->first();
-            session()->flash('danger', $error);
+            // session()->flash('danger', $error);
+            Alert::error('Danger', $error);
             return back()->withInput();
         }
         $user->password = bcrypt($request->password);
         $user->save();
 
-        session()->flash('success', 'Password has been updated');
+        // session()->flash('success', 'Password has been updated');
+        Alert::success('Success', 'Password has been Changed');
         return back();
     }
     /**
@@ -252,7 +262,8 @@ class UserController extends Controller
     public function destroy(Request $request)
     {
         User::find($request->user_id)->forceDelete();
-        session()->flash('danger', 'User has been deleted');
+        Alert::warning('Warning','User has been deleted');
+        // session()->flash('danger', 'User has been deleted');
         return back();
     }
 
@@ -285,7 +296,8 @@ class UserController extends Controller
         );
         if ($validator->fails()) {
             $error = $validator->errors()->first();
-            session()->flash('danger', $error);
+            // session()->flash('danger', $error);
+            Alert::error('Danger', $error);
             return back()->withInput();
         }
 
@@ -307,7 +319,8 @@ class UserController extends Controller
         $user->number = $request->number;
         $user->save();
 
-        session()->flash('success', 'Data berhasil diupdate');
+        // session()->flash('success', 'Data berhasil diupdate');
+        Alert::success('Success', 'Your Profil has been updated');
         return redirect()->route('profile_edit');
     }
     

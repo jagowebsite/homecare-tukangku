@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
 class AssetBannerController extends Controller
@@ -102,7 +103,8 @@ class AssetBannerController extends Controller
         );
         if ($validator->fails()) {
             $error = $validator->errors()->first();
-            session()->flash('danger', $error);
+            // session()->flash('danger', $error);
+            Alert::error('Danger', $error);
             return back()->withInput();
         }
         DB::beginTransaction();
@@ -123,7 +125,8 @@ class AssetBannerController extends Controller
         ];
         $this->log->store($datalog);
         DB::commit();
-        session()->flash('success', 'Asset Banner has been added');
+        // session()->flash('success', 'Asset Banner has been added');
+        Alert::success('Success', 'Asset Banner has been added');
         return redirect()->route('banners');
     }
 
@@ -168,7 +171,8 @@ class AssetBannerController extends Controller
         );
         if ($validator->fails()) {
             $error = $validator->errors()->first();
-            session()->flash('danger', $error);
+            // session()->flash('danger', $error);
+            Alert::error('Danger', $error);
             return back()->withInput();
         }
         DB::beginTransaction();
@@ -189,7 +193,8 @@ class AssetBannerController extends Controller
         ];
         $this->log->store($datalog);
         DB::commit();
-        session()->flash('success', 'Asset Banners has been updated');
+        // session()->flash('success', 'Asset Banners has been updated');
+        Alert::success('Success', 'Asset Banner has been updated');
         return redirect()->route('banners');
     }
 
@@ -211,7 +216,8 @@ class AssetBannerController extends Controller
         ];
         $this->log->store($datalog);
         DB::commit();
-        session()->flash('danger', 'Asset Banner  has been deleted');
+        // session()->flash('danger', 'Asset Banner  has been deleted');
+        Alert::warning('Warning','Asser Banner has been deleted');
         return back();
     }
 }

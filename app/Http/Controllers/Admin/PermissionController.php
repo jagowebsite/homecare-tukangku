@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -51,7 +52,8 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
         Permission::findOrCreate($request->name, $request->guard_name);
-        session()->flash('success', 'Permission has been created');
+        Alert::success('Success', 'Permission has been created');
+        // session()->flash('success', 'Permission has been created');
         return back();
     }
 
@@ -69,7 +71,8 @@ class PermissionController extends Controller
         $permission->guard_name = $request->guard_name;
         $permission->save();
 
-        session()->flash('success', 'Permission has been updated');
+        // session()->flash('success', 'Permission has been updated');
+        Alert::success('Success', 'Permission has been updated');
         return back();
     }
 
@@ -82,7 +85,8 @@ class PermissionController extends Controller
     public function destroy(Request $request)
     {
         Permission::destroy($request->permission_id);
-        session()->flash('danger', 'Permission has been deleted');
+        Alert::warning('Warning','Permission has been deleted');
+        // session()->flash('danger', 'Permission has been deleted');
         return back();
     }
 }

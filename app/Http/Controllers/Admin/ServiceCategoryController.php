@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ServiceCategoryController extends Controller
 {
@@ -90,7 +91,8 @@ class ServiceCategoryController extends Controller
         );
         if ($validator->fails()) {
             $error = $validator->errors()->first();
-            session()->flash('danger', $error);
+            // session()->flash('danger', $error);
+            Alert::error('Danger', $error);
             return back()->withInput();
         }
         if ($request->file('images')) {
@@ -108,7 +110,8 @@ class ServiceCategoryController extends Controller
         ];
         $this->log->store($datalog);
         DB::commit();
-        session()->flash('success', 'Service Category has been added');
+        // session()->flash('success', 'Service Category has been added');
+        Alert::success('Success', 'Service Category has been added');
         return back();
     }
 
@@ -138,7 +141,8 @@ class ServiceCategoryController extends Controller
         ];
         $this->log->store($datalog);
         DB::commit();
-        session()->flash('success', 'Service Category has been updated');
+        Alert::success('Success', 'Service Category has been updated');
+        // session()->flash('success', 'Service Category has been updated');
         return back();
     }
 
@@ -161,7 +165,8 @@ class ServiceCategoryController extends Controller
         ];
         $this->log->store($datalog);
         DB::commit();
-        session()->flash('danger', 'Service Category has been deleted');
+        // session()->flash('danger', 'Service Category has been deleted');
+        Alert::warning('Warning','Service Category has been deleted');
         return back();
     }
 }
