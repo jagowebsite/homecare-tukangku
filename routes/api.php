@@ -84,7 +84,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
             App\Http\Controllers\API\AuthController::class,
             'getUser',
         ]);
-        Route::patch('/update-user', [
+        Route::post('/update-user', [
             App\Http\Controllers\API\AuthController::class,
             'update',
         ]);
