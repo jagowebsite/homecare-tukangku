@@ -143,6 +143,7 @@ class OrderController extends Controller
             200
         );
     }
+
     public function getInvoice($id)
     {
         $pdf = new PDF();
@@ -161,6 +162,7 @@ class OrderController extends Controller
     	// return $pdf->download('invoice-pdf');
 
     }
+
     public function indexMyTransaction(Request $request)
     {
         $user_id = $request->user()->id;
@@ -718,6 +720,22 @@ class OrderController extends Controller
             [
                 'status' => 'success',
                 'message' => 'Cancel transaction success.',
+            ],
+            201
+        );
+    }
+
+    public function countMyTransaction(Request $request)
+    {
+        $user_id = $request->user()->id;
+        $orders = Order::where('user_id', $user_id)->get()->count();
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' => 'Get count my transaction success.',
+                'data' => [
+                    'count'=> $orders,
+                ],
             ],
             201
         );

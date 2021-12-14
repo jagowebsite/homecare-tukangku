@@ -263,6 +263,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         App\Http\Controllers\API\OrderController::class,
         'indexMyTransaction',
     ]);
+    Route::get('/my-transactions/count', [
+        App\Http\Controllers\API\OrderController::class,
+        'countMyTransaction',
+    ]);
     Route::group(['prefix' => 'transaction'], function () {
         Route::post('/create', [
             App\Http\Controllers\API\OrderController::class,
