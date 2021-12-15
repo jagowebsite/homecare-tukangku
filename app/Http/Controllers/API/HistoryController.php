@@ -128,9 +128,9 @@ class HistoryController extends Controller
                 $is_ready = false;
             }
             $employee = [
-                'id' => @$item->employee->id,
+                'id' => (int) @$item->employee->id,
                 'category_service' => [
-                    'id' => @$item->employee->service_category_id,
+                    'id' => (int) @$item->employee->service_category_id,
                     'name' => @$item->employee->servicecategory->name,
                 ],
                 'name' => @$item->employee->name,
