@@ -30,7 +30,7 @@ class ReportController extends Controller
         $data = [];
         foreach($orderdetails as $item){
             $user = [
-                'id' => @$item->order->user->id,
+                'id' => (int) @$item->order->user->id,
                 'email' => @$item->order->user->email,
                 'name' => @$item->order->user->name,
                 'date_of_birth' => @$item->order->user->date_of_birth,
@@ -44,104 +44,7 @@ class ReportController extends Controller
                     : '',
             ];
             $order = [
-                'id' => @$item->order->id,
-                'invoice_id' => @$item->order->invoice_code,
-                'user' => @$user,
-                'status_order' => @$item->order->status_order,
-            ];
-            $images_service = [];
-            if (@$item->service->status_service == '1') {
-                $status_service = 'active';
-            } else {
-                $status_service = 'nonactive';
-            }
-            if (
-                @count(@json_decode(@$item->service->images, true))
-            ) {
-                foreach (
-                    @json_decode(@$item->service->images, true)
-                    as $image
-                ) {
-                    $images_service[] = asset('storage/' . $image);
-                }
-            } else {
-                $images_service[] = 'https://picsum.photos/64';
-            }
-            $service = [
-                'id' => @$item->service_id,
-                        'name' => @$item->service->name,
-                        'category' => [
-                            'id' => @$item->service->service_category_id,
-                            'name' => @$item->service->servicecategory
-                                ->name,
-                        ],
-                        'type_quantity' => @$item->service
-                            ->type_quantity,
-                        'price' => @$item->service->price,
-                        'images' => @$images_service,
-                        'description' => @$item->service->description,
-                        'status' => @$status_service,
-                    ];
-                    $data[]=[
-                        'id'=> $item->id,
-                        'order'=>@$order,
-                        'service'=>@$service,
-                        'quantity'=>@$item->quantity,
-                        'price'=>@$item->price,
-                        'total_price'=>@$item->total_price,
-                        'description'=>@$item->description,
-                        'status_order_detail'=>@$item->status_order_detail,
-                        'verified_at' => date_format(
-                            date_create($item->verified_at),
-                            'Y-m-d H:i:s'
-                        ),
-                        'created_at' => date_format(
-                            date_create($item->created_at),
-                            'Y-m-d H:i:s'
-                        ),
-
-                    ];
-        }
-        return response()->json(
-            [
-                'status' => 'success',
-                'message' => 'Get data all report success.',
-                'data' => @$data,
-            ],
-            200
-        );
-    }
-
-    public function indexService(Request $request)
-    {
-        $users = User::get()->pluck('id');
-        $limit = $request->limit ?? 6;
-        $orderdetails = OrderDetail::with([
-            'order',
-            'service',
-            'order.user',
-        ])->where('status_order_detail', 'done')->whereHas('service', function ($query) {
-            $query->whereNotIn('service_category_id', [2, 7]);
-        })->whereHas('order', function ($query) use ($users){
-            $query->whereIn('user_id', $users); })->latest()->paginate($limit);
-        $data = [];
-        foreach($orderdetails as $item){
-            $user = [
-                'id' => @$item->order->user->id,
-                'email' => @$item->order->user->email,
-                'name' => @$item->order->user->name,
-                'date_of_birth' => @$item->order->user->date_of_birth,
-                'address' => @$item->order->user->address,
-                'number' => @$item->order->user->number,
-                'images' => @$item->order->user->images
-                    ? asset('storage/' . @$item->order->user->images)
-                    : url('/') . '/assets/icon/user_default.png',
-                'ktp_image' => @$item->order->user->ktp_image
-                    ? asset('storage/' . @$item->order->user->ktp_image)
-                    : '',
-            ];
-            $order = [
-                'id' => @$item->order->id,
+                'id' => (int) @$item->order->id,
                 'invoice_id' => @$item->order->invoice_code,
                 'user' => @$user,
                 'status_order' => @$item->order->status_order,
@@ -183,9 +86,106 @@ class ReportController extends Controller
                         'id'=> (int) $item->id,
                         'order'=>@$order,
                         'service'=>@$service,
-                        'quantity'=>@$item->quantity,
-                        'price'=>@$item->price,
-                        'total_price'=>@$item->total_price,
+                        'quantity'=> (int) @$item->quantity,
+                        'price'=> (int) @$item->price,
+                        'total_price'=> (int) @$item->total_price,
+                        'description'=>@$item->description,
+                        'status_order_detail'=>@$item->status_order_detail,
+                        'verified_at' => date_format(
+                            date_create($item->verified_at),
+                            'Y-m-d H:i:s'
+                        ),
+                        'created_at' => date_format(
+                            date_create($item->created_at),
+                            'Y-m-d H:i:s'
+                        ),
+
+                    ];
+        }
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' => 'Get data all report success.',
+                'data' => @$data,
+            ],
+            200
+        );
+    }
+
+    public function indexService(Request $request)
+    {
+        $users = User::get()->pluck('id');
+        $limit = $request->limit ?? 6;
+        $orderdetails = OrderDetail::with([
+            'order',
+            'service',
+            'order.user',
+        ])->where('status_order_detail', 'done')->whereHas('service', function ($query) {
+            $query->whereNotIn('service_category_id', [2, 7]);
+        })->whereHas('order', function ($query) use ($users){
+            $query->whereIn('user_id', $users); })->latest()->paginate($limit);
+        $data = [];
+        foreach($orderdetails as $item){
+            $user = [
+                'id' => (int) @$item->order->user->id,
+                'email' => @$item->order->user->email,
+                'name' => @$item->order->user->name,
+                'date_of_birth' => @$item->order->user->date_of_birth,
+                'address' => @$item->order->user->address,
+                'number' => @$item->order->user->number,
+                'images' => @$item->order->user->images
+                    ? asset('storage/' . @$item->order->user->images)
+                    : url('/') . '/assets/icon/user_default.png',
+                'ktp_image' => @$item->order->user->ktp_image
+                    ? asset('storage/' . @$item->order->user->ktp_image)
+                    : '',
+            ];
+            $order = [
+                'id' => (int) @$item->order->id,
+                'invoice_id' => @$item->order->invoice_code,
+                'user' => @$user,
+                'status_order' => @$item->order->status_order,
+            ];
+            $images_service = [];
+            if (@$item->service->status_service == '1') {
+                $status_service = 'active';
+            } else {
+                $status_service = 'nonactive';
+            }
+            if (
+                @count(@json_decode(@$item->service->images, true))
+            ) {
+                foreach (
+                    @json_decode(@$item->service->images, true)
+                    as $image
+                ) {
+                    $images_service[] = asset('storage/' . $image);
+                }
+            } else {
+                $images_service[] = 'https://picsum.photos/64';
+            }
+            $service = [
+                'id' => (int) @$item->service_id,
+                        'name' => @$item->service->name,
+                        'category' => [
+                            'id' => (int) @$item->service->service_category_id,
+                            'name' => @$item->service->servicecategory
+                                ->name,
+                        ],
+                        'type_quantity' => @$item->service
+                            ->type_quantity,
+                        'price' => (int) @$item->service->price,
+                        'images' => @$images_service,
+                        'description' => @$item->service->description,
+                        'status' => @$status_service,
+                    ];
+                    $data[]=[
+                        'id'=> (int) $item->id,
+                        'order'=>@$order,
+                        'service'=>@$service,
+                        'quantity'=> (int) @$item->quantity,
+                        'price'=> (int) @$item->price,
+                        'total_price'=> (int) @$item->total_price,
                         'description'=>@$item->description,
                         'status_order_detail'=>@$item->status_order_detail,
                         'created_at' => date_format(
