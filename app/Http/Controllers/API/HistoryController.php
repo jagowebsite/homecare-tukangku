@@ -215,10 +215,10 @@ class HistoryController extends Controller
                         'id'=> (int) $item->id,
                         'employee'=>$employee,
                         'order_detail'=>$order_detail,
-                        'work_duration'=>$item->work_duration,
-                        'type_work_duration'=>$item->type_work_duration,
+                        'work_duration'=> (int) $item->work_duration,
+                        'type_work_duration'=> $item->type_work_duration,
                         'description'=>$item->description,
-                        'salary_employee'=>$item->salary_employee,
+                        'salary_employee'=> (int) $item->salary_employee,
                         'created_at' => date_format(
                             date_create(@$item->create_at),
                             'Y-m-d H:i:s'
