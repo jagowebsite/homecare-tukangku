@@ -71,7 +71,7 @@
               <!-- loop starts here -->
               @if (@Auth::user()->unreadNotifications->count())
                             @foreach (@Auth::user()->unreadNotifications()->latest()->paginate(2) as $item)
-                            <a href="{{ @$item->data['action'] }}" class="media-list-link read">
+                            <a href="{{ route('read_notification', ['id'=>$item->id])}}" class="media-list-link read">
                               <div class="media pd-x-20 pd-y-15">
                                 <img src="{{ url('/') }}/assets/img/ic_logo.png" class="wd-40 rounded-circle" alt="">
                                 <div class="media-body">

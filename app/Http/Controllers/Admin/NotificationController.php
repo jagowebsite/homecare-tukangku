@@ -62,7 +62,12 @@ class NotificationController extends Controller
      */
     public function show($id)
     {
-        //
+        $notification = @Auth::user()->notifications->where('id', $id)->first();
+dd($notification);
+        if ($notification) {
+            $notification->markAsRead();
+            return redirect($notification->data['action']);
+        }
     }
 
     /**

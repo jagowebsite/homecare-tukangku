@@ -129,6 +129,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             App\Http\Controllers\Admin\NotificationController::class,
             'markAsRead',
         ])->name('read_all_notification'); 
+        Route::get('/notifications/read/{id}', [
+            App\Http\Controllers\Admin\NotificationController::class,
+            'show',
+        ])->name('read_notification'); 
 
         Route::group(['prefix' => 'account-bank'], function () {
             Route::get('/', [
