@@ -16,14 +16,17 @@ class NotificationController extends Controller
      */
     public function index(Request $request)
     {
-    $user_id = @Auth::user()->id;
-    // $user_id = 200;
-    $limit = $request->limit ?? 1;
-    $user = User::find($user_id);
-    $data = [];
-    $notifications = $user->notifications()->paginate($limit);
-    // dd($notifications);
-    return view('pages.setting.notification.index', compact('notifications'));
+        $user_id = @Auth::user()->id;
+        // $user_id = 200;
+        $limit = $request->limit ?? 1;
+        $user = User::find($user_id);
+        $data = [];
+        $notifications = $user->notifications()->paginate($limit);
+        // dd($notifications);
+        return view(
+            'pages.setting.notification.index',
+            compact('notifications')
+        );
     }
 
     /**
@@ -31,10 +34,14 @@ class NotificationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function markAsRead()
     {
-        //
+        foreach (@Auth::user()->notifications as $notification) {
+            $notification->markAsRead();
+          }
+          return json_encode(['success']);
     }
+    
 
     /**
      * Store a newly created resource in storage.

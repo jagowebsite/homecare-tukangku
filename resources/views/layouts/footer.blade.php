@@ -53,4 +53,16 @@
           }
         }
       });
+      $(document).on('click', "#read-notif", function(e) {
+        e.preventDefault();
+        let urllike = "{{ route('read_all_notification') }}"
+        $.ajax({
+            url: urllike,
+            type: 'get',
+            dataType: "json",
+            success: function(data) {
+            }
+        });
+    });
+  
     </script>

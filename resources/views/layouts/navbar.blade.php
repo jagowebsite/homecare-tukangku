@@ -52,36 +52,42 @@
         </div><!-- dropdown --> --}}
 
         {{-- Notification --}}
-        {{-- <div class="dropdown">
+        <div class="dropdown">
           <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown">
             <i class="icon ion-ios-bell-outline tx-24"></i>
             <!-- start: if statement -->
+            @if (@Auth::user()->unreadNotifications->count())
             <span class="square-8 bg-danger pos-absolute t-15 r-5 rounded-circle"></span>
+            @endif
             <!-- end: if statement -->
           </a>
           <div class="dropdown-menu dropdown-menu-header wd-300 pd-0-force">
             <div class="d-flex align-items-center justify-content-between pd-y-10 pd-x-20 bd-b bd-gray-200">
               <label class="tx-12 tx-info tx-uppercase tx-semibold tx-spacing-2 mg-b-0">Notifications</label>
-              <a href="" class="tx-11">Mark All as Read</a>
+              <a href="#" class="tx-11" id="read-notif">Mark All as Read</a>
             </div><!-- d-flex -->
 
             <div class="media-list">
               <!-- loop starts here -->
-              <a href="" class="media-list-link read">
-                <div class="media pd-x-20 pd-y-15">
-                  <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
-                  <div class="media-body">
-                    <p class="tx-13 mg-b-0 tx-gray-700"><strong class="tx-medium tx-gray-800">Suzzeth Bungaos</strong> tagged you and 18 others in a post.</p>
-                    <span class="tx-12">October 03, 2017 8:45am</span>
-                  </div>
-                </div>
-              </a>
+              @if (count(@Auth::user()->notifications))
+                            @foreach (@Auth::user()->notifications()->latest()->paginate(2) as $item)
+                            <a href="{{ @$item->data['action'] }}" class="media-list-link read">
+                              <div class="media pd-x-20 pd-y-15">
+                                <img src="{{ url('/') }}/assets/img/ic_logo.png" class="wd-40 rounded-circle" alt="">
+                                <div class="media-body">
+                                  <p class="tx-13 mg-b-0 tx-gray-700"> {{ $item->data['msg'] }}</p>
+                                  <span class="tx-12">{{date_format(date_create($item->created_at), 'F d, Y g:ia')}}</span>
+                                </div>
+                              </div>
+                            </a>
+                            @endforeach
+              @endif
               <div class="pd-y-10 tx-center bd-t">
-                <a href="" class="tx-12"><i class="fa fa-angle-down mg-r-5"></i> Show All Notifications</a>
+                <a href="{{route('notifications')}}" class="tx-12"><i class="fa fa-angle-down mg-r-5"></i> Show All Notifications</a>
               </div>
             </div>
           </div>
-        </div> --}}
+        </div>
 
 
         <div class="dropdown">
