@@ -65,5 +65,9 @@
             }
         });
     });
-  
+    setInterval(function() {
+    if ({{Auth::user()->unreadNotifications->count()}}) {
+      $("#icon-badge").after(`<span class="square-8 bg-danger pos-absolute t-15 r-5 rounded-circle" id="badge-notif"></span>`);
+    }
+    }, 10000);
     </script>

@@ -53,8 +53,8 @@
 
         {{-- Notification --}}
         <div class="dropdown">
-          <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown">
-            <i class="icon ion-ios-bell-outline tx-24"></i>
+          <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown" .>
+            <i class="icon ion-ios-bell-outline tx-24" id="icon-badge"></i>
             <!-- start: if statement -->
             @if (@Auth::user()->unreadNotifications->count())
             <span class="square-8 bg-danger pos-absolute t-15 r-5 rounded-circle" id="badge-notif"></span>
