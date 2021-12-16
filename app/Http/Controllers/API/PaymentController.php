@@ -208,8 +208,8 @@ class PaymentController extends Controller
             'address' => $request->address,
         ]);
         $users = User::with(['roles'])->whereHas('roles', function ($query) {
-            $query->where('name', '<>', 'user')->get();
-        });
+            $query->where('name', '<>', 'user');
+        })->get();
         $data = json_encode([
             'payment_id'=>$payment->id,
         ]);
