@@ -340,18 +340,18 @@ class OrderController extends Controller
                 'status_order_detail' => 'pending',
             ]);
         }
-        $users = User::with(['roles'])->whereHas('roles', function ($query) {
-            $query->where('name', '<>', 'user')->get();
-        });
-        $data = json_encode([
-            'order_id'=>$order->id,
+        // $users = User::with(['roles'])->whereHas('roles', function ($query) {
+        //     $query->where('name', '<>', 'user')->get();
+        // });
+        // $data = json_encode([
+        //     'order_id'=>$order->id,
             
-        ]);
-        $action = route('transactions_detail', $order->id);
-        $messages = 'Hai Ada yang melakukan pesanan dengan kode pesanan: '.$order->invoice_code;
-        foreach ($users as $user) {
-            $user->notify(new OrderNotification($messages, $data, $action));
-        }
+        // ]);
+        // $action = route('transactions_detail', $order->id);
+        // $messages = 'Hai Ada yang melakukan pesanan dengan kode pesanan: '.$order->invoice_code;
+        // foreach ($users as $user) {
+        //     $user->notify(new OrderNotification($messages, $data, $action));
+        // }
         DB::commit();
         return response()->json(
             [
