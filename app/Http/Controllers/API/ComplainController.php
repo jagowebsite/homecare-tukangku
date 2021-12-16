@@ -58,6 +58,48 @@ class ComplainController extends Controller
             200
         );
     }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexMyComplain(Request $request)
+    {
+        $user_id = @$request->user()->id;
+        $complains = Complain::with(['user', 'order'])->where('user_id', $user_id)->latest()->get();
+        $data = [];
+        foreach ($complains as $complain) {
+            $user = [
+                'id' => $complain->user->id,
+                'email' => $complain->user->email,
+                'name' => $complain->user->name,
+                'date_of_birth' => $complain->user->date_of_birth,
+                'address' => $complain->user->address,
+                'number' => $complain->user->number,
+                'images' => $complain->user->images
+                    ? asset('storage/' . $complain->user->images)
+                    : url('/') . '/assets/icon/user_default.png',
+                'ktp_image' => $complain->user->ktp_image
+                    ? asset('storage/' . $complain->user->ktp_image)
+                    : '',
+            ];
+            $data = [
+                'id' => $complain->id,
+                'user' => $user,
+                'order_id' => $complain->order_id,
+                'description' => $complain->description,
+                'status' => $complain->status_complain,
+            ];
+        }
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' => 'Get data complain success.',
+                'data' => $data,
+            ],
+            200
+        );
+    }
 
     /**
      * Store a newly created resource in storage.

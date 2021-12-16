@@ -121,6 +121,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     );
     Route::group(['prefix' => 'setting'], function () {
         // Route for Account Bank
+        Route::get('/notifications', [
+            App\Http\Controllers\Admin\NotificationController::class,
+            'index',
+        ])->name('notifications'); 
+
         Route::group(['prefix' => 'account-bank'], function () {
             Route::get('/', [
                 App\Http\Controllers\Admin\BankController::class,

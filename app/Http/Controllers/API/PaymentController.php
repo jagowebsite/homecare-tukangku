@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Models\User;
+use App\Notifications\OrderNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -188,7 +189,7 @@ class PaymentController extends Controller
             $images_user = @$request->file('images_user')->store('payments');
         }
         $user_id = $request->user()->id;
-        Payment::create([
+        $payment = Payment::create([
             'user_id' => $user_id,
             'order_id' => $request->transaction_id,
             'payment_code' => 'INVHMC-' . strtotime('now'),
@@ -206,6 +207,17 @@ class PaymentController extends Controller
             'description' => $request->description,
             'address' => $request->address,
         ]);
+        $users = User::with(['roles'])->whereHas('roles', function ($query) {
+            $query->where('name', '<>', 'user')->get();
+        });
+        $data = json_encode([
+            'payment_id'=>$payment->id,
+        ]);
+        $action = route('payments_detail', $payment->id);
+        $messages = 'Hai Ada yang melakukan pembayaran pesanan dengan kode pembayaran: '.$payment->payment_code;
+        foreach ($users as $user) {
+            $user->notify(new OrderNotification($messages, $data, $action));
+        }
         DB::commit();
         return response()->json(
             [

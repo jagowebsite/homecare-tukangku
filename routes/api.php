@@ -177,6 +177,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         App\Http\Controllers\API\ComplainController::class,
         'index',
     ]);
+    Route::get('/complains/user', [
+        App\Http\Controllers\API\ComplainController::class,
+        'indexMyComplain',
+    ]);
     Route::group(['prefix' => 'complain'], function () {
         Route::post('/create', [
             App\Http\Controllers\API\ComplainController::class,

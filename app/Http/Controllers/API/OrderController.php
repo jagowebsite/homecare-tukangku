@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderConfirmation;
 use App\Models\OrderDetail;
 use App\Models\User;
+use App\Notifications\OrderNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -338,6 +339,18 @@ class OrderController extends Controller
                 'description' => $order_detail['description'],
                 'status_order_detail' => 'pending',
             ]);
+        }
+        $users = User::with(['roles'])->whereHas('roles', function ($query) {
+            $query->where('name', '<>', 'user')->get();
+        });
+        $data = json_encode([
+            'order_id'=>$order->id,
+            
+        ]);
+        $action = route('transactions_detail', $order->id);
+        $messages = 'Hai Ada yang melakukan pesanan dengan kode pesanan: '.$order->invoice_code;
+        foreach ($users as $user) {
+            $user->notify(new OrderNotification($messages, $data, $action));
         }
         DB::commit();
         return response()->json(

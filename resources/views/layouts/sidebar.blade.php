@@ -98,6 +98,7 @@
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub nav flex-column">
             <li class="nav-item"><a href="{{ route('chatting_consumen') }}" class="nav-link @if ($submenu == 'chat_consumen') active @endif">Chatting Consumen</a></li>
+            <li class="nav-item"><a href="{{ route('notifications') }}" class="nav-link @if ($submenu == 'notification') active @endif">Notification</a></li>
         </ul>
         <a href="#" class="br-menu-link @if ($menu == 'history') active show-sub @endif">
             <div class="br-menu-item">
