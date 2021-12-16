@@ -31,10 +31,10 @@
                         <a
                             href="{{ @$item->data['action']}}">
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <p class="my-0 py-0">{{ $item->data['msg'] }}</p>
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                <p class="my-0 py-0">{{ $item->data['msg'] }}</p>
                               </div>
                         </a>
                     </div>
