@@ -69,7 +69,7 @@
 
             <div class="media-list">
               <!-- loop starts here -->
-              @if (count(@Auth::user()->notifications))
+              @if (@Auth::user()->notifications->count())
                             @foreach (@Auth::user()->notifications()->latest()->paginate(2) as $item)
                             <a href="{{ @$item->data['action'] }}" class="media-list-link read">
                               <div class="media pd-x-20 pd-y-15">
