@@ -56,6 +56,7 @@
       $(document).on('click', "#read-notif", function(e) {
         e.preventDefault();
         let urllike = "{{ route('read_all_notification') }}"
+        $('#badge-notif').remove();
         $.ajax({
             url: urllike,
             type: 'get',
