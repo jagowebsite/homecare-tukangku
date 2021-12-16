@@ -119,6 +119,35 @@ Route::middleware(['auth', 'verified'])->group(function () {
             });
         }
     );
+    Route::group(['prefix' => 'setting'], function () {
+        // Route for Account Bank
+        Route::group(['prefix' => 'account-bank'], function () {
+            Route::get('/', [
+                App\Http\Controllers\Admin\BankController::class,
+                'index',
+            ])->name('bank_account');
+            Route::get('/create', [
+                App\Http\Controllers\Admin\BankController::class,
+                'create',
+            ])->name('account_create');
+            Route::post('/store', [
+                App\Http\Controllers\Admin\BankController::class,
+                'store',
+            ])->name('account_store');
+            Route::get('/edit/{id}', [
+                App\Http\Controllers\Admin\BankController::class,
+                'edit',
+            ])->name('account_edit');
+            Route::post('/update/{id}', [
+                App\Http\Controllers\Admin\BankController::class,
+                'update',
+            ])->name('account_update');
+            Route::delete('/destroy', [
+                App\Http\Controllers\Admin\BankController::class,
+                'destroy',
+            ])->name('account_destroy');
+        });
+    });
     // Route for Master
     Route::group(
         [
@@ -334,7 +363,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
             App\Http\Controllers\Admin\ComplainController::class,
             'update',
         ])->name('complains_update');
-       
     });
     Route::group(['prefix' => 'report'], function () {
         Route::get('/service', [
