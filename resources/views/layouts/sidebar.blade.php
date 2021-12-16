@@ -85,6 +85,9 @@
                     class="nav-link @if ($submenu == 'payments') active @endif">Transaksi Pembeli</a></li>
             <li class="nav-item"><a href="{{ route('gps_logs') }}" class="nav-link @if ($submenu == 'gps_logs') active @endif">Log
                     GPS Pembeli</a></li>
+            <li class="nav-item">
+                <a href="{{ route('complains') }}" class="nav-link @if ($submenu == 'complain') active @endif">Complains</a>
+            </li>
         </ul>
         <a href="#" class="br-menu-link @if ($menu == 'chatting') active show-sub @endif">
             <div class="br-menu-item">

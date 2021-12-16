@@ -46,7 +46,7 @@ class ComplainController extends Controller
                 'user' => $user,
                 'order_id' => $complain->order_id,
                 'description' => $complain->description,
-                'status' => $complain->status,
+                'status' => $complain->status_complain,
             ];
         }
         return response()->json(

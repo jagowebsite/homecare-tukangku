@@ -325,6 +325,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
     });
 
+    Route::group(['prefix' => 'complain'], function () {
+        Route::get('/', [
+            App\Http\Controllers\Admin\ComplainController::class,
+            'index',
+        ])->name('complains');
+        Route::get('/status/{id}', [
+            App\Http\Controllers\Admin\ComplainController::class,
+            'update',
+        ])->name('complains_update');
+       
+    });
     Route::group(['prefix' => 'report'], function () {
         Route::get('/service', [
             App\Http\Controllers\Admin\ReportController::class,

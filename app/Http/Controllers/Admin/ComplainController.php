@@ -6,10 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Complain;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
 class ComplainController extends Controller
 {
+    public $log;
+    public function __construct(){
+        $this->log = new LogController();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -19,28 +26,50 @@ class ComplainController extends Controller
     {
         $users = User::get()->pluck('id');
         $complains = Complain::with(['user', 'order'])->whereHas('user', function ($query) use ($users){
-            $query->whereIn('id', $users); })->latest();
+            $query->whereIn('id', $users); });
             if ($request->ajax()) {
                 return DataTables::eloquent($complains)
                 ->addIndexColumn()
+                ->addColumn('invoice', function (Complain $complain) {
+                    $invoice =
+                        '<a class="" href="' .
+                        route('transactions_detail', $complain->order_id) .
+                        '">' .
+                        $complain->order->invoice_code .
+                        ' </a>
+                    ';
+
+                    return $invoice;
+                })
+                ->addColumn('date_complain', function (Complain $complain) {
+                    $date =$complain->created_at;
+                    return $date;
+                })
                 ->addColumn('action', function (Complain $complain) {
-                    $action =
-                        '  <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="' .
-                        route('banners_edit', [$complain->id]) .
-                        '"
-                            class="btn btn-secondary active"><i class="fa fa-edit"></i></a>
-                        <a href="" type="button" class="btn btn-secondary btn-delete-asset" data-asset_id="' .
-                        $complain->id .
-                        '"><i class="fa fa-trash"></i></a>
-                    </div>
+                    if ($complain->status_complain != 'pending') {
+                        $action =
+                            ' <div class="btn-group " role="group" aria-label="Basic example"><button class="btn btn-light tx-uppercase">
+                      ' .
+                            $complain->status_complain .
+                            '</button>    
+                      </div>
                ';
+                    } else {
+                        $action =
+                            ' <div class="btn-group" role="group" aria-label="Basic example">
+                                    <button data-toggle="modal" data-target="#editCategory"  class="btn btn-success active btn-konfirmasi" data-urlconfirm="' .
+                            route('complains_update', ['id' => $complain->id]) .
+                            '"><i class="fa fa-check-circle"></i> Konfirmasi</button>
+                                  </div>
+                           ';
+                    }
                     return $action;
                 })
-                ->rawColumns(['action'])
-                // ->make(true);
-                ->toJson();
+                ->rawColumns(['action', 'date_complain', 'invoice'])
+                ->make(true);
+                // ->toJson();
             }
+            return view('pages.complain.index');
     }
 
     /**
@@ -93,9 +122,23 @@ class ComplainController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update( $id)
     {
-        //
+        DB::beginTransaction();
+        $user_id = Auth::user()->id??0;
+        $complain = Complain::find($id);
+        $complain->status_complain = 'done';
+        $complain->verified_at = now();
+        $complain->save();
+        $datalog = [
+            'user_id' => $user_id,
+            'type' => 'create',
+            'description' => "verify complain [$complain->id] $complain->description", 
+        ];
+        $this->log->store($datalog);
+        DB::commit();
+        Alert::success('Success', 'Complain has been confirmed');
+        return back();
     }
 
     /**

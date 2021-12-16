@@ -73,7 +73,7 @@ class PaymentController extends Controller
                             route('confirm_payment', ['id' => $payment->id]) .
                             '" data-urlcancel="' .
                             route('cancel_payment', ['id' => $payment->id]) .
-                            '"</button><i class="fa fa-check-circle"></i> Konfirmasi</button>
+                            '"><i class="fa fa-check-circle"></i> Konfirmasi</button>
                                     <a href="' .
                             route('payments_detail', $payment->id) .
                             '" class="btn btn-secondary"><i class="fa fa-eye"></i></a>
