@@ -30,6 +30,9 @@
                     class="nav-link @if ($submenu == 'services_category') active @endif">Data Kategori</a></li>
             <li class="nav-item"><a href="{{ route('banners') }}" class="nav-link @if ($submenu == 'banners') active @endif">Data
                     Banner</a></li>
+            <li class="nav-item">
+                <a href="{{ route('bank_account') }}" class="nav-link @if ($submenu == 'rekening') active @endif">Data Rekening Owner</a>
+            </li>
         </ul>
         {{-- <a href="card-dashboard.html" class="br-menu-link">
       <div class="br-menu-item">

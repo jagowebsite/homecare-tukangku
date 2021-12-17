@@ -29,7 +29,7 @@
                     @foreach ($notifications as $item)
                     <div class="col-12">
                         <a
-                            href="{{ @$item->data['action']}}">
+                            href="{{ route('read_notification', ['id'=>$item->id])}}">
                             <div class="alert {{@$item->read_at ? 'alert-light' : 'alert-success'}}  alert-dismissible fade show" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>

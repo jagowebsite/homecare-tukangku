@@ -22,7 +22,7 @@ class PaymentController extends Controller
     {
         $users = User::get()->pluck('id');
         $limit = $request->limit ?? 6;
-        $payments = Payment::with(['user', 'order'])->whereHas('user', function ($query) use ($users){
+        $payments = Payment::with(['user', 'order', 'accountpayment'])->whereHas('user', function ($query) use ($users){
             $query->whereIn('id', $users);})->latest()->paginate($limit);
         $data = [];
         foreach ($payments as $payment) {
@@ -40,7 +40,14 @@ class PaymentController extends Controller
                     ? asset('storage/' . $payment->user->ktp_image)
                     : '',
             ];
-
+            $is_active = @$payment->accountpayment->is_active ? 'active':'nonactive';
+            $account_payment = [
+                'id'=> @$payment->account_payment_id,
+                'account_name' => @$payment->accountpayment->account_name,
+                'account_number' => @$payment->accountpayment->account_number,
+                'bank_name' => strtoupper(@$payment->accountpayment->bank_name),
+                'is_active' => $is_active,
+            ];
             if (@$payment->order->orderdetails) {
                 $order_detail = [];
                 foreach (@$payment->order->orderdetails as $orderdetail) {
@@ -102,6 +109,7 @@ class PaymentController extends Controller
                 'id' => (int) $payment->id,
                 'user' => @$user,
                 'transaction' => @$order,
+                'account_payment' => @$account_payment,
                 'payment_code' => $payment->payment_code,
                 'type' => $payment->type,
                 'type_transfer' => $payment->type_transfer,
@@ -192,6 +200,7 @@ class PaymentController extends Controller
         $payment = Payment::create([
             'user_id' => $user_id,
             'order_id' => $request->transaction_id,
+            'account_payment_id' => $request->account_payment_id,
             'payment_code' => 'INVHMC-' . strtotime('now'),
             'type' => $request->type,
             'type_transfer' => $request->type_transfer,
@@ -292,6 +301,7 @@ class PaymentController extends Controller
         $user_id = $request->user()->id;
         $payment->user_id = $user_id;
         $payment->order_id = $request->transaction_id;
+        $payment->account_payment_id = $request->account_payment_id;
         $payment->type = $request->type;
         $payment->type_transfer = $request->type_transfer;
         $payment->bank_number = $request->bank_number;

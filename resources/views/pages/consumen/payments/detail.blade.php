@@ -147,7 +147,67 @@
                             <p class="tx-11 mg-b-0 mg-t-15">* Pastikan data konsumen sudah sesuai.</p>
                         </div><!-- card-body -->
                     </div><!-- card -->
+                     @if ($payment->account_payment_id)
+                    <div class="card shadow-base bd-0 mt-3">
+                        <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+                            <h6 class="card-title tx-uppercase tx-12 mg-b-0">Data Rekening Pembayaran</h6>
+                            <span class="tx-12 tx-uppercase"></span>
+                        </div><!-- card-header -->
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-4 tx-12">Nama Akun</div><!-- col-4 -->
+                                <div class="col-8">
+                                    {{ @$payment->accountpayment->account_name }}
+                                </div><!-- col-8 -->
+                            </div><!-- row -->
+                            <div class="row align-items-center">
+                                <div class="col-4 tx-12">Nomor Rekening</div><!-- col-4 -->
+                                <div class="col-8">
+                                    {{ @$payment->accountpayment->account_number }}
+                                </div><!-- col-8 -->
+                            </div><!-- row -->
+                            <div class="row align-items-center">
+                                <div class="col-4 tx-12">Nama Bank</div><!-- col-4 -->
+                                <div class="col-8">
+                                    {{ @$payment->accountpayment->bank_name }}
+                                </div><!-- col-8 -->
+                            </div><!-- row -->
+                            <p class="tx-11 mg-b-0 mg-t-15">* Pastikan data rekening pembayaran benar.</p>
+                        </div><!-- card-body -->
+                    </div><!-- card -->
+                    @endif
                 </div>
+                {{-- @if ($payment->account_payment_id) --}}
+                {{-- <div class="col-md-6 col-xs-12 mt-2">
+                    <div class="card shadow-base bd-0">
+                        <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+                            <h6 class="card-title tx-uppercase tx-12 mg-b-0">Data Rekening Pembayaran</h6>
+                            <span class="tx-12 tx-uppercase"></span>
+                        </div><!-- card-header -->
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-4 tx-12">Nama Akun</div><!-- col-4 -->
+                                <div class="col-8">
+                                    {{ @$payment->accountpayment->account_name }}
+                                </div><!-- col-8 -->
+                            </div><!-- row -->
+                            <div class="row align-items-center">
+                                <div class="col-4 tx-12">Nomor Rekening</div><!-- col-4 -->
+                                <div class="col-8">
+                                    {{ @$payment->accountpayment->account_number }}
+                                </div><!-- col-8 -->
+                            </div><!-- row -->
+                            <div class="row align-items-center">
+                                <div class="col-4 tx-12">Nama Bank</div><!-- col-4 -->
+                                <div class="col-8">
+                                    {{ @$payment->accountpayment->bank_name }}
+                                </div><!-- col-8 -->
+                            </div><!-- row -->
+                            <p class="tx-11 mg-b-0 mg-t-15">* Pastikan data rekening pembayaran benar.</p>
+                        </div><!-- card-body -->
+                    </div><!-- card -->
+                </div> --}}
+                {{-- @endif --}}
             </div>
 
         </div><!-- br-section-wrapper -->

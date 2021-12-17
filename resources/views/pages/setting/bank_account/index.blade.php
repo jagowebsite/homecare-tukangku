@@ -1,7 +1,7 @@
 @extends('layouts.main', [
-'title' => 'Data Banners - Tukangku',
+'title' => 'Data Rekening - Tukangku',
 'menu' => 'master',
-'submenu' => 'banners'
+'submenu' => 'rekening'
 ])
 
 @section('content')
@@ -20,11 +20,12 @@
 
     <div class="br-pagebody">
         <div class="br-section-wrapper">
-            <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Semua Data Banner</h6>
-            <p class="mg-b-25 mb-4">Semua Banner Layanan Homecare - Tukangku.</p>
+            <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Semua Data Nomor Rekening</h6>
+            <p class="mg-b-25 mb-4">Semua Nomor Rekening Pembayaran Homecare - Tukangku.</p>
 
-            <a href="{{ route('account_create') }}" class="btn btn-primary mb-4"><i class="fa fa-plus"></i> Tambah
-                Banner</a>
+            <a href="{{ route('account_create') }}" class="btn btn-primary mb-4">
+                <i class="fa fa-plus"></i>Tambah Rekening
+            </a>
 
             <div class="table-wrapper">
                 <table id="datatable2" class="table display responsive w-100">
@@ -46,18 +47,18 @@
     <form id="form_delete" action="{{ route('account_destroy') }}" method="POST" hidden>
         @method('delete')
         @csrf
-        <input type="text" name="asset_id" id="asset_id" placeholder="" value="">
+        <input type="text" name="rekening_id" id="rekening_id" placeholder="" value="">
     </form>
 @endsection
 
 @section('scripts')
 
     <script>
-        $(document).on("click", ".btn-delete-asset", function(e) {
+        $(document).on("click", ".btn-delete-accountpayment", function(e) {
             e.preventDefault()
-            let asset_id = $(this).data('asset_id');
-            $("#form_delete #asset_id").val(asset_id);
-            if (asset_id) {
+            let rekening_id = $(this).data('rekening_id');
+            $("#form_delete #rekening_id").val(rekening_id);
+            if (rekening_id) {
                 document.getElementById('form_delete').submit();
             }
         });
@@ -78,22 +79,23 @@
                         name: 'id'
                     },
                     {
-                        data: 'images',
-                        name: 'images',
-                        orderable: false,
-                        searchable: false
+                        data: 'account_name',
+                        name: 'account_name',
+                        // orderable: false,
+                        // searchable: false
                     },
                     {
-                        data: 'name',
-                        name: 'name'
+                        data: 'account_number',
+                        name: 'account_number'
                     },
                     {
-                        data: 'url_asset',
-                        name: 'url_asset'
+                        data: 'bank_name',
+                        name: 'bank_name'
                     },
                     {
-                        data: 'is_active',
-                        name: 'is_active'
+                        data: 'active_account',
+                        name: 'filter_active',
+                        // searchable: false
                     },
                     {
                         data: 'action',

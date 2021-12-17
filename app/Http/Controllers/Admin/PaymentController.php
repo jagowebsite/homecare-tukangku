@@ -135,7 +135,7 @@ class PaymentController extends Controller
      */
     public function show($id)
     {
-        $payment = Payment::with(['order', 'user'])->find($id);
+        $payment = Payment::with(['order', 'user', 'accountpayment'])->find($id);
         return view('pages.consumen.payments.detail', compact('payment'));
     }
 

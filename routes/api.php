@@ -346,4 +346,26 @@ Route::middleware(['auth:sanctum'])->group(function () {
             'index',
         ])->name('history_transaction');
     });
+    Route::group(['prefix' => 'account-payment'], function () {
+        Route::get('/', [
+            App\Http\Controllers\API\AccountPaymentController::class,
+            'index',
+        ]);
+        Route::post('/create', [
+            App\Http\Controllers\API\AccountPaymentController::class,
+            'store',
+        ]);
+        Route::get('/detail/{id}', [
+            App\Http\Controllers\API\AccountPaymentController::class,
+            'show',
+        ]);
+        Route::post('/update/{id}', [
+            App\Http\Controllers\API\AccountPaymentController::class,
+            'update',
+        ]);
+        Route::delete('/delete/{id}', [
+            App\Http\Controllers\API\AccountPaymentController::class,
+            'destroy',
+        ]);
+    });
 });
