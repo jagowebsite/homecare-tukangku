@@ -70,7 +70,8 @@
                                                 data-salary="Rp. {{ number_format(@$orderDetail->orderconfirmation->salary_employee) }}"
                                                 data-duration="{{ @$orderDetail->orderconfirmation->work_duration }}"
                                                 data-type_duration="{{ @$orderDetail->orderconfirmation->type_work_duration }}"
-                                                data-description="{{ @$orderDetail->orderconfirmation->description }}">Lihat</a>
+                                                data-description="{{ @$orderDetail->orderconfirmation->description }}"
+                                                data-action="{{ route('get-letter', ['id'=>@$orderDetail->orderconfirmation->id]) }}">Lihat</a>
                                             | <i class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
                                             Terkonfirmasi
                                         @endif
@@ -278,6 +279,8 @@
                     </table>
                     <button type="button" class="btn btn-secondary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium"
                         data-dismiss="modal">Close</button>
+                    <a href="" type="button" id="btn-print" class="btn btn-success tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium"
+                    target="_blank">Cetak Surat Tugas</a>
                 </div>
                 {{-- </form> --}}
             </div>
@@ -292,10 +295,12 @@
             let duration = $(this).data('duration');
             let type_duration = $(this).data('type_duration');
             let description = $(this).data('description');
+            let action = $(this).data('action');
             $(".modal-body #employee-detail_confirm").html(employee);
             $(".modal-body #salary-detail_confirm").html(salary);
             $(".modal-body #duration-detail_confirm").html(duration + ' ' + type_duration);
             $(".modal-body #description-detail_confirm").html(description);
+            $(".modal-body #btn-print").attr("href", action)
 
         });
         $(function() {

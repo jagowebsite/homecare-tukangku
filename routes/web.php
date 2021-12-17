@@ -13,6 +13,16 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::group(['prefix' => 'debug'], function () {
+    Route::get('/get-invoice/{id}', [
+        App\Http\Controllers\Admin\OrderController::class,
+        'debugInvoice',
+    ])->name('debug-get-invoice');
+    Route::get('/get-letter/{id}', [
+        App\Http\Controllers\Admin\OrderController::class,
+        'debugLetter',
+    ])->name('debug-get-letter');
+});
 
 // Auth::routes();
 Route::get('/verified', function () {
@@ -20,6 +30,8 @@ Route::get('/verified', function () {
 })->name('user_verified');
 
 Auth::routes(['verify' => true]);
+
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [
@@ -293,6 +305,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 App\Http\Controllers\Admin\OrderController::class,
                 'getInvoice',
             ])->name('get-invoice');
+            Route::get('/get-letter/{id}', [
+                App\Http\Controllers\Admin\OrderController::class,
+                'getLetter',
+            ])->name('get-letter');
             Route::get('/detail/{id}', [
                 App\Http\Controllers\Admin\OrderController::class,
                 'show',

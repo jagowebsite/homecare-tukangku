@@ -107,11 +107,50 @@ class OrderController extends Controller
         
         $pdf->setOptions($options);
         $pdf->setPaper('a4', 'landscape');
+        return $pdf->stream('surat_tugas-pdf');
+    	// return $pdf->download('invoice-pdf');
+
+    }
+    public function getLetter($id)
+    {
+        $pdf = new PDF();
+        $orderconfirmation = OrderConfirmation::with(['employee', 'orderdetail', 'service'])->find($id);
+        $data = [];
+        $pdf = PDF::loadview('exports.letter', ['orderconfirmation'=>$orderconfirmation]);
+        $options = [
+            'dpi' => 96,
+            'defaultFont' => 'Nunito',
+            'isRemoteEnabled' => true
+        ];
+        
+        $pdf->setOptions($options);
+        $pdf->setPaper('a4', 'portrait');
         return $pdf->stream('invoice-pdf');
     	// return $pdf->download('invoice-pdf');
 
     }
-
+/**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function debugInvoice($id)
+    {
+        $order = Order::with(['user', 'orderdetails', 'payments'])->find($id);
+        return view(
+            'exports.invoice',
+            compact('order')
+        );
+    }
+    public function debugLetter($id)
+    {
+        $orderconfirmation = OrderConfirmation::with(['employee', 'orderdetail', 'service'])->find($id);
+        return view(
+            'exports.letter',
+            compact('orderconfirmation')
+        );
+    }
     /**
      * Display the specified resource.
      *
@@ -131,16 +170,7 @@ class OrderController extends Controller
         );
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+    
     /**
      * Show the form for editing the specified resource.
      *

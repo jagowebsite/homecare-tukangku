@@ -163,7 +163,26 @@ class OrderController extends Controller
     	// return $pdf->download('invoice-pdf');
 
     }
+    public function getLetter($id)
+    {
+        $pdf = new PDF();
+        // $orderconfirmation = OrderConfirmation::with(['employee', 'orderdetail', 'service'])->find($id);
+        $orderconfirmation = OrderConfirmation::with(['employee', 'orderDetail', 'service'])
+        ->where('order_detail_id', $id)
+        ->first();
+        $pdf = PDF::loadview('exports.letter', ['orderconfirmation'=>$orderconfirmation]);
+        $options = [
+            'dpi' => 96,
+            'defaultFont' => 'Nunito',
+            'isRemoteEnabled' => true
+        ];
+        
+        $pdf->setOptions($options);
+        $pdf->setPaper('a4', 'portrait');
+        return $pdf->stream('surat_tugas-pdf');
+    	// return $pdf->download('invoice-pdf');
 
+    }
     public function indexMyTransaction(Request $request)
     {
         $user_id = $request->user()->id;

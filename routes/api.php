@@ -70,6 +70,10 @@ Route::get('/transaction/get-invoice/{id}', [
     App\Http\Controllers\API\OrderController::class,
     'getInvoice',
 ]);
+Route::get('/transaction/get-letters/{id}', [
+    App\Http\Controllers\API\OrderController::class,
+    'getLetter',
+]);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::post('/logout', [
