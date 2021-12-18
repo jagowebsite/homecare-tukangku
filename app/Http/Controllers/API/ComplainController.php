@@ -28,7 +28,7 @@ class ComplainController extends Controller
         $data = [];
         foreach ($complains as $complain) {
             $user = [
-                'id' => $complain->user->id,
+                'id' => (int) $complain->user->id,
                 'email' => $complain->user->email,
                 'name' => $complain->user->name,
                 'date_of_birth' => $complain->user->date_of_birth,
@@ -42,9 +42,9 @@ class ComplainController extends Controller
                     : '',
             ];
             $data[] = [
-                'id' => $complain->id,
+                'id' => (int) $complain->id,
                 'user' => $user,
-                'order_id' => $complain->order_id,
+                'order_id' => (int) $complain->order_id,
                 'description' => $complain->description,
                 'status' => $complain->status_complain,
             ];
@@ -70,7 +70,7 @@ class ComplainController extends Controller
         $data = [];
         foreach ($complains as $complain) {
             $user = [
-                'id' => $complain->user->id,
+                'id' => (int) $complain->user->id,
                 'email' => $complain->user->email,
                 'name' => $complain->user->name,
                 'date_of_birth' => $complain->user->date_of_birth,
@@ -84,9 +84,9 @@ class ComplainController extends Controller
                     : '',
             ];
             $data[] = [
-                'id' => $complain->id,
+                'id' => (int) $complain->id,
                 'user' => $user,
-                'order_id' => $complain->order_id,
+                'order_id' => (int) $complain->order_id,
                 'description' => $complain->description,
                 'status' => $complain->status_complain,
             ];
