@@ -41,7 +41,7 @@ class ComplainController extends Controller
                     ? asset('storage/' . $complain->user->ktp_image)
                     : '',
             ];
-            $data = [
+            $data[] = [
                 'id' => $complain->id,
                 'user' => $user,
                 'order_id' => $complain->order_id,
@@ -83,7 +83,7 @@ class ComplainController extends Controller
                     ? asset('storage/' . $complain->user->ktp_image)
                     : '',
             ];
-            $data = [
+            $data[] = [
                 'id' => $complain->id,
                 'user' => $user,
                 'order_id' => $complain->order_id,
