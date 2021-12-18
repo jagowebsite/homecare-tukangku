@@ -35,7 +35,7 @@ class AccountPaymentController extends Controller
                 'id' => $account->id,
                 'account_name' => $account->account_name,
                 'account_number' => $account->account_number,
-                'bank_number' => $account->bank_number,
+                'bank_name' => $account->bank_name,
                 'is_active' => $is_active,
             ];
         }
@@ -134,7 +134,7 @@ class AccountPaymentController extends Controller
             'id' => $account->id,
             'account_name' => $account->account_name,
             'account_number' => $account->account_number,
-            'bank_number' => $account->bank_number,
+            'bank_name' => $account->bank_name,
             'is_active' => $is_active,
         ];
     
