@@ -47,6 +47,7 @@ class ComplainController extends Controller
                 'order_id' => (int) $complain->order_id,
                 'description' => $complain->description,
                 'status' => $complain->status_complain,
+                'created_at' => $complain->created_at
             ];
         }
         return response()->json(
@@ -89,6 +90,7 @@ class ComplainController extends Controller
                 'order_id' => (int) $complain->order_id,
                 'description' => $complain->description,
                 'status' => $complain->status_complain,
+                'created_at' => $complain->created_at
             ];
         }
         return response()->json(
