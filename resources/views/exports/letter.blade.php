@@ -105,11 +105,11 @@
           <tr>
               <td>
                   <p style="margin-bottom:0px;">Tanjung Enim, {{date_format(date_create($orderconfirmation->created_at), 'd F Y')}}</p> 
-                  <p style="margin-bottom:0px;margin-top:0px;">Owner,</p>
-                  <div width="100%" style="margin-bottom:5px;margin-top:5px;">
+                  <p style="margin-bottom:0px;margin-top:0px;" align="center">Owner,</p>
+                  <div width="100%" style="margin-bottom:5px;margin-top:5px;" align="center">
                       <img src="https://harmonisproperty.com/assets/img/approve.png" alt="" width="120"/>
                   </div>
-                  <p style="margin-top:0px;">Tukangku</p> 
+                  <p style="margin-top:0px;" align="center">Tukangku</p> 
               </td>
           </tr>
         </table>
