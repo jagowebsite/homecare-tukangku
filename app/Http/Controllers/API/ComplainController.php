@@ -67,7 +67,7 @@ class ComplainController extends Controller
     public function indexMyComplain(Request $request)
     {
         $user_id = @$request->user()->id;
-        $complains = Complain::with(['user', 'order'])->where('user_id', $user_id)->latest()->get();
+        $complains = Complain::with(['user', 'order'])->where('user_id', $user_id)->where('order_id', $request->order_id)->latest()->get();
         $data = [];
         foreach ($complains as $complain) {
             $user = [

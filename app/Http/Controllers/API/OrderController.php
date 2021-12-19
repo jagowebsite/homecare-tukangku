@@ -170,6 +170,15 @@ class OrderController extends Controller
         $orderconfirmation = OrderConfirmation::with(['employee', 'orderDetail', 'service'])
         ->where('order_detail_id', $id)
         ->first();
+        if (!$orderconfirmation) {
+            return response()->json(
+                [
+                    'status' => 'success',
+                    'message' => 'file not found',
+                ],
+                200
+            );
+        }
         $pdf = PDF::loadview('exports.letter', ['orderconfirmation'=>$orderconfirmation]);
         $options = [
             'dpi' => 96,
