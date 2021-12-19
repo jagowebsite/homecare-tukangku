@@ -42,7 +42,7 @@ class PaymentController extends Controller
             ];
             $is_active = @$payment->accountpayment->is_active ? 'active':'nonactive';
             $account_payment = [
-                'id'=> @$payment->account_payment_id,
+                'id'=> (int) @$payment->account_payment_id,
                 'account_name' => @$payment->accountpayment->account_name,
                 'account_number' => @$payment->accountpayment->account_number,
                 'bank_name' => strtoupper(@$payment->accountpayment->bank_name),
