@@ -95,9 +95,18 @@ class OrderController extends Controller
             }
             $payments = [];
             foreach ($order->payments as $payment) {
+                $is_active = @$payment->accountpayment->is_active ? 'active':'nonactive';
+            $account_payment = [
+                'id'=> @$payment->account_payment_id,
+                'account_name' => @$payment->accountpayment->account_name,
+                'account_number' => @$payment->accountpayment->account_number,
+                'bank_name' => strtoupper(@$payment->accountpayment->bank_name),
+                'is_active' => $is_active,
+            ];
                 $payments[] = [
                     'id' => (int) $payment->id,
                     'payment_code' => $payment->payment_code,
+                    'account_payment' => @$account_payment,
                     'type' => $payment->type,
                     'type_transfer' => $payment->type_transfer,
                     'images_payment' => $payment->images_payment
@@ -267,9 +276,18 @@ class OrderController extends Controller
             }
             $payments = [];
             foreach ($order->payments as $payment) {
+                $is_active = @$payment->accountpayment->is_active ? 'active':'nonactive';
+                $account_payment = [
+                    'id'=> @$payment->account_payment_id,
+                    'account_name' => @$payment->accountpayment->account_name,
+                    'account_number' => @$payment->accountpayment->account_number,
+                    'bank_name' => strtoupper(@$payment->accountpayment->bank_name),
+                    'is_active' => $is_active,
+                ];
                 $payments[] = [
                     'id' => (int) $payment->id,
                     'payment_code' => $payment->payment_code,
+                    'account_payment' => @$account_payment,
                     'type' => $payment->type,
                     'type_transfer' => $payment->type_transfer,
                     'images_payment' => $payment->images_payment
@@ -467,9 +485,18 @@ class OrderController extends Controller
             }
             $payments = [];
             foreach ($order->payments as $payment) {
+                $is_active = @$payment->accountpayment->is_active ? 'active':'nonactive';
+                $account_payment = [
+                    'id'=> @$payment->account_payment_id,
+                    'account_name' => @$payment->accountpayment->account_name,
+                    'account_number' => @$payment->accountpayment->account_number,
+                    'bank_name' => strtoupper(@$payment->accountpayment->bank_name),
+                    'is_active' => $is_active,
+                ];
                 $payments[] = [
                     'id' => (int) $payment->id,
                     'payment_code' => $payment->payment_code,
+                    'account_payment' => @$account_payment,
                     'type' => $payment->type,
                     'type_transfer' => $payment->type_transfer,
                     'images_payment' => $payment->images_payment
