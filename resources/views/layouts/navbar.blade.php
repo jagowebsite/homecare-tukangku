@@ -57,7 +57,8 @@
             <i class="icon ion-ios-bell-outline tx-24" id="icon-badge"></i>
             <!-- start: if statement -->
             @if (@Auth::user()->unreadNotifications->count())
-            <span class="square-8 bg-danger pos-absolute t-15 r-5 rounded-circle" id="badge-notif"></span>
+            {{-- <span class="square-8 bg-danger pos-absolute t-15 r-5 rounded-circle" id="badge-notif"></span>--}}
+            <span class="badge badge-danger pos-absolute t-10 l-20" style="border-radius: 10px;">{{@Auth::user()->unreadNotifications->count()}}</span>
             @endif
             <!-- end: if statement -->
           </a>
