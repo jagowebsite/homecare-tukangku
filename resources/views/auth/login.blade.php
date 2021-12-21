@@ -5,12 +5,12 @@
 @section('content')
 <div class="d-flex align-items-center justify-content-center bg-br-primary ht-100v">
 
-    <div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 bg-white rounded shadow-base">
+    <div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-20 bg-white rounded shadow-base">
         <div class="signin-logo tx-center tx-28 tx-bold tx-inverse">
             <img src="{{ url('/') }}/assets/img/ic_logo.png" class="w-50" alt="">
         </div>
       <div class="signin-logo tx-center tx-28 tx-bold tx-inverse"><span class="tx-normal"></span> Tukangku <span class="tx-normal"></span></div>
-      <div class="tx-center mg-b-60">Professional Homecare</div>
+      <div class="tx-center mg-b-30">Professional Homecare</div>
         <form method="POST" action="{{ route('login') }}">
             @csrf
             <div class="form-group">
@@ -34,7 +34,7 @@
             <button type="submit" class="btn btn-info btn-block">Sign In</button>
         </form>
 
-        <div class="mg-t-60 tx-center">
+        <div class="mg-t-30 tx-center">
             &copy; Tukangku 2021
           {{-- <a href="" class="tx-info">Sign Up</a> --}}
         </div>
