@@ -27,7 +27,7 @@
 
             <div class="table-wrapper">
                 {{-- <table id="datatable2" class="table display responsive w-100"> --}}
-                 <table id="datatable2" class="table w-100">
+                 <table id="datatable2" class="table responsive w-100">
                     <thead>
                         <tr>
                             <th class="">Invoice</th>
@@ -91,7 +91,7 @@
 
             $('#datatable2').DataTable({
                 // responsive: true,
-                // "scrollX": true,
+                "scrollX": true,
                 language: {
                     searchPlaceholder: 'Search...',
                     sSearch: '',
