@@ -27,15 +27,15 @@
 
             <div class="table-wrapper">
                 {{-- <table id="datatable2" class="table display responsive w-100"> --}}
-                 <table id="datatable2" class="table display responsive w-100">
+                 <table id="datatable2" class="table w-100">
                     <thead>
                         <tr>
-                            <th class="wd-5p">Invoice</th>
-                            <th class="wd-15p">Nama</th>
-                            <th class="wd-25p">Jasa/Layanan</th>
-                            <th class="wd-15p">Total Harga</th>
-                            <th class="wd-15p">Status</th>
-                            <th class="wd-5p">Action</th>
+                            <th class="">Invoice</th>
+                            <th class="">Nama</th>
+                            <th class="">Jasa/Layanan</th>
+                            <th class="">Total Harga</th>
+                            <th class="">Status</th>
+                            <th class="">Action</th>
                         </tr>
                     </thead>
                     {{-- <tbody>
