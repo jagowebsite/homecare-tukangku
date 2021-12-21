@@ -91,7 +91,7 @@
 
             $('#datatable2').DataTable({
                 // responsive: true,
-                "scrollX": true,
+                // "scrollX": true,
                 language: {
                     searchPlaceholder: 'Search...',
                     sSearch: '',
