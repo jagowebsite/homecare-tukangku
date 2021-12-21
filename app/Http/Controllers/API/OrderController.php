@@ -795,7 +795,7 @@ class OrderController extends Controller
     public function countMyTransaction(Request $request)
     {
         $user_id = $request->user()->id;
-        $orders = Order::where('user_id', $user_id)->get()->count();
+        $orders = Order::where('user_id', $user_id)->where('status_order', 'pending')->get()->count();
         return response()->json(
             [
                 'status' => 'success',
