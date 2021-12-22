@@ -26,7 +26,7 @@
             {{-- <button data-toggle="modal" data-target="#addCategory" class="btn btn-primary mb-4"><i class="fa fa-plus"></i> Tambah Kategori</button> --}}
 
             <div class="table-wrapper">
-                <table id="datatable2" class="table display responsive w-100">
+                <table id="datatable2" class="table w-100">
                     <thead>
                         <tr>
                             <th class="">Date</th>
@@ -71,7 +71,8 @@
         $(function() {
 
             $('#datatable2').DataTable({
-                responsive: true,
+                // responsive: true,
+                "scrollX": true,
                 language: {
                     searchPlaceholder: 'Search...',
                     sSearch: '',

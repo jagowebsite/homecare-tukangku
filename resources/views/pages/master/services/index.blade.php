@@ -31,17 +31,17 @@
                 Jasa</a>
 
             <div class="table-wrapper">
-                <table id="datatable2" class="table display responsive w-100">
+                <table id="datatable2" class="table w-100">
                     <thead>
                         <tr>
-                            <th class="wd-5p">ID</th>
-                            <th class="wd-15p">Image</th>
-                            <th class="wd-15p">Nama Jasa</th>
-                            <th class="wd-15p">Kategori</th>
-                            <th class="wd-15p">Harga</th>
-                            <th class="wd-15p">Type</th>
-                            <th class="wd-15p">Status</th>
-                            <th class="wd-5p">Action</th>
+                            <th class="">ID</th>
+                            <th class="">Image</th>
+                            <th class="">Nama Jasa</th>
+                            <th class="">Kategori</th>
+                            <th class="">Harga</th>
+                            <th class="">Type</th>
+                            <th class="">Status</th>
+                            <th class="">Action</th>
                         </tr>
                     </thead>
                     {{-- <tbody>
@@ -90,7 +90,8 @@
         $(function() {
 
             $('#datatable2').DataTable({
-                responsive: true,
+                // responsive: true,
+                "scrollX": true,
                 language: {
                     searchPlaceholder: 'Search...',
                     sSearch: '',

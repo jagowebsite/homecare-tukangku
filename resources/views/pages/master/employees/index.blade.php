@@ -31,16 +31,16 @@
                 Tukang</a>
 
             <div class="table-wrapper">
-                <table id="datatable2" class="table display responsive w-100">
+                <table id="datatable2" class="table w-100">
                     <thead>
                         <tr>
-                            <th class="wd-5p">ID</th>
-                            <th class="wd-15p">Foto</th>
-                            <th class="wd-15p">Kategori Layanan</th>
-                            <th class="wd-15p">Nama</th>
-                            <th class="wd-20p">Telp</th>
-                            <th class="wd-20p">Is Ready</th>
-                            <th class="wd-5p">Action</th>
+                            <th class="">ID</th>
+                            <th class="">Foto</th>
+                            <th class="">Kategori Layanan</th>
+                            <th class="">Nama</th>
+                            <th class="">Telp</th>
+                            <th class="">Is Ready</th>
+                            <th class="">Action</th>
                         </tr>
                     </thead>
                     {{-- <tbody>
@@ -106,7 +106,8 @@
         $(function() {
 
             $('#datatable2').DataTable({
-                responsive: true,
+                // responsive: true,
+                "scrollX": true,
                 language: {
                     searchPlaceholder: 'Search...',
                     sSearch: '',

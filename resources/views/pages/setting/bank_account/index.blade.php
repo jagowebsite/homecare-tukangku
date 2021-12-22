@@ -28,15 +28,15 @@
             </a>
 
             <div class="table-wrapper">
-                <table id="datatable2" class="table display responsive w-100">
+                <table id="datatable2" class="table w-100">
                     <thead>
                         <tr>
-                            <th class="wd-5p">ID</th>
-                            <th class="wd-15p">Nama Akun</th>
-                            <th class="wd-15p">Nomor Rekening</th>
-                            <th class="wd-15p">Nama Bank</th>
-                            <th class="wd-15p">Is Active</th>
-                            <th class="wd-5p">Action</th>
+                            <th class="">ID</th>
+                            <th class="">Nama Akun</th>
+                            <th class="">Nomor Rekening</th>
+                            <th class="">Nama Bank</th>
+                            <th class="">Is Active</th>
+                            <th class="">Action</th>
                         </tr>
                     </thead>
                     
@@ -65,7 +65,8 @@
         $(function() {
 
             $('#datatable2').DataTable({
-                responsive: true,
+                // responsive: true,
+                "scrollX": true,
                 language: {
                     searchPlaceholder: 'Search...',
                     sSearch: '',

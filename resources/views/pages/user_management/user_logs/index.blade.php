@@ -24,15 +24,15 @@
             <p class="mg-b-25 mb-4">Semua logs user Homecare - Tukangku.</p>
 
             <div class="table-wrapper">
-                <table id="datatable2" class="table display responsive w-100">
+                <table id="datatable2" class="table w-100">
                     <thead>
                         <tr>
-                            <th class="wd-5p">ID</th>
-                            <th class="wd-15p">Nama</th>
-                            <th class="wd-20p">Email</th>
-                            <th class="wd-20p">Type</th>
-                            <th class="wd-20p">Description</th>
-                            <th class="wd-5p">Action</th>
+                            <th class="">ID</th>
+                            <th class="">Nama</th>
+                            <th class="">Email</th>
+                            <th class="">Type</th>
+                            <th class="">Description</th>
+                            <th class="">Action</th>
                         </tr>
                     </thead>
                     {{-- <tbody>
@@ -74,7 +74,8 @@
         $(function() {
 
             $('#datatable2').DataTable({
-                responsive: true,
+                // responsive: true,
+                "scrollX": true,
                 language: {
                     searchPlaceholder: 'Search...',
                     sSearch: '',

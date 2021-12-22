@@ -38,14 +38,14 @@
                 Tambah Role</button>
 
             <div class="table-wrapper">
-                <table id="datatable1" class="table display responsive w-100">
+                <table id="datatable1" class="table w-100">
                     <thead>
                         <tr>
-                            <th class="wd-5p">ID</th>
-                            <th class="wd-15p">Name</th>
-                            <th class="wd-20p">Guard Name</th>
-                            <th class="wd-15p">Permission</th>
-                            <th class="wd-5p">Action</th>
+                            <th class="">ID</th>
+                            <th class="">Name</th>
+                            <th class="">Guard Name</th>
+                            <th class="">Permission</th>
+                            <th class="">Action</th>
                         </tr>
                     </thead>
                 </table>
@@ -60,13 +60,13 @@
                 Tambah Akses</button>
 
             <div class="table-wrapper">
-                <table id="datatable2" class="table display responsive w-100">
+                <table id="datatable2" class="table w-100">
                     <thead>
                         <tr>
-                            <th class="wd-5p">ID</th>
-                            <th class="wd-15p">Name</th>
-                            <th class="wd-15p">Guard Name</th>
-                            <th class="wd-5p">Action</th>
+                            <th class="">ID</th>
+                            <th class="">Name</th>
+                            <th class="">Guard Name</th>
+                            <th class="">Action</th>
                         </tr>
                     </thead>
                 </table>
@@ -348,7 +348,8 @@
             // 'use strict';
             // setup table role from server side
             $('#datatable1').DataTable({
-                responsive: true,
+                // responsive: true,
+                "scrollX": true,
                 language: {
                     searchPlaceholder: 'Search...',
                     sSearch: '',
@@ -386,7 +387,8 @@
             });
 
             $('#datatable2').DataTable({
-                responsive: true,
+                // responsive: true,
+                "scrollX": true,
                 language: {
                     searchPlaceholder: 'Search...',
                     sSearch: '',

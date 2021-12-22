@@ -51,17 +51,17 @@
             {{-- <button data-toggle="modal" data-target="#addCategory" class="btn btn-primary mb-4"><i class="fa fa-plus"></i> Tambah Kategori</button> --}}
 
             <div class="table-wrapper">
-                <table id="datatable2" class="table display responsive w-100">
+                <table id="datatable2" class="table w-100">
                     <thead>
                         <tr>
-                            <th class="wd-5p">Date</th>
-                            <th class="wd-15p">Nama Konsumen</th>
-                            <th class="wd-25p">Email</th>
-                            <th class="wd-15p">No Hp</th>
-                            <th class="wd-5p">Alamat</th>
-                            <th class="wd-5p">Jenis Jasa</th>
-                            <th class="wd-5p">Status</th>
-                            <th class="wd-5p">Harga Total</th>
+                            <th class="">Date</th>
+                            <th class="">Nama Konsumen</th>
+                            <th class="">Email</th>
+                            <th class="">No Hp</th>
+                            <th class="">Alamat</th>
+                            <th class="">Jenis Jasa</th>
+                            <th class="">Status</th>
+                            <th class="">Harga Total</th>
                         </tr>
                     </thead>
                     {{-- <tbody>
@@ -90,7 +90,8 @@
         $(function() {
 
             $('#datatable2').DataTable({
-                responsive: true,
+                // responsive: true,
+                "scrollX": true,
                 language: {
                     searchPlaceholder: 'Search...',
                     sSearch: '',
