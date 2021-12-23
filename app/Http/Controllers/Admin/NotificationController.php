@@ -49,11 +49,28 @@ class NotificationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function getCountUnreadNotification(Request $request)
     {
-        //
+        $data = @Auth::user()->unreadNotifications->count();
+        
+        return $data;
     }
 
+    public function getUnreadNotification(Request $request) {
+        $data='';
+        foreach (@Auth::user()->unreadNotifications as $item) {
+         $data .= '<a href="'. route('read_notification', ['id'=>$item->id]).'" class="media-list-link read">
+         <div class="media pd-x-20 pd-y-15">
+           <img src="'. url('/') .'/assets/img/ic_logo.png" class="wd-40 rounded-circle" alt="">
+           <div class="media-body">
+             <p class="tx-13 mg-b-0 tx-gray-700"> '. $item->data['msg'] .'</p>
+             <span class="tx-12">'.date_format(date_create($item->created_at), 'F d, Y g:ia').'</span>
+           </div>
+         </div>
+       </a>';
+        }
+        return $data;
+    }
     /**
      * Display the specified resource.
      *
@@ -63,7 +80,7 @@ class NotificationController extends Controller
     public function show($id)
     {
         $notification = @Auth::user()->notifications->where('id', $id)->first();
-// dd($notification);
+
         if ($notification) {
             $notification->markAsRead();
             return redirect($notification->data['action']);

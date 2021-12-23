@@ -146,6 +146,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 App\Http\Controllers\Admin\NotificationController::class,
                 'show',
             ])->name('read_notification'); 
+            Route::get('/count-unread-notification', [
+                App\Http\Controllers\Admin\NotificationController::class,
+                'getCountUnreadNotification',
+            ])->name('count_unread_notification'); 
+            Route::get('/get-message-notification', [
+                App\Http\Controllers\Admin\NotificationController::class,
+                'getUnreadNotification',
+            ])->name('get_unread_notification'); 
         });
        
 

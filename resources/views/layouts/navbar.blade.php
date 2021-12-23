@@ -53,13 +53,13 @@
 
         {{-- Notification --}}
         <div class="dropdown">
-          <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown" .>
-            <i class="icon ion-ios-bell-outline tx-24" id="icon-badge"></i>
+          <a href="#" class="nav-link pd-x-7 pos-relative " data-toggle="dropdown" id="btn-notification">
+            <i class="icon ion-ios-bell-outline tx-24" ></i>
             <!-- start: if statement -->
-            @if (@Auth::user()->unreadNotifications->count())
+            {{-- @if (@Auth::user()->unreadNotifications->count()) --}}
             {{-- <span class="square-8 bg-danger pos-absolute t-15 r-5 rounded-circle" id="badge-notif"></span>--}}
-            <span class="badge badge-danger pos-absolute t-10 l-20" style="border-radius: 10px;">{{@Auth::user()->unreadNotifications->count()}}</span>
-            @endif
+            <span class="badge badge-danger pos-absolute t-10 l-20" style="border-radius: 10px;" id="icon-badge"></span>
+            {{-- @endif --}}
             <!-- end: if statement -->
           </a>
           <div class="dropdown-menu dropdown-menu-header wd-300 pd-0-force">
@@ -70,19 +70,21 @@
 
             <div class="media-list">
               <!-- loop starts here -->
-              @if (@Auth::user()->unreadNotifications->count())
-                            @foreach (@Auth::user()->unreadNotifications()->latest()->paginate(2) as $item)
-                            <a href="{{ route('read_notification', ['id'=>$item->id])}}" class="media-list-link read">
-                              <div class="media pd-x-20 pd-y-15">
-                                <img src="{{ url('/') }}/assets/img/ic_logo.png" class="wd-40 rounded-circle" alt="">
-                                <div class="media-body">
-                                  <p class="tx-13 mg-b-0 tx-gray-700"> {{ $item->data['msg'] }}</p>
-                                  <span class="tx-12">{{date_format(date_create($item->created_at), 'F d, Y g:ia')}}</span>
-                                </div>
-                              </div>
-                            </a>
-                            @endforeach
-              @endif
+              {{-- @if (@Auth::user()->unreadNotifications->count()) --}}
+              <div id="unread-notification">
+                {{-- @foreach (@Auth::user()->unreadNotifications()->latest()->paginate(2) as $item)
+                <a href="{{ route('read_notification', ['id'=>$item->id])}}" class="media-list-link read">
+                  <div class="media pd-x-20 pd-y-15">
+                    <img src="{{ url('/') }}/assets/img/ic_logo.png" class="wd-40 rounded-circle" alt="">
+                    <div class="media-body">
+                      <p class="tx-13 mg-b-0 tx-gray-700"> {{ $item->data['msg'] }}</p>
+                      <span class="tx-12">{{date_format(date_create($item->created_at), 'F d, Y g:ia')}}</span>
+                    </div>
+                  </div>
+                </a>
+                @endforeach --}}
+              </div>
+              {{-- @endif --}}
               <div class="pd-y-10 tx-center bd-t">
                 <a href="{{route('notifications')}}" class="tx-12"><i class="fa fa-angle-down mg-r-5"></i> Show All Notifications</a>
               </div>

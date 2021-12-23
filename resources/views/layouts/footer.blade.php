@@ -27,9 +27,13 @@
     <script src="{{url('/')}}/js/main.js"></script>
     
     <script>
+      $(document).ready(function(){
+        getCountUnreadNotification()
+      })
       $(function(){
+        
         'use strict'
-
+        
         // FOR DEMO ONLY
         // menu collapsed by default during first page load or refresh with screen
         // having a size between 992px and 1299px. This is intended on this page only
@@ -56,7 +60,8 @@
       $(document).on('click', "#read-notif", function(e) {
         e.preventDefault();
         let urllike = "{{ route('read_all_notification') }}"
-        $('#badge-notif').remove();
+        $('#icon-badge').hide();
+        $('#unread-notification').html(''); 
         $.ajax({
             url: urllike,
             type: 'get',
@@ -65,9 +70,56 @@
             }
         });
     });
-    // setInterval(function() {
-    // if ({{Auth::user()->unreadNotifications->count()}}) {
-    //   $("#icon-badge").after(`<span class="square-8 bg-danger pos-absolute t-15 r-5 rounded-circle" id="badge-notif"></span>`);
-    // }
-    // }, 10000);
+    setInterval(function() {
+      getCountUnreadNotification()
+      getMessageNotification()
+    }, 10000);
+    
+    function getCountUnreadNotification(){
+      let url = "{{ route('count_unread_notification') }}"
+        $.ajax({
+            url: url,
+            type: 'get',
+            dataType: "json",
+        })
+        .done(function(data) {
+                if (data == 0) {
+                  $('#icon-badge').hide();
+                    // $('.ajax-loading').hide(); 
+                    return;
+                }
+                $('#icon-badge').html(data);
+                $('#icon-badge').show(); //hide loading animation once data is received
+                
+            })
+            .fail(function(jqXHR, ajaxOptions, thrownError) {
+                // alert('No response from server');
+            });
+    }
+    
+    $(document).on('click', '#btn-notification', function(e){
+      e.preventDefault
+      getMessageNotification()
+    })
+    
+    function getMessageNotification(){
+      let urlnotif = "{{ route('get_unread_notification') }}"
+        $.ajax({
+            url: urlnotif,
+            type: 'get',
+            dataType: "html",
+        })
+        .done(function(data) {
+                // if (data == 0) {
+                //   // $('#icon-badge').hide();
+                //     // $('.ajax-loading').hide(); 
+                //     return;
+                // }
+                // console.log(data)
+                $('#unread-notification').html(data); 
+            })
+            .fail(function(jqXHR, ajaxOptions, thrownError) {
+                // alert('No response from server');
+            });
+    }
     </script>
