@@ -89,7 +89,7 @@
             <li class="nav-item"><a href="{{ route('gps_logs') }}" class="nav-link @if ($submenu == 'gps_logs') active @endif">Log
                     GPS Pembeli</a></li>
             <li class="nav-item">
-                <a href="{{ route('complains') }}" class="nav-link @if ($submenu == 'complain') active @endif">Complains</a>
+                <a href="{{ route('complains') }}" class="nav-link @if ($submenu == 'complain') active @endif">Pesan & Kesan</a>
             </li>
         </ul>
         <a href="#" class="br-menu-link @if ($menu == 'chatting') active show-sub @endif">

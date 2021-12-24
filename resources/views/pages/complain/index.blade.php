@@ -1,5 +1,5 @@
 @extends('layouts.main', [
-'title' => 'Complain Pembeli - Tukangku',
+'title' => 'Pesan Kesan Pembeli - Tukangku',
 'menu' => 'consumen',
 'submenu' => 'complain'
 ])
@@ -10,18 +10,18 @@
         <nav class="breadcrumb pd-0 mg-0 tx-12">
             <a class="breadcrumb-item" href="">Homecare</a>
             <a class="breadcrumb-item" href="">Konsumen</a>
-            <span class="breadcrumb-item active">Complain</span>
+            <span class="breadcrumb-item active">Pesan & Kesan</span>
         </nav>
     </div><!-- br-pageheader -->
     <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-        <h4 class="tx-gray-800 mg-b-5">Data Complain Pembeli</h4>
-        <p class="mg-b-0">Semua data Complain Pesanan oleh pembeli</p>
+        <h4 class="tx-gray-800 mg-b-5">Pesan & Kesan Pembeli</h4>
+        <p class="mg-b-0">Semua data Pesan & Kesan pembeli</p>
     </div>
 
     <div class="br-pagebody">
         <div class="br-section-wrapper">
-            <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Semua Data Complain Pembeli</h6>
-            <p class="mg-b-25 mb-4">Semua Complain Pesanan Homecare - Tukangku.</p>
+            <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Semua Data Pesan & Kesan Pembeli</h6>
+            <p class="mg-b-25 mb-4">Semua Pesan & Kesan Pesanan Homecare - Tukangku.</p>
 
             {{-- <button data-toggle="modal" data-target="#addCategory" class="btn btn-primary mb-4"><i class="fa fa-plus"></i> Tambah Kategori</button> --}}
 
@@ -33,7 +33,7 @@
                             <th class="">Kode Transaksi</th>
                             <th class="">Nama Pembeli</th>
                             <th class="">Deskripsi</th>
-                            <th class="">Action</th>
+                            {{-- <th class="">Action</th> --}}
                         </tr>
                     </thead>
                 </table>
@@ -99,12 +99,12 @@
                         data: 'description',
                         name: 'description',
                     },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
+                    // {
+                    //     data: 'action',
+                    //     name: 'action',
+                    //     orderable: false,
+                    //     searchable: false
+                    // },
                 ]
             });
 
