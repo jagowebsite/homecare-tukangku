@@ -206,7 +206,7 @@ class AuthController extends Controller
           return response()->json(
             [
               'status' => 'failed',
-              'message' => 'you have not registered, please register before',
+              'message' => 'You are not registered yet, please register first',
             ],
             200
           );
