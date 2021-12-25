@@ -203,7 +203,7 @@ class AuthController extends Controller
         }
         $user = User::where('email', $request->email)->first();
         if (!$user) {
-          response()->json(
+          return response()->json(
             [
               'status' => 'failed',
               'message' => 'you have not registered, please register before',
