@@ -168,7 +168,7 @@ class OrderController extends Controller
         
         $pdf->setOptions($options);
         $pdf->setPaper('a4', 'landscape');
-        return $pdf->stream('invoice-pdf');
+        return $pdf->stream($order->invoice_code);
     	// return $pdf->download('invoice-pdf');
 
     }
@@ -179,6 +179,7 @@ class OrderController extends Controller
         $orderconfirmation = OrderConfirmation::with(['employee', 'orderDetail', 'service'])
         ->where('order_detail_id', $id)
         ->first();
+        $letter= time().'_surat_tugas.pdf';
         if (!$orderconfirmation) {
             return response()->json(
                 [
@@ -197,7 +198,7 @@ class OrderController extends Controller
         
         $pdf->setOptions($options);
         $pdf->setPaper('a4', 'portrait');
-        return $pdf->stream('surat_tugas-pdf');
+        return $pdf->stream($letter);
     	// return $pdf->download('invoice-pdf');
 
     }

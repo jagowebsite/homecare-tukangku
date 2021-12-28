@@ -107,7 +107,7 @@ class OrderController extends Controller
         
         $pdf->setOptions($options);
         $pdf->setPaper('a4', 'landscape');
-        return $pdf->stream('surat_tugas-pdf');
+        return $pdf->stream($order->invoice_code);
     	// return $pdf->download('invoice-pdf');
 
     }
@@ -115,7 +115,8 @@ class OrderController extends Controller
     {
         $pdf = new PDF();
         $orderconfirmation = OrderConfirmation::with(['employee', 'orderdetail', 'service'])->find($id);
-        $data = [];
+  
+        $letter= time().'_surat_tugas.pdf';
         $pdf = PDF::loadview('exports.letter', ['orderconfirmation'=>$orderconfirmation]);
         $options = [
             'dpi' => 96,
@@ -125,7 +126,7 @@ class OrderController extends Controller
         
         $pdf->setOptions($options);
         $pdf->setPaper('a4', 'portrait');
-        return $pdf->stream('invoice-pdf');
+        return $pdf->stream($letter);
     	// return $pdf->download('invoice-pdf');
 
     }
