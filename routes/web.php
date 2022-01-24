@@ -155,6 +155,32 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 'getUnreadNotification',
             ])->name('get_unread_notification'); 
         });
+        Route::group(['prefix' => 'number'], function () {
+            Route::get('/', [
+                App\Http\Controllers\Admin\SettingNumberController::class,
+                'index',
+            ])->name('setting_number');
+            Route::get('/create', [
+                App\Http\Controllers\Admin\SettingNumberController::class,
+                'create',
+            ])->name('setting_number_create');
+            Route::post('/store', [
+                App\Http\Controllers\Admin\SettingNumberController::class,
+                'store',
+            ])->name('setting_number_store');
+            Route::get('/edit/{id}', [
+                App\Http\Controllers\Admin\SettingNumberController::class,
+                'edit',
+            ])->name('setting_number_edit');
+            Route::post('/update/{id}', [
+                App\Http\Controllers\Admin\SettingNumberController::class,
+                'update',
+            ])->name('setting_number_update');
+            Route::delete('/destroy', [
+                App\Http\Controllers\Admin\SettingNumberController::class,
+                'destroy',
+            ])->name('setting_number_destroy');
+        });
        
 
        

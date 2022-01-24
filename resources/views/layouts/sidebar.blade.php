@@ -33,6 +33,9 @@
             <li class="nav-item">
                 <a href="{{ route('bank_account') }}" class="nav-link @if ($submenu == 'rekening') active @endif">Data Rekening Owner</a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('setting_number') }}" class="nav-link @if ($submenu == 'call_number') active @endif">Data Setting Call Whatsapp</a>
+            </li>
         </ul>
         {{-- <a href="card-dashboard.html" class="br-menu-link">
       <div class="br-menu-item">

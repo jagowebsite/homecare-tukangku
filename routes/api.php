@@ -34,6 +34,11 @@ Route::group(['prefix' => 'auth'], function () {
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+
+Route::get('/whatsappnumber', [
+    App\Http\Controllers\API\SettingController::class,
+    'getWhatsapp',
+]);
 Route::get('/services', [
     App\Http\Controllers\API\ServiceController::class,
     'index',
