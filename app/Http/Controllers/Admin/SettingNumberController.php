@@ -45,8 +45,8 @@ class SettingNumberController extends Controller
                         $newwhatsapp .
                         '?text=' .
                         $settingnumber->message .
-                        '" class="btn btn-outline-success btn-sm rounded-pill px-3">
-                        <i class="fab fa-whatsapp"></i>WhatsApp
+                        '" class="btn btn-outline-success btn-sm rounded-pill p-2">
+                        <i class="fa fa-whatsapp mr-2" aria-hidden="true"></i>WhatsApp
                         </a>';
                     return $contactagent;
                 })
