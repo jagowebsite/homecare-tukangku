@@ -25,7 +25,7 @@
 
   <table width="100%">
     <tr>
-        <td valign="top"><img src="https://galaxyproperty.co.id/assets/main/flyer/contoh_image.png" alt="" width="150"/></td>
+        <td valign="top"><img src="https://harmonisproperty.com/assets/img/ic_logo.png" alt="" width="150"/></td>
         <td align="right">
             <h3>{{$order->invoice_code}} - @if ($order->status_order=='done')
               <span style="color: green">SELESAI</span>
